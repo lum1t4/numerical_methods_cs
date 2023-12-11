@@ -1,0 +1,14 @@
+# LaTeX intermediate artifacts
+*.aux
+*.log
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+*.bbl
+*.blg
+
+# LaTeX PDF output
+*.pdf
+
+# MAC OS X
+.DS_Store

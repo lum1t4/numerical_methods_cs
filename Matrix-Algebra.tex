@@ -1,0 +1,1426 @@
+\documentclass[a4paper, 12pt]{article}
+% Packages
+\usepackage[utf8]{inputenc} % Input encoding
+\usepackage[T1]{fontenc}    % Font encoding
+\usepackage[margin=1in]{geometry} % Adjust margins
+\usepackage{titling}        % Custom title format
+\usepackage{fancyhdr}       % Custom headers and footers
+\usepackage{lipsum}         % For generating dummy text (remove in your document)
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage[english]{babel}
+\usepackage{mathtools}
+\usepackage{xcolor}
+\usepackage{mdframed}
+% Page Style
+\pagestyle{fancy}
+% Remove indentation at the beginning of a paragraph
+\setlength{\parindent}{0pt}
+\fancyhf{}
+\lhead{\thetitle}
+\rhead{\theauthor}
+\cfoot{\thepage}
+% Title
+\title{Notes for Numerical Methods}
+\author{Gianluca Calò}
+\date{\today}
+\begin{document}
+\section{MATRICES}
+
+
+\[
+A = \begin{pmatrix}
+a_{11} & a_{12} & \cdots & a_{1m} \\
+a_{21} & a_{22} & \cdots & a_{2m} \\
+\vdots & \vdots & \ddots & \vdots \\
+a_{m1} & a_{m2} & \cdots & a_{mm}
+\end{pmatrix}
+\]
+
+If every element in $A$ is a real number, we write $A \in \mathbb{R}^{m \times m}$ where $m$ is the number of rows and $n$ is the number of columns.
+
+If every element in $A$ is a complex number, we write $A \in \mathbb{C}^{m \times m}$.
+
+With matrices, we can perform some operations.
+
+\section{Matrix Algebra}
+
+\subsection{Addition}
+Given two matrices of the same size $A$ and $B$:
+\begin{itemize}
+    \item $C = A + B$ \quad $c_{ij} = a_{ij} + b_{ij}$
+    \item $C = -A$ \quad $c_{ij} = -a_{ij}$
+    \item $C = A - B$ \quad $c_{ij} = a_{ij} - b_{ij}$
+\end{itemize}
+
+\textbf{Properties}
+\begin{itemize}
+    \item Closure:
+    \begin{quote}
+    Given $A, B \in \mathbb{R}^{m \times m}$, then if $C = A + B$ \\
+    $\Rightarrow C \in \mathbb{R}^{m \times m}$.
+    \end{quote}
+    
+    \item Associative:
+    \begin{equation*}
+    (A + B) + C = A + (B + C)
+    \end{equation*}
+    
+    \item Additive Identity:
+    \begin{equation*}
+    A + O = A = O + A
+    \end{equation*}
+\end{itemize}
+
+\section{Matrix Properties}
+
+
+\section*{Note:}
+\textbf{O} is the matrix with all 0 elements.
+
+\begin{enumerate}
+    \item \textbf{Additive inverse}
+    \[ A + (-A) = O \]
+    
+    \item \textbf{Multiplication with a scalar}
+    \[ \alpha \in \mathbb{R} \]
+    \[ C = \alpha A \]
+    \[ c_{ij} = \alpha a_{ij} \quad \text{(element-wise multiplication)} \]
+    
+    \textbf{Properties}
+    \begin{itemize}
+        \item \textbf{Closure}
+        \[ \alpha \in \mathbb{R}, \ A \in \mathbb{R}^{m \times m} \]
+        \[ \text{If } C = \alpha A \Rightarrow C \in \mathbb{R}^{m \times m} \]
+        
+        \item \textbf{Associative}
+        \[ \alpha, \beta \in \mathbb{R}, \ A \in \mathbb{R}^{m \times m} \]
+        \[ (\alpha \beta) A = \alpha (\beta A) \]
+        
+        \item \textbf{Distributive over matrix addition}
+        \[ \alpha (A + B) = \alpha A + \alpha B \]
+    \end{itemize}
+\end{enumerate}
+
+
+
+
+
+\section*{Matrix Properties and Transpose}
+
+\textbf{Distributive over scalar addition:}
+\[(\alpha + \beta) \mathbf{A} = \alpha \mathbf{A} + \beta \mathbf{A}\]
+
+\textbf{Identity:}
+\[I \cdot \mathbf{A} = \mathbf{A}\]
+
+\textit{Note:} $I$ is a matrix with elements equal to 1.
+
+\section*{Transpose Matrix}
+
+Given $\mathbf{A}$ "square", it means the number of rows is equal to the number of columns. For example, $\mathbf{A} \in \mathbb{R}^{m \times m}$, the \textbf{TRANSPOSE} is denoted by the symbol $\mathbf{A}^T$ and it is constructed by exchanging the rows and the columns of $\mathbf{A}$.
+
+\textbf{Example:}
+
+\[
+\mathbf{A} = 
+\begin{bmatrix}
+1 & 2 \\
+3 & 4
+\end{bmatrix}
+\]
+
+\[
+\mathbf{A}^T = 
+\begin{bmatrix}
+1 & 3 \\
+2 & 4
+\end{bmatrix}
+\]
+
+\section{Special Matrices}
+
+
+
+
+
+If $C = A^T$ then $c_{ij} = a_{ji}$.
+
+\textbf{Note:}
+\[(A^T)^T = A\]
+
+If a given square matrix $A$ is equal to its transpose, $A$ is said to be \textbf{symmetric}.
+
+If
+\[A = A^T\]
+then $A$ is symmetric.
+
+Example:
+\[A = \begin{pmatrix}
+1 & 2 \\
+2 & 1
+\end{pmatrix}\]
+
+Therefore,
+\[A = \begin{pmatrix}
+1 & 2 & 3 \\
+2 & 4 & 5 \\
+3 & 5 & 6
+\end{pmatrix}\]
+
+If $A = -A^T$ then $A$ is said to be \textbf{skew-symmetric}.
+
+\section*{Special Matrices}
+
+
+\section*{Identity Matrix}
+The identity matrix is usually denoted with $I$ and it has 1 on the main diagonal and 0 everywhere else.
+\[
+I = \begin{pmatrix}
+1 & 0 & \cdots & 0 \\
+0 & 1 & \cdots & 0 \\
+\vdots & \vdots & \ddots & \vdots \\
+0 & 0 & \cdots & 1
+\end{pmatrix}
+\]
+The identity matrix is such that
+\[
+AI = IA = A
+\]
+
+\section*{Triangular Matrices}
+\subsection*{Upper Triangular}
+An upper triangular matrix $A$ is of the form:
+\[
+A = \begin{pmatrix}
+a_{11} & a_{12} & \cdots & a_{1n} \\
+0 & a_{22} & \cdots & a_{2n} \\
+\vdots & \vdots & \ddots & \vdots \\
+0 & 0 & \cdots & a_{nn}
+\end{pmatrix}
+\]
+Only the elements above the main diagonal and the diagonal elements are $\neq 0$.
+
+
+
+
+
+\section*{Lower Triangular Matrices}
+A lower triangular matrix $A$ is given by:
+\[
+A = \begin{pmatrix}
+a_{11} & 0 & \cdots & 0 \\
+a_{21} & a_{22} & \cdots & 0 \\
+\vdots & \vdots & \ddots & \vdots \\
+a_{m1} & a_{m2} & \cdots & a_{mm}
+\end{pmatrix}
+\]
+Only the elements below the main diagonal and the diagonal elements are $\neq 0$.
+
+\section*{Diagonal Matrices}
+A diagonal matrix $A$ is given by:
+\[
+A = \begin{pmatrix}
+a_{11} & 0 & \cdots & 0 \\
+0 & a_{22} & \cdots & 0 \\
+\vdots & \vdots & \ddots & \vdots \\
+0 & 0 & \cdots & a_{mm}
+\end{pmatrix}
+\]
+Only the elements on the main diagonal are $\neq 0$.
+
+\section*{Matrix Product}
+Given $A \in \mathbb{R}^{n \times p}$, $B \in \mathbb{R}^{p \times m}$, the product $AB$ is possible because the two matrices are said \textit{conformable}: the number of columns of the first matrix should be equal to the number of rows of the second matrix.
+
+
+
+Equal the number of rows of the second matrix. The resulting matrix $C = AB$ has the size $m \times n$.
+
+Example
+\[
+A = \begin{pmatrix}
+1 & 2 \\
+3 & 4
+\end{pmatrix}
+\quad
+B = \begin{pmatrix}
+3 & 1 \\
+1 & 2
+\end{pmatrix}
+\]
+
+\[
+C = AB = \begin{pmatrix}
+c_{11} & c_{12} \\
+c_{21} & c_{22}
+\end{pmatrix}
+=
+\begin{pmatrix}
+1\cdot3 + 2\cdot1 & 1\cdot1 + 2\cdot2 \\
+3\cdot3 + 4\cdot1 & 3\cdot1 + 4\cdot2
+\end{pmatrix}
+=
+\begin{pmatrix}
+5 & 5 \\
+13 & 11
+\end{pmatrix}
+\]
+
+\[
+c_{11} = a_{11}b_{11} + a_{12}b_{21}
+\]
+\[
+c_{12} = a_{11}b_{12} + a_{12}b_{22}
+\]
+\[
+c_{21} = a_{21}b_{11} + a_{22}b_{21}
+\]
+\[
+c_{22} = a_{21}b_{12} + a_{22}b_{22}
+\]
+
+\[
+\boxed{
+c_{ij} = \sum_{k=1}^{m} a_{ik}b_{kj}
+}
+\]
+
+\[
+c_{11} = a_{11}b_{11} + a_{12}b_{21}
+\]
+\[
+c_{12} = a_{11}b_{12} + a_{12}b_{22}
+\]
+
+\section{Matrix Multiplication}
+
+
+
+
+\section*{Matrix Multiplication Properties}
+
+\begin{itemize}
+    \item The matrix product is \textbf{not commutative}:
+    \[ AB \neq BA \]
+
+    \item For scalars $\alpha, \beta \in \mathbb{R}$ when $\alpha\beta = 0$:
+    \[ \text{either } \alpha = 0 \text{ or } \beta = 0 \text{ or } \alpha\beta = 0 \]
+
+    \item For matrices $A, B$ consider the case when $AB = O$ (the zero matrix). It could be that:
+    \[ A \neq O \text{ and } B \neq O \]
+
+    \item Example:
+    \[ A = \begin{pmatrix} 1 & 1 \\ 1 & 1 \end{pmatrix}, \quad B = \begin{pmatrix} 2 & 2 \\ -2 & -2 \end{pmatrix} \]
+    \[ AB = \begin{pmatrix} 0 & 0 \\ 0 & 0 \end{pmatrix} \]
+
+    \item The ``cancellation law'' does not hold for matrices. For scalars $\alpha, \beta, \gamma \in \mathbb{R}$:
+\end{itemize}
+
+
+
+If $\alpha \beta = \alpha \gamma$ and $\alpha \neq 0$ \\
+then $\beta = \gamma$.
+
+\[
+A = \begin{pmatrix}
+1 & 1 \\
+1 & 1
+\end{pmatrix}, \quad
+B = \begin{pmatrix}
+2 & 2 \\
+2 & 2
+\end{pmatrix}, \quad
+C = \begin{pmatrix}
+3 & 1 \\
+1 & 3
+\end{pmatrix}.
+\]
+
+\[
+AB = \begin{pmatrix}
+4 & 4 \\
+4 & 4
+\end{pmatrix} = AC \text{ but } B \neq C.
+\]
+
+\textbf{The matrix product is a linear function.}
+
+Given a function $f: \mathbb{R} \to \mathbb{R}$ it is said to be linear if
+
+\begin{enumerate}
+\item $\forall x_1, x_2 \in \mathbb{R}$ \\
+$f(x_1 + x_2) = f(x_1) + f(x_2)$
+\item $\forall \alpha \in \mathbb{R}$ \\
+$\alpha f(x) = f(\alpha x)$
+\end{enumerate}
+
+\section{Linearity of Functions}
+
+
+
+
+
+\section*{Example}
+Consider the function $f(x) := 3x$ where $f: \mathbb{R} \to \mathbb{R}$.
+
+\textbf{Is $f$ linear?}
+
+Let's see if the two conditions of linearity are satisfied:
+
+\begin{enumerate}
+    \item For all $x_1, x_2 \in \mathbb{R}$, is the following condition satisfied?
+    \[ f(x_1 + x_2) \stackrel{?}{=} f(x_1) + f(x_2) \]
+    We have:
+    \begin{align*}
+        f(x_1 + x_2) &= 3(x_1 + x_2) \\
+        &= 3x_1 + 3x_2 \\
+        &= f(x_1) + f(x_2)
+    \end{align*}
+    Yes! Due to the distributive property.
+
+    \item For all $\alpha \in \mathbb{R}$, is the following condition satisfied?
+    \[ \alpha f(x) \stackrel{?}{=} f(\alpha x) \]
+    We have:
+    \begin{align*}
+        \alpha f(x) &= \alpha(3x) \\
+        &= 3\alpha x \\
+        &= f(\alpha x)
+    \end{align*}
+    Yes! Commutative property.
+    
+    Therefore, $f$ is a linear function.
+\end{enumerate}
+
+Thus, this example is clear that any function $f: \mathbb{R} \to \mathbb{R}$ defined as $f(x) := \alpha x$ with $\alpha \in \mathbb{R}$ is linear.
+
+\section{Linear Functions}
+
+
+
+
+A function $f: \mathbb{R} \to \mathbb{R}$ is called a \textbf{linear function} if it can be expressed in the form $f(x) = \alpha x + \beta$ with $\alpha, \beta \in \mathbb{R}$ and $\beta \neq 0$. 
+
+\textbf{Example:}
+
+Consider the function $f: \mathbb{R} \to \mathbb{R}$ defined by $f(x) = \alpha x + \beta$ with $\alpha, \beta \in \mathbb{R}$ and $\beta \neq 0$. Is $f$ linear?
+
+To determine if $f$ is linear, we check if for all $x_1, x_2 \in \mathbb{R}$, the following property holds:
+\[
+f(x_1 + x_2) \stackrel{?}{=} f(x_1) + f(x_2)
+\]
+Starting with the left-hand side:
+\[
+f(x_1 + x_2) = \alpha(x_1 + x_2) + \beta = \alpha x_1 + \alpha x_2 + \beta
+\]
+And the right-hand side:
+\[
+f(x_1) + f(x_2) = (\alpha x_1 + \beta) + (\alpha x_2 + \beta) = \alpha x_1 + \alpha x_2 + 2\beta
+\]
+Since $\alpha x_1 + \alpha x_2 + \beta \neq \alpha x_1 + \alpha x_2 + 2\beta$, $f$ is \textbf{not linear}.
+
+This type of function is called an \textbf{affine function}.
+
+\textbf{Example:}
+
+The function \textit{Differentiation} is a linear function.
+
+\section{Differentiation and Integration Rules}
+\author{Math 101}
+
+
+
+\section*{Differentiation}
+Given two functions of \( x \), \( f \) and \( g \):
+\[ f, g : \mathbb{R} \to \mathbb{R} \]
+\[ \frac{d}{dx} (f + g) = \frac{df}{dx} + \frac{dg}{dx} \]
+\[ \frac{d}{dx} (\alpha \cdot f) = \alpha \cdot \frac{df}{dx} \]
+
+\section*{Integration}
+\[ f, g : \mathbb{R} \to \mathbb{R} \]
+\[ \int (f + g) = \int f + \int g \]
+\[ \int \alpha f = \alpha \int f \]
+
+\section*{Transpose}
+\[ \text{For matrices } A \text{ and } B \text{ in } \mathbb{R}^{m \times m} \]
+\[ (A + B)^T = A^T + B^T \]
+\[ (\alpha A)^T = \alpha A^T \]
+
+\section{Trace of a Matrix}
+
+
+
+
+
+Given a matrix $A$ with elements $a_{ij}$, the trace of $A$ is the sum of the elements on the main diagonal:
+\[
+\text{Trace}(A) := \sum_i a_{ii}
+\]
+
+The trace of a matrix is a linear function:
+\begin{enumerate}
+    \item $\text{Trace}(A + B) = \text{Trace}(A) + \text{Trace}(B)$
+    \[
+    \sum_i (a_{ii} + b_{ii}) = \sum_i a_{ii} + \sum_i b_{ii} \quad \text{Yes!}
+    \]
+    
+    \item $\text{Trace}(\alpha A) = \alpha \text{Trace}(A)$
+    \[
+    \sum_i \alpha a_{ii} = \alpha \sum_i a_{ii}.
+    \]
+\end{enumerate}
+
+\textbf{Example}
+
+Let $f: \mathbb{R}^2 \to \mathbb{R}^2$ be defined by
+\[
+f\left(\begin{array}{c}
+    x \\
+    y
+\end{array}\right) := \left(\begin{array}{c}
+    x \\
+    x + y
+\end{array}\right).
+\]
+
+\section{Is $f$ linear?}
+
+
+
+
+Let $v, w \in \mathbb{R}^2$ with $v = \begin{pmatrix} v_1 \\ v_2 \end{pmatrix}$ and $w = \begin{pmatrix} w_1 \\ w_2 \end{pmatrix}$.
+
+Is it true that $f(v + w) = f(v) + f(w)$?
+
+\begin{align*}
+f(v + w) &= f\left( \begin{pmatrix} v_1 \\ v_2 \end{pmatrix} + \begin{pmatrix} w_1 \\ w_2 \end{pmatrix} \right) \\
+&= f\left( \begin{pmatrix} v_1 + w_1 \\ v_2 + w_2 \end{pmatrix} \right) \\
+&= \begin{pmatrix} v_1 + w_1 \\ 1 + v_2 + w_2 \end{pmatrix} \\
+f(v) + f(w) &= f\left( \begin{pmatrix} v_1 \\ v_2 \end{pmatrix} \right) + f\left( \begin{pmatrix} w_1 \\ w_2 \end{pmatrix} \right) \\
+&= \begin{pmatrix} v_1 \\ 1 + v_2 \end{pmatrix} + \begin{pmatrix} w_1 \\ 1 + w_2 \end{pmatrix} \\
+&= \begin{pmatrix} v_1 + w_1 \\ 1 + v_2 + 1 + w_2 \end{pmatrix} \\
+&= \begin{pmatrix} v_1 + w_1 \\ 1 + v_2 + w_2 + 1 \end{pmatrix}
+\end{align*}
+
+Thus, $f$ is not linear as $f(v + w) \neq f(v) + f(w)$.
+\author{Transcription}
+
+
+
+Example:
+\[
+f\left( \begin{array}{c}
+x \\
+y
+\end{array} \right) := \left( \begin{array}{c}
+0 \\
+xy
+\end{array} \right) \quad f: \mathbb{R}^2 \to \mathbb{R}^2
+\]
+
+Is $f$ linear?
+
+Let $\mathbf{v}, \mathbf{w} \in \mathbb{R}^2$
+
+$\mathbf{v} = \left( \begin{array}{c}
+v_1 \\
+v_2
+\end{array} \right)$, $\mathbf{w} = \left( \begin{array}{c}
+w_1 \\
+w_2
+\end{array} \right)$
+
+\[
+f(\mathbf{v} + \mathbf{w}) \stackrel{?}{=} f(\mathbf{v}) + f(\mathbf{w})
+\]
+
+\[
+f(\mathbf{v} + \mathbf{w}) = f\left( \begin{array}{c}
+v_1 + w_1 \\
+v_2 + w_2
+\end{array} \right) = \left( \begin{array}{c}
+0 \\
+(v_1 + w_1)(v_2 + w_2)
+\end{array} \right)
+\]
+
+\[
+= \left( \begin{array}{c}
+0 \\
+v_1v_2 + v_1w_2 + w_1v_2 + w_1w_2
+\end{array} \right)
+\]
+
+\[
+f(\mathbf{v}) + f(\mathbf{w}) = f\left( \begin{array}{c}
+v_1 \\
+v_2
+\end{array} \right) + f\left( \begin{array}{c}
+w_1 \\
+w_2
+\end{array} \right)
+\]
+
+\[
+= \left( \begin{array}{c}
+0 \\
+v_1v_2
+\end{array} \right) + \left( \begin{array}{c}
+0 \\
+w_1w_2
+\end{array} \right) = \left( \begin{array}{c}
+0 \\
+v_1v_2 + w_1w_2
+\end{array} \right)
+\]
+
+\section{Exercise Set}
+
+
+
+
+
+$f$ is not linear as $f(x+y) \neq f(x) + f(y)$.
+
+\section*{Exercises:}
+Refer book, page 92, exercise 3.3.1
+
+\section*{Composition of 2 functions.}
+\[
+f\begin{pmatrix}
+x_1 \\
+x_2
+\end{pmatrix}
+:=
+\begin{pmatrix}
+f_{11}x_1 + f_{12}x_2 \\
+f_{21}x_1 + f_{22}x_2
+\end{pmatrix}
+\]
+
+\[
+g\begin{pmatrix}
+x_1 \\
+x_2
+\end{pmatrix}
+:=
+\begin{pmatrix}
+g_{11}x_1 + g_{12}x_2 \\
+g_{21}x_1 + g_{22}x_2
+\end{pmatrix}
+\]
+
+We define $h$ the composition of $f$ and $g$ using symbols
+\[
+h(x) = f(g(x)) \quad \text{where} \quad x = \begin{pmatrix}
+x_1 \\
+x_2
+\end{pmatrix}
+\]
+
+\[
+h(x) = h\begin{pmatrix}
+x_1 \\
+x_2
+\end{pmatrix}
+=
+f\begin{pmatrix}
+g_{11}x_1 + g_{12}x_2 \\
+g_{21}x_1 + g_{22}x_2
+\end{pmatrix}
+\]
+
+\begin{align*}
+&= \left\{
+\begin{array}{cc}
+f_{11} g_{11} x_1 + f_{12} g_{21} x_2 & + f_{12} g_{21} x_1 + f_{22} g_{22} x_2 \\
+f_{21} (g_{11} x_1 + g_{12} x_2) & + f_{22} (g_{21} x_1 + g_{22} x_2)
+\end{array}
+\right. \\
+&= \left\{
+\begin{array}{c}
+f_{11} g_{11} x_1 + f_{12} g_{21} x_2 + f_{12} g_{21} x_1 + f_{22} g_{22} x_2 \\
+f_{21} g_{11} x_1 + f_{21} g_{12} x_2 + f_{22} g_{21} x_1 + f_{22} g_{22} x_2
+\end{array}
+\right. \\
+&= \left\{
+\begin{array}{c}
+(f_{11} g_{11} + f_{12} g_{21}) x_1 + (f_{12} g_{21} + f_{22} g_{22}) x_2 \\
+(f_{21} g_{11} + f_{22} g_{21}) x_1 + (f_{21} g_{12} + f_{22} g_{22}) x_2
+\end{array}
+\right. \\
+\text{Let us introduce the following matrices} \\
+T &:= \begin{pmatrix}
+f_{11} & f_{12} \\
+f_{21} & f_{22}
+\end{pmatrix}; \quad G := \begin{pmatrix}
+g_{11} & g_{12} \\
+g_{21} & g_{22}
+\end{pmatrix} \\
+H &:= TG = \begin{pmatrix}
+f_{11} g_{11} + f_{12} g_{21} & f_{11} g_{12} + f_{12} g_{22} \\
+f_{21} g_{11} + f_{22} g_{21} & f_{21} g_{12} + f_{22} g_{22}
+\end{pmatrix}
+\end{align*}\section{The Vector Space of Continuous Functions}
+\author{4 October 2023}
+
+
+
+
+The vector space of continuous functions can be seen as the composition of two linear functions.
+
+\textbf{Note:} To check for "linearity" we can use a general process which includes the two conditions:
+
+\begin{align*}
+f: \mathbb{R}^n &\to \mathbb{R} \\
+\forall x, y \in \mathbb{R}^n \text{ and } \forall \alpha \in \mathbb{R}, \text{ if} \\
+f(\alpha x + y) &= \alpha f(x) + f(y) \\
+\text{then } f &\text{ is said to be linear.}
+\end{align*}
+
+\section*{BLOCK MATRICES}
+
+\[
+A = \begin{pmatrix}
+1 & 2 & 0 & 0 \\
+3 & 4 & 0 & 1 \\
+-1 & 0 & 0 & 0 \\
+0 & 1 & 0 & 0
+\end{pmatrix}
+\qquad
+C = \begin{pmatrix}
+1 & 2 \\
+3 & 4
+\end{pmatrix}
+\]
+
+\begin{align*}
+B &= \begin{pmatrix}
+1 & 0 & 0 & 0 \\
+0 & 1 & 0 & 0 \\
+\frac{1}{3} & \frac{2}{3} & \frac{1}{3} & \frac{2}{3} \\
+\frac{1}{3} & \frac{2}{3} & \frac{1}{3} & \frac{2}{3}
+\end{pmatrix} \\[10pt]
+\text{We can rewrite } A \text{ and } B \text{ as:} \\[10pt]
+A &= \begin{pmatrix}
+C & I \\
+I & O
+\end{pmatrix} \\[10pt]
+B &= \begin{pmatrix}
+I & O \\
+C & C
+\end{pmatrix} \\[10pt]
+AB &= \begin{pmatrix}
+C & I \\
+I & O
+\end{pmatrix}
+\begin{pmatrix}
+I & O \\
+C & C
+\end{pmatrix} \\[10pt]
+&= \begin{pmatrix}
+CI + IC & CO + IC \\
+I + OC & IO + OC
+\end{pmatrix}
+\end{align*}\begin{equation*}
+\begin{pmatrix}
+2C \\
+I
+\end{pmatrix}
+\quad
+\begin{pmatrix}
+C \\
+O
+\end{pmatrix}
+\quad = \quad
+\begin{pmatrix}
+2 & 4 & 1 & 2 \\
+6 & 8 & 3 & 4 \\
+4 & 0 & 0 & 0 \\
+0 & 1 & 0 & 0
+\end{pmatrix}
+\end{equation*}
+
+\textbf{example}
+
+\begin{equation*}
+A = 
+\begin{pmatrix}
+4 & 0 & 0 & 3 & 3 & 3 \\
+1 & 0 & 0 & 3 & 3 & 3 \\
+1 & 2 & 0 & 0 & 0 & 0
+\end{pmatrix}
+\quad = \quad
+\begin{pmatrix}
+A_{11} & A_{12} & A_{13} \\
+A_{21} & A_{22} & A_{23}
+\end{pmatrix}
+\quad
+\begin{matrix}
+2 \times 3 \text{ block}
+\end{matrix}
+\end{equation*}
+
+\begin{equation*}
+B = 
+\begin{pmatrix}
+-1 & -1 \\
+0 & 0 \\
+1 & -2 \\
+1 & -2
+\end{pmatrix}
+\quad = \quad
+\begin{pmatrix}
+B_{1} \\
+B_{2} \\
+B_{3}
+\end{pmatrix}
+\quad
+\begin{matrix}
+3 \times 1 \text{ blocks}
+\end{matrix}
+\end{equation*}\section{Matrix Multiplication}
+\author{Student}
+
+
+
+\section*{Matrix Product $AB$}
+Given two matrices $A$ and $B$:
+\[ AB = \begin{pmatrix}
+A_{11} & A_{12} & A_{13} \\
+A_{21} & A_{22} & A_{23}
+\end{pmatrix}
+\begin{pmatrix}
+B_1 \\
+B_2 \\
+B_3
+\end{pmatrix}
+\]
+
+The product is computed as:
+\[
+\begin{aligned}
+& A_{11} B_1 + A_{12} B_2 + A_{13} B_3 \\
+& A_{21} B_1 + A_{22} B_2 + A_{23} B_3
+\end{aligned}
+\]
+
+\section*{Component-wise Multiplication}
+Now we perform the component-wise multiplication step by step.
+
+\[
+A_{11} B_1 = \begin{pmatrix}
+1 \\
+1
+\end{pmatrix}
+\begin{pmatrix}
+-1 & -1
+\end{pmatrix}
+= \begin{pmatrix}
+-1 & -1 \\
+-1 & -1
+\end{pmatrix}
+\]
+
+\[
+A_{12} B_2 = \begin{pmatrix}
+0 & 0 \\
+0 & 0
+\end{pmatrix}
+\begin{pmatrix}
+0 & 0
+\end{pmatrix}
+= \begin{pmatrix}
+0 & 0 \\
+0 & 0
+\end{pmatrix}
+\]
+
+\[
+A_{13} B_3 = \begin{pmatrix}
+3 & 3 & 3 \\
+3 & 3 & 3
+\end{pmatrix}
+\begin{pmatrix}
+-1 \\
+-2 \\
+-1
+\end{pmatrix}
+= \begin{pmatrix}
+-9 & -9 \\
+-9 & -9
+\end{pmatrix}
+\]
+
+\[
+A_{21} B_1 = 1 \cdot \begin{pmatrix}
+-1 & -1
+\end{pmatrix}
+= \begin{pmatrix}
+-1 & -1
+\end{pmatrix}
+\]
+
+\[
+A_{22} B_2 = \begin{pmatrix}
+0 & 0
+\end{pmatrix}
+\begin{pmatrix}
+0 & 0
+\end{pmatrix}
+= \begin{pmatrix}
+0 & 0
+\end{pmatrix}
+\]
+
+\section{Handwritten Notes}
+
+
+
+
+
+\section*{Matrix Operations}
+\[
+A_{23} B_{3} = \begin{pmatrix}
+0 & 0 \\
+-1 & -1
+\end{pmatrix}
+\]
+
+\[
+\begin{pmatrix}
+-1 & -1 \\
+-1 & -1
+\end{pmatrix}
++ \begin{pmatrix}
+0 & 0 \\
+0 & 0
+\end{pmatrix}
++ \begin{pmatrix}
+-9 & -18 \\
+-9 & -18
+\end{pmatrix}
+\]
+
+\[
+= \begin{pmatrix}
+-1 & -1 \\
+-1 & -1
+\end{pmatrix}
++ \begin{pmatrix}
+0 & 0 \\
+0 & 0
+\end{pmatrix}
++ \begin{pmatrix}
+0 & 0 \\
+0 & 0
+\end{pmatrix}
+\]
+
+\[
+= \begin{pmatrix}
+-1 & -1 \\
+-1 & -1
+\end{pmatrix}
++ \begin{pmatrix}
+-19 & -19 \\
+-19 & -19
+\end{pmatrix},
+\]
+
+\section*{Notes}
+\begin{itemize}
+\item Check example 3.6.7 from Mayer book for block triangular matrices and simultaneous causality.
+\item Application to airline connectivity (see example 3.5.2 from Mayer book).
+\item Let us consider the following 5 cities: A, B, C, D, H.
+\end{itemize}
+
+\section{Graph Theory: Adjacency Matrix}
+\author{Anonymous}
+
+
+
+The arrows tell us which cities are connected with a \textbf{direct flight}.
+
+We want to represent how city $A$ is city $B$ and consider only the routes with 3 flights.
+
+\begin{itemize}
+    \item $A - H - D - B$
+    \item $A - C - H - B$
+    \item $A - C - D - B$
+\end{itemize}
+
+To model this problem we construct the so-called \textbf{ADJACENCY MATRIX} $C$ (or \textbf{connectivity}).
+
+\[
+c_{ij} = 
+\begin{cases} 
+1 & \text{if there is a direct flight from city $i$ to city $j$} \\
+0 & \text{otherwise}
+\end{cases}
+\]
+
+\section{Flight Connectivity Matrix}
+\author{Anonymous}
+
+
+
+The matrix $C$ represents the connectivity between cities:
+
+\[
+C = \begin{pmatrix}
+0 & 0 & 1 & 0 & 1 \\
+1 & 0 & 0 & 0 & 1 \\
+0 & 0 & 0 & 1 & 1 \\
+1 & 0 & 0 & 0 & 1 \\
+1 & 1 & 1 & 0 & 0 \\
+\end{pmatrix}
+\]
+
+\begin{itemize}
+    \item The number $c_{ik}$ states if there is a direct flight from city $i$ to city $k$.
+    \item The number $c_{kj}$ states if there is a direct flight from city $k$ to city $j$.
+    \item The number of flight routes between city $i$ and city $j$ passing through city $k$ is given by $c_{ik} \cdot c_{kj}$.
+    \item The total number of flight routes between city $i$ and city $j$ is then
+    \[
+    \sum_{k} c_{ik} \cdot c_{kj}
+    \]
+\end{itemize}
+
+
+
+We can recursively compute this for all the cities as \( C \cdot C = C^2 \).
+
+We want to show that \( C^m \) gives us the total number of \( m \)-flights routes between the cities in our network.
+
+The proof is shown by using the "induction principle".
+
+\begin{enumerate}
+    \item BASIC STEP: \( m = 1 \) \(\Rightarrow\) \( C^1 = C \) \\
+    By construction gives us the number of 1-flight routes between the cities.
+    
+    \item We assume the statement to be true when \( m = (m-1) \), then we move it for the next step:
+    
+    Suppose that \( C^{(m-1)} \) gives us the number of \( (m-1) \)-flights routes between the cities.
+    
+    \[ C^m = C^{(m-1)} \cdot C \]
+    
+    \[ \Downarrow \]
+    
+    \[ c_{ij}^m = \sum_{k} c_{ik}^{m-1} \cdot c_{kj} \]
+    
+    where \( c_{ik}^{m-1} \) is the number of \( (m-1) \)-flight routes between city \( k \) and city \( j \).
+\end{enumerate}
+
+
+
+Number of $(m-1)$-flight routes between city $i$ and city $k$ $\rightarrow$ Total number $(m-1) + 1$ flights routes between city $i$ and city $j$ $\rightarrow$ $m$-flight routes.
+
+\section*{EXERCISE}
+
+\begin{enumerate}
+    \item Write down the adjacency (connectivity) matrix.
+    \item Find the number of routes from $2$ to $4$ that requires $3$ flights.
+    \item How many routes have at most $m$ flights?
+\end{enumerate}
+
+\section*{OTHER PROPERTIES OF THE PRODUCT}
+
+\begin{enumerate}
+    \setcounter{enumi}{3}
+    \item Given two square matrices $A, B$
+    \[(AB)^T = B^TA^T\] \textit{reverse-order law}
+\end{enumerate}
+
+\section{Matrix Inversion}
+\author{6 October 2023}
+
+
+
+
+\section*{Symmetric Matrices}
+2) The matrices $(A^T)A$ and $A(A^T)$ are symmetric matrices.
+
+\textbf{Note:} A matrix $X$ is symmetric if $X = X^T$.
+\begin{align*}
+(A^TA)^T &= (A^T)^TA^T = AA^T
+\end{align*}
+
+For further details, check proof at page 410 Rosen \& Meyer book.
+
+\section*{Matrix Inversion}
+Given a square matrix $A$ of size $m \times m$, the matrix $B$ of size $m \times m$ such that
+\begin{align*}
+AB = BA = I
+\end{align*}
+is said to be the inverse matrix and it is denoted by
+\begin{align*}
+B := A^{-1}.
+\end{align*}
+
+\textbf{Note:} Not all the matrices have an inverse. For example, the null matrix does not have one.
+
+\section{Matrix Inversion}
+
+
+
+
+A matrix which is \textbf{invertible} (there exists the inverse matrix) is said also \textbf{non-singular}. However, a matrix which is \textbf{not invertible} is said to be \textbf{singular}.
+
+For example, let
+\[ A = \begin{pmatrix}
+a & b \\
+c & d
+\end{pmatrix} \]
+Let's define $S = ad - bc$.
+
+We can note that
+\[ A^{-1} = \frac{1}{S} \begin{pmatrix}
+d & -b \\
+-c & a
+\end{pmatrix} \]
+As exercise verify that
+\[ AA^{-1} = A^{-1}A = I \]
+
+\textbf{Theorem:} The inverse of a matrix is unique.
+
+\textbf{Technique of proof by contradiction:}
+
+Assumption $\Rightarrow$ Thesis
+
+$\neg$Thesis $\Rightarrow$ $\neg$Assumption $\Rightarrow$ The totality of the thesis was correct.
+
+\textbf{Proof:}
+
+% The proof content will follow here, but it is not provided in the image.
+
+\section{Matrix Equations}
+
+
+
+
+We assume there are two inverses for a given matrix \( A \):
+\[ X_1 \text{ inverse of } A: \quad AX_1 = X_1A = I \]
+\[ X_2 \text{ inverse of } A: \quad AX_2 = X_2A = I \]
+
+How can we write \( X_1 \)?
+\begin{align*}
+X_1 &= X_1I \\
+&= X_1(AX_2) \\
+&= (X_1A)X_2 \\
+&= IX_2 \\
+&= X_2
+\end{align*}
+
+\(\Rightarrow X_1\) cannot be different from \( X_2 \)
+
+\(\Rightarrow\) The inverse of a matrix is hence unique.
+
+\section*{MATRIX EQUATIONS}
+Given a square non-singular matrix, then the linear system \( AX = B \) with \( A \) \( m \times m \), \( X \) \( m \times p \) and \( B \) \( m \times p \) has a unique solution \( X \) that is expressed as
+\[ X := A^{-1}B \]
+
+\section{Note on Matrix Inverses and Invertibility}
+
+
+
+
+
+Note: When $\rho = 1$, then $X$ is a vector. \\
+$\Rightarrow AX = B$ and then $X = A^{-1}B$
+
+For matrices there are some issues:
+\begin{enumerate}
+    \item The inverse $A^{-1}$ may not exist.
+    \item The computation of $A^{-1}$ is computationally expensive.
+    \item The matrix $A$ could be ill-conditioned.
+\end{enumerate}
+
+\textbf{Theorem: Existence of the Inverse}
+
+Given a square matrix $A$ $m \times m$, the following statements are equivalent:
+\begin{enumerate}
+    \item $A^{-1}$ exists (A is non singular)
+    \item $\text{rank}(A) = m$
+    \item $A \rightarrow I$ via Gauss-Jordan algorithm
+    \item $AX = 0$ then it implies that $X = 0$
+\end{enumerate}
+
+\section{Practical Computation of the Inverse}
+
+
+
+
+
+We apply the Gauss-Jordan algorithm to the input matrix $A$ to get the row reduced Echelon form. The goal is to compute the matrix $X$ such that $AX = I \Rightarrow X = A^{-1}$.
+
+We think of $X$ in terms of its columns:
+\[
+X = \begin{bmatrix}
+    X_{\cdot 1} & X_{\cdot 2} & \cdots & X_{\cdot m}
+\end{bmatrix}
+\]
+\[
+A X_{\cdot j} = I_{\cdot j}
+\]
+
+\begin{enumerate}
+    \item We construct the augmented matrix:
+    \[
+    \left[ A | I_{\cdot j} \right] \xrightarrow{\text{Gauss-Jordan}}
+    \left[ I_{\cdot j} | A^{-1}_{\cdot j} \right]
+    \]
+    
+    \item For all $j$, we construct the inverse matrix $A^{-1}$ as we can just apply the steps (1)-(2) to the matrix:
+    \[
+    \left[ A | I \right]
+    \]
+\end{enumerate}
+
+Example
+\[
+A = \begin{bmatrix}
+    a & b \\
+    c & d
+\end{bmatrix}
+\]
+
+\section{LaTeX Transcription of Handwritten Notes}
+\author{Transcription}
+
+
+
+\section*{1) Construct the augmented matrix \(\widetilde{A}\)}
+\[\widetilde{A} := \begin{bmatrix}
+a & b & 1 & 0 \\
+c & d & 0 & 1
+\end{bmatrix}\]
+
+\section*{2) We apply Gauss-Jordan to \(\widetilde{A}\)}
+\[\begin{bmatrix}
+a & b & 1 & 0 \\
+c & d & 0 & 1
+\end{bmatrix} \xrightarrow{\substack{R_2 \leftarrow R_2 - \frac{c}{a}R_1}}
+\begin{bmatrix}
+a & b & 1 & 0 \\
+0 & d-\frac{bc}{a} & -\frac{c}{a} & 1
+\end{bmatrix}\]
+
+Let's introduce \(S := ad - bc\)
+
+\[\begin{bmatrix}
+a & b & 1 & 0 \\
+0 & ad-bc & -\frac{c}{a} & 1
+\end{bmatrix} = \begin{bmatrix}
+a & b & 1 & 0 \\
+0 & S & -\frac{c}{a} & 1
+\end{bmatrix}\]
+
+\[\begin{bmatrix}
+a & b & 1 & 0 \\
+0 & S & -\frac{c}{a} & 1
+\end{bmatrix} \xrightarrow{R_1 \leftarrow \frac{1}{a}R_1}
+\begin{bmatrix}
+1 & \frac{b}{a} & \frac{1}{a} & 0 \\
+0 & S & -\frac{c}{a} & 1
+\end{bmatrix}\]
+
+\[\begin{bmatrix}
+1 & \frac{b}{a} & \frac{1}{a} & 0 \\
+0 & S & -\frac{c}{a} & 1
+\end{bmatrix} \xrightarrow{R_2 \leftarrow \frac{1}{S}R_2}
+\begin{bmatrix}
+1 & \frac{b}{a} & \frac{1}{a} & 0 \\
+0 & 1 & -\frac{c}{S} & \frac{1}{S}
+\end{bmatrix}\]
+
+\[\begin{bmatrix}
+1 & \frac{b}{a} & \frac{1}{a} & 0 \\
+0 & 1 & -\frac{c}{S} & \frac{1}{S}
+\end{bmatrix} \xrightarrow{R_1 \leftarrow R_1 - \frac{b}{a}R_2}
+\begin{bmatrix}
+1 & 0 & \frac{1}{a} - \frac{b}{a}\left(-\frac{c}{S}\right) & -\frac{b}{a}\frac{1}{S} \\
+0 & 1 & -\frac{c}{S} & \frac{1}{S}
+\end{bmatrix}\]
+
+\begin{equation*}
+\begin{pmatrix}
+1 & 0 \\
+0 & 1
+\end{pmatrix}
+\begin{pmatrix}
+\frac{s+t+b}{a^2} & -\frac{s}{a^2} \\
+-\frac{s}{a^2} & \frac{s}{a^2}
+\end{pmatrix}
+=
+\begin{pmatrix}
+1 & 0 \\
+0 & 1
+\end{pmatrix}
+\end{equation*}
+
+Let's simplify $\frac{s+t+b}{a^2} = \frac{a^2}{a^2} + \frac{bc}{a^2} + \frac{bc}{a^2} = \frac{s}{a^2}$
+
+\begin{equation*}
+\Rightarrow
+\begin{pmatrix}
+1 & 0 \\
+0 & 1
+\end{pmatrix}
+\begin{pmatrix}
+\frac{s}{a^2} & -\frac{s}{a^2} \\
+-\frac{s}{a^2} & \frac{s}{a^2}
+\end{pmatrix}
+= A^{-1}.
+\end{equation*}
+
+\textbf{PROPERTIES OF THE INVERSE}
+
+\begin{enumerate}
+\item $(A^{-1})^{-1} = A$
+\item The product of two inverse matrices is the inverse of the product of the two matrices.
+\item $(AB)^{-1} = B^{-1}A^{-1}$ \quad (reverse order law)
+\item $(A^{-1})^T = (A^T)^{-1}$
+\end{enumerate}
+
+\textbf{Proof:}
+
+1) What is the inverse of $A^{-1}$?
+
+We want to compute $X$: $A^{-1}X = I$
+\section{Handwritten Notes}
+
+
+
+
+
+\section*{Matrix Inversion Properties}
+
+\begin{enumerate}
+    \item By definition
+    \[ X = A^{-1} \]
+    
+    \item and 3) Let's set
+    \[ X := A^{-1}A^{-1} \]
+    We want to verify that
+    \[ (AB)X = I \]
+    \begin{align*}
+        (AB)X &= (AB)B^{-1}A^{-1} \\
+        &= A(BB^{-1})A^{-1} \\
+        &= AA^{-1} \\
+        &= I
+    \end{align*}
+    
+    \item Let's set
+    \[ X := (A^{-1})^T \]
+    We want to verify that
+    \[ A^TX = I \]
+    \begin{align*}
+        A^T(A^{-1})^T &= (A^{-1}A)^T \\
+        &= (I)^T \\
+        &= I.
+    \end{align*}
+\end{enumerate}
+
+Products of non-singular matrices are non-singular.
+
+\[ A_1, A_2, \ldots, A_k \quad m \times m \quad \text{non-singular} \]
+
+\[\Rightarrow A_1A_2 \ldots A_k \text{ is non-singular.} \]
+
+
+
+The inverse $(A_1 A_2 A_3 \ldots A_k)^{-1} = A_k^{-1} \ldots A_2^{-1} A_1^{-1}$.
+
+The inverse of a matrix may find applications in cryptography in the following cases:
+
+\begin{enumerate}
+    \item We have a message that we want to safely transmit.
+    \item We need to encrypt the message.
+    \item We transmit the encrypted message.
+    \item The receiver should decrypt the message.
+\end{enumerate}
+
+\textbf{ENCRYPTION:} Apply a matrix multiplication to the message.
+
+\textbf{DECRYPTION:} Apply the inverse multiplication to the encrypted message.
+
+We need to guarantee that the inverse always exists; that is not always easy to ensure but for now a "common" instance, the solution is to use square invertible matrices.
+
+\textbf{Def:} A square matrix $A$ is such that
+
+\section{Matrix Inversion}
+
+To create an invertible matrix \( A \) we do the following:
+
+\[
+A = \begin{pmatrix}
+A_{11} & A_{12} \\
+A_{21} & A_{22}
+\end{pmatrix}
+\]
+
+We want \( A \cdot A = I \):
+
+\[
+\begin{pmatrix}
+A_{11} & A_{12} \\
+A_{21} & A_{22}
+\end{pmatrix}
+\cdot
+\begin{pmatrix}
+A_{11} & A_{12} \\
+A_{21} & A_{22}
+\end{pmatrix}
+=
+\begin{pmatrix}
+I & 0 \\
+0 & I
+\end{pmatrix}
+\]
+
+\[
+\begin{pmatrix}
+A_{11}^2 + A_{12} A_{21} & A_{11} A_{12} + A_{12} A_{22} \\
+A_{21} A_{11} + A_{22} A_{21} & A_{21} A_{12} + A_{22}^2
+\end{pmatrix}
+=
+\begin{pmatrix}
+I & 0 \\
+0 & I
+\end{pmatrix}
+\]
+
+From the above expansion it follows:
+
+\begin{align*}
+A_{11}^2 + A_{12} A_{21} &= I \quad \Rightarrow \quad A_{12} A_{21} = I - A_{11}^2 \\
+A_{21} A_{12} + A_{22}^2 &= I \quad \Rightarrow \quad A_{21} A_{12} = I - A_{22}^2 \\
+A_{11} A_{12} + A_{12} A_{22} + A_{21} A_{11} + A_{22} A_{21} &= 0
+\end{align*}
+
+If we choose $A_{11} = -A_{22}$, we get
+
+\begin{align*}
+-A_{22}A_{12} + A_{12}A_{22} - A_{21}A_{22} + A_{22}A_{21} &= 0 \\
+-A_{22}(A_{12} - A_{21}) + (A_{12} - A_{21})A_{22} &= 0 \\
+(A_{12} - A_{21})(-A_{22} + A_{22}) &= 0
+\end{align*}
+
+We have
+\begin{align*}
+A_{12}A_{21} - I - A_{11}^2 &= 0 \\
+A_{21} &= A_{12}^{-1}(I - A_{11}^2)
+\end{align*}
+
+\begin{align*}
+A_{12} &= k \cdot I \quad k \in \mathbb{R}, k \neq 0 \\
+A_{12}^{-1} &= \frac{1}{k} I
+\end{align*}
+
+$A_{21}$ will be a nonzero block.
+
+The code optimization for this exercise is in the file: \texttt{"EnergyDecay.m"} in the MATLAB folder.
+
+\textbf{EXERCISE:} Enhance an image by using the \textit{imsharpen} function given by exercise 3.6.2 page 413 of the book.
+
+\textbf{EXERCISE:} Do the exercise 3.6.2 page 413 of the book.
+\end{document}

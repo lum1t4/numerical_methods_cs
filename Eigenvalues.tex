@@ -1,0 +1,430 @@
+\chapter[short]{Eigenvalues and Eigenvectors}
+Given a matrix \( A \) of size \( n \times n \) and a scalar \( \lambda \) and a vector \( \mathbf{x} \neq \mathbf{0} \) such that
+\[
+A\mathbf{x} = \lambda \mathbf{x},
+\]
+then \( \lambda \) is said to be an eigenvalue of \( A \), and \( \mathbf{x} \) is said to be an eigenvector of \( A \).
+
+To compute \( \lambda \), we can proceed as follows:
+\begin{align*}
+A\mathbf{x} &= \lambda \mathbf{x} \\
+A\mathbf{x} - \lambda \mathbf{x} &= \mathbf{0} \\
+(A - \lambda I)\mathbf{x} &= \mathbf{0}
+\end{align*}
+
+Here we have a homogeneous linear system. From the theory, we know that if the matrix has maximum rank,
+then there is only a unique solution which is the trivial solution. But given the definition above, in this
+case \( \mathbf{x} \neq \mathbf{0} \), this implies that necessarily the matrix \( A - \lambda I \) must be
+singular so the determinant of \( A - \lambda I \) must equals to zero
+\[
+\det(A - \lambda I) = 0
+\]
+The determinant \( \det(A - \lambda I) \) is a polynomial in the unknown \( \lambda \),
+which is called the characteristic polynomial. The roots of this polynomial will be the
+eigenvalues of \( A \).
+
+All the eigenvalues of \( A \) form the spectrum of \( A \), denoted as 
+\[
+\sigma(A) = \{ \lambda_1, \lambda_2, \ldots, \lambda_n \}.
+\]
+
+The pair \( (\lambda, \mathbf{x}) \) is called an eigenpair of \( A \).
+
+If \( \mathbf{x} \) is an eigenvector of \( A \), then by definition
+\[
+(A - \lambda I)\mathbf{x} = \mathbf{0} \quad \Rightarrow \quad \mathbf{x} \in \underbrace{\mathcal{N}(A - \lambda I)}_{\text{Eigenspace}},
+\]
+
+\textbf{Example.} Compute the eigenvalues and eigenvectors of the matrix $A$
+\[
+A = \begin{pmatrix}
+4 & -5 \\
+2 & -3
+\end{pmatrix}.
+\]
+1. Write \((A - \lambda I)\) and set the determinant to zero to find the characteristic polynomial.
+
+$$ A - \lambda I = \begin{pmatrix}
+4 & -5 \\
+2 & -3
+\end{pmatrix} - \begin{pmatrix}
+\lambda & 0 \\
+0 & \lambda
+\end{pmatrix} = \begin{pmatrix}
+4 - \lambda & -5 \\
+2 & -3 - \lambda
+\end{pmatrix} $$
+
+
+\begin{align*}
+    \det \begin{pmatrix}
+        4 - \lambda & -5 \\
+        2 & -3 - \lambda
+        \end{pmatrix} &= (4-\lambda)(-3-\lambda) - (-10) \\
+        &= -12 - 4\lambda + 3\lambda + \lambda^2 + 10 \\
+        &= \lambda^2 - \lambda - 2 = 0
+\end{align*}
+\[
+\lambda = \frac{-(-1) \pm \sqrt{(-1)^2 - 4(1)(-2)}}{2(1)} = \frac{1 \pm \sqrt{9}}{2} = \frac{1 \pm 3}{2}
+\]
+Thus, we get \(\lambda_1 = 2\) and \(\lambda_2 = -1\).
+
+2. Computation of eigenvectors: \newline
+
+For \((A - \lambda I)X = 0\), solve the system:
+\[ (A - \lambda_1 I)X = \left[\begin{pmatrix} 4 & -5 \\ 2 & -3 \end{pmatrix} - \begin{pmatrix} 2 & 0 \\ 0 & 2 \end{pmatrix}\right] X = \mathbf{0} \]
+This simplifies to:
+\[
+\begin{pmatrix}
+2 & -5 \\
+2 & -5
+\end{pmatrix} \begin{pmatrix}
+x_1 \\
+x_2
+\end{pmatrix} = \mathbf{0}
+\]
+For \(\lambda_1 = 2\), we get \(2x_1 - 5x_2 = 0\). Solving for \(x_1\), we have \(x_1 = \frac{5}{2} x_2\).
+
+The general solution is:
+\[
+\begin{pmatrix}
+x_1 \\
+x_2
+\end{pmatrix} = x_2 \begin{pmatrix}
+5/2 \\
+1
+\end{pmatrix}
+\]
+Thus, \(X_1 = \begin{pmatrix}
+5/2 \\
+1
+\end{pmatrix}\) is an eigenvector.
+
+Repeat the process for \(\lambda_2\) to find the second eigenvector.
+\subsection{Complex Eigenvalues for Real Matrices}
+
+\begin{itemize}
+    \item A matrix \( A \) with real entries can have complex eigenvalues.
+    \item If a matrix \( A \) with real entries has an eigenvalue \( \lambda \in \mathbb{C}\),
+    then also the conjugate \(\bar{\lambda}\) is an eigenvalue of \( A \).
+\end{itemize}
+If \( \lambda \in \mathbb{C} \) is an eigenvalue then $ A\mathbf{x} = \lambda\mathbf{x} \quad \mathbf{x} \neq 0$. If we consider its complex conjugate, we get:
+\begin{align*}
+    \overline{A\mathbf{x}} = \overline{A}\overline{\mathbf{x}} &= A\overline{\mathbf{x}} \\
+    A\mathbf{x} &= \lambda\mathbf{x} \Rightarrow\overline{(A\mathbf{x})} = \overline{\lambda\mathbf{x}} \\
+    &\Rightarrow A\bar{\mathbf{x}} = \bar{\lambda}\bar{\mathbf{x}} \quad \Rightarrow \quad \bar{\lambda} \text{ is also an eigenvalue of } A
+\end{align*}
+
+\subsection{Eigenvalues of \( 2 \times 2 \) Matrices}
+For \( 2 \times 2 \) matrices the following holds:
+\begin{align*}
+    A = \begin{pmatrix} a & b \\ c & d \end{pmatrix}
+    \quad
+    \begin{aligned}
+        trace(A) &= a + d \\
+        det(A) &= ad - bc\
+    \end{aligned}
+\end{align*}
+To compute \( \lambda \) if we assume the characteristic equation:
+
+\begin{align*}
+    det(A - \lambda I) &= det \begin{pmatrix} a - \lambda & b \\ c & d - \lambda \end{pmatrix} \\
+    &= (a - \lambda)(d - \lambda) - bc \\
+    &= ad - a\lambda - \lambda d + \lambda^2 - bc \\
+    &= \lambda^2 - \lambda(\underbrace{a + d}_{trace(A)}) + \underbrace{ad - bc}_{det(A)} \\
+\end{align*}
+
+$$ \lambda = \frac{trace(A) \pm \sqrt{trace(A)^2 - 4 \cdot det(A)}}{2} $$
+In general, we have
+\begin{align*}
+    \sum_{i=1}^{n} \lambda_i &= trace(A) \\
+    \prod_{i=1}^{n} \lambda_i &= det(A)
+\end{align*}
+
+\textbf{Theorem:}
+If a matrix \( A \) is singular then it has at least one null eigenvalue.
+
+\textbf{Proof:}
+If the matrix \( A \) is singular its determinant is zero:
+\[
+    det(A) = 0 \Rightarrow \prod_{i=1}^{n} \lambda_i = 0 \Rightarrow \exists i: \lambda_i = 0.
+\]
+
+Given a matrix \( A \) of size \( m \times m \) which is diagonal:
+\[
+A = \begin{pmatrix}
+d_{11} & 0 & \cdots & 0 \\
+0 & d_{22} & \cdots & 0 \\
+\vdots & \vdots & \ddots & \vdots \\
+0 & 0 & \cdots & d_{mm}
+\end{pmatrix}
+\]
+
+What are its eigenvalues?
+
+\begin{enumerate}
+    \item We construct \( (A - \lambda I) \)
+    \item Compute \( \text{det}(A - \lambda I) \):
+    \[
+        det \begin{pmatrix}
+        d_{11} - \lambda & 0 & \cdots & 0 \\
+        0 & d_{22} - \lambda & \cdots & 0 \\
+        \vdots & \vdots & \ddots & \vdots \\
+        0 & 0 & \cdots & d_{mm} - \lambda
+        \end{pmatrix} = (d_{11} - \lambda)(d_{22} - \lambda) \cdots (d_{mm} - \lambda) = 0
+    \]
+    \[
+        d_{11} = \lambda_1, \quad d_{22} = \lambda_2, \quad \ldots, \quad d_{mm} = \lambda_m
+    \]
+\end{enumerate}
+Also for Triangular matrices: The eigenvalues of the elements on the main diagonal.
+
+\begin{itemize}
+\item The eigenvalues of \( A \) are the same as the eigenvalues of \( A^T \).
+\item The eigenvalues of \( A^k \) are equal to the k-th power of the eigenvalues of \( A \).
+    \begin{align*}
+        A\mathbf{x} &= \lambda \mathbf{x} \\
+        A^2\mathbf{x} &= A(A\mathbf{x}) = A(\lambda \mathbf{x}) = \lambda (A\mathbf{x}) = \lambda^2 \mathbf{x} \\
+        A^3\mathbf{x} &= A(A^2\mathbf{x}) = A(\lambda^2 \mathbf{x}) = \lambda^2 (A\mathbf{x}) = \lambda^3 \mathbf{x} \\
+        \vdots \\
+        A^k\mathbf{x} &= \lambda^k \mathbf{x}
+    \end{align*}
+\item If a given matrix $A$ is not singular and $\lambda$ is an eigenvalue of $A$, then $\lambda^{-1}$ is an eigenvalue of the inverse matrix.
+    \begin{align*}
+        A\mathbf{x} &= \lambda \mathbf{x} , \quad A \text{ is not singular} \\
+        A^{-1}A\mathbf{x} &= A^{-1} \lambda \mathbf{x} \\
+        I\mathbf{x} &= \lambda A^{-1} \mathbf{x} \\
+        \frac{1}{\lambda} \mathbf{x} &= A^{-1} \mathbf{x}
+    \end{align*}
+\item For a matrix \( A \) of size \( m \times m \), the number
+    $\rho(A) := \max\{|\lambda_1|, |\lambda_2|, \ldots, |\lambda_m|\}$
+    is called \textbf{spectral radius} of the matrix $A$.
+    We can prove that $\rho(A) \leq ||A||$. \newline
+    Let be $\lambda$ an eigenvalue of $A$ and $\mathbf{x}$ the corresponding eigenvector.
+    \begin{align*}
+        \left\{
+        \begin{aligned}
+            A\mathbf{x} &= \lambda \mathbf{x} \\
+            ||A\mathbf{x}|| &= ||\lambda \mathbf{x}|| = |\lambda| ||\mathbf{x}||\\
+            ||A\mathbf{x}|| &\leq ||A|| \, ||\mathbf{x}||
+        \end{aligned}
+        \right.
+        \quad
+        \Rightarrow \quad
+        ||A\mathbf{x}|| = |\lambda| ||\mathbf{x}|| \leq ||A|| \, ||\mathbf{x}||
+    \end{align*}
+    This is a generic $\lambda$, so this inequality holds for every eigenvalue of $A$
+    therefore it holds for the maximum among the $|\lambda_i|$.
+\end{itemize}
+
+
+\section{Similarity}
+
+Given a matrix \( A \) of size  $m \times m$, it would be useful to transform it into
+another matrix of some structure (triangular or diagonal) with the same spectrum.
+In particular, we would like to construct what is called a similar matrix.
+
+
+\textbf{Def.} Given matrices \( A, B \in \mathbb{R}^{m \times m} \), they are said to be \textit{similar} if there exists a non-singular matrix \( S \) such that
+\[
+S^{-1}AS = B.
+\]
+This is called a \textbf{similarity transformation}.
+
+
+\textbf{Proof:} We see that \( B \) has the same spectrum as \( A \). 
+Let's say \( \lambda \) be an eigenvalue of \( A \) with \( Ax = \lambda x \) and \( x \neq 0 \). Then,
+\begin{align*}
+    S^{-1}Ax &= \lambda S^{-1}x \\
+    S^{-1}AIx &= \lambda S^{-1}x \\
+    S^{-1}A(SS^{-1})x &= \lambda S^{-1}x \\
+    (S^{-1}AS)(S^{-1}x) & = \lambda (S^{-1}x) \\
+    B(S^{-1}x) & = \lambda (S^{-1}x)
+\end{align*}
+Setting \( y := S^{-1}x \), we get $By = \lambda y$, which shows \( \lambda \) is an eigenvalue of \( B \) as well.
+
+
+\textbf{Proposition:} If \( A \in \mathbb{R}^{m \times m} \) has \( m \) linearly independent eigenvectors, then the matrix \( S \) composed of these eigenvectors as columns is such that
+\[
+S^{-1}AS = \Lambda = \begin{pmatrix}
+    \lambda_1 &  & 0 \\
+     & \ddots &  \\
+    0 &  & \lambda_n
+    \end{pmatrix}
+\]
+where \( \Lambda \) is a diagonal matrix with the eigenvalues of \( A \) on the diagonal.
+
+\textbf{Proof:} Let \( S = \begin{pmatrix} x_1 & x_2 & \dots & x_m \end{pmatrix} \), where \( x_i \) are eigenvectors of \( A \) corresponding to eigenvalues \( \lambda_i \). Then
+\[
+AS = A\begin{pmatrix} x_1 & x_2 & \dots & x_m \end{pmatrix}
+= \begin{pmatrix} Ax_1 &  Ax_2 & \dots &  Ax_m \end{pmatrix}
+= \begin{pmatrix} \lambda_1 x_1 & \lambda_2 x_2 & \dots & \lambda_m x_m \end{pmatrix}
+= S \Lambda
+\]
+Thus,
+\[
+S^{-1}AS = \Lambda.
+\]
+\textbf{Observation:}
+\begin{itemize}
+    \item The matrix \( S \) is not unique since we could consider multiples of any eigenvector.
+    \item If a matrix \( A \) $n \times n$ has \( n \) distinct eigenvalues, then it has \( n \) linearly independent eigenvectors.
+\end{itemize}
+
+\section{Algebraic and Geometric Multiplicity}
+\subsection{Algebraic multiplicity}
+The \textit{algebraic multiplicity} of a given eigenvalue is the number of times that eigenvalue is a root of the associated characteristic polynomial.
+
+Consider, for example, the polynomial $p(\lambda) = (\lambda - 1)^2$. To compute the roots of $p(\lambda)$:
+\begin{align*}
+p(\lambda) &= 0 \\
+(\lambda - 1)^2 &= 0 \\
+(\lambda - 1)(\lambda - 1) &= 0
+\end{align*}
+This implies that $\lambda = 1$ with algebraic multiplicity equal to $t$.
+\textbf{Example:} 
+For the matrix 
+\[
+A = 
+\begin{pmatrix}
+3 & 1 & 2 \\
+0 & 3 & 4 \\
+0 & 0 & 3 
+\end{pmatrix}
+\quad
+\lambda = 3 \text{ with algebraic multiplicity} = 3
+\]
+
+\subsection{Geometric multiplicity}
+The \textit{geometric multiplicity} of a given eigenvalue is the dimension of the associated eigenspace: $$dim(\mathcal{N}(A - \lambda I))$$
+\paragraph{Example:}
+For the matrix 
+\[
+A = 
+\begin{pmatrix}
+3 & 1 \\
+0 & 3 
+\end{pmatrix}
+\]
+$(A - \lambda I) = 
+\begin{pmatrix}
+0 & 1 \\
+0 & 0 
+\end{pmatrix}
+$ and $\lambda = 3$ with algebraic multiplicity $= 2$.
+
+Thus, 
+\[
+\mathcal{N}
+\left[\begin{pmatrix}
+0 & 1 \\
+0 & 0 
+\end{pmatrix}\right]
+= \text{span} 
+\left\{ \begin{pmatrix}
+0 \\
+1 
+\end{pmatrix} \right\}
+\]
+and the geometric multiplicity of $\lambda$ is $1$.
+
+In general, the geometric multiplicity $\leq$ algebraic multiplicity.
+When the geometric multiplicity $=$ algebraic multiplicity, then the eigenvalues
+are said to be \textit{semi-simple}. When the eigenvalues are all distinct,
+they are said to be \textit{simple}. We can show that if a matrix $A$ has 
+either distinct or semi-distinct eigenvalues, then it has a set of linearly
+independent eigenvectors.
+
+\section*{Diagonalizability}
+
+\textbf{Question:} When is a given matrix \( A \) similar to a diagonal matrix?
+
+\textbf{Answer:} If the matrix \( A \) has a complete set of eigenvectors, then it's said to be diagonalizable.
+
+A matrix \( A \) has a complete set of eigenvectors if the eigenvectors are linearly independent.
+
+For example, if the given matrix \( A \) does not have a complete set of eigenvectors, then \( A \) is said to be defective.
+
+We cannot diagonalize defective matrices.
+
+For example, consider the matrix
+\[
+A = \begin{pmatrix}
+3 & 1 \\
+0 & 3 
+\end{pmatrix}
+\]
+\( \lambda = 3 \) with algebraic multiplicity \( = 2 \) and \( \ker(A - \lambda I) = \) span \( \left\{ \begin{pmatrix} 1 \\ 0 \end{pmatrix} \right\} \), only one linearly independent eigenvector. Therefore, \( A \) is not diagonalizable.
+
+Diagonalizability is not the hard to achieve in practice and there are several numerical methods that can be used. However, when asking if a given matrix \( A \) could be similar to a diagonal matrix, we ask if it could be similar to a triangular matrix.
+
+
+
+\section*{Schur's Triangularization Theorem}
+
+Every square matrix is unitarily similar to an upper triangular matrix.
+
+This means that there exist a matrix \( Q \) such that 
+\[ Q^*AQ = T \]
+with \( T \) upper triangular.
+
+Note: \( Q \in \mathbb{C} \) is unitary if \( Q^*Q = I \).
+
+\textbf{Theorem: Real Schur Canonical Form}
+
+Given a matrix \( A \) with real coefficients there exists an orthogonal matrix \( Q \) with real coefficients such that
+\[ Q^T AQ = T \]
+with \( T \) quasi-upper triangular.
+
+This means that the diagonal elements of \( T \) are either \( 1 \times 1 \) blocks or \( 2 \times 2 \) blocks with complex-conjugate eigenvalues.
+
+\section{Application to Spectral Clustering}
+
+Given a dataset \( X \) of points we would like to cluster them using "meaningful groups". Our aim is to keep similar clustering algorithms based on some "distance" measure, but unfortunately, when the set is not convex for example, those algorithms are prone to fail. Hence we need to resort to a different kind of clustering such as spectral clustering.
+
+This means we need to find a more "global" method of representation.
+
+\subsection{Similarity Graph}
+
+To model the local neighborhood relations between data points in \( X \) as a graph where
+\textbf{nodes} are the data points and \textbf{edges} are the connections between the points.
+If the \textbf{distance} between node \( i \) and node \( j \) is natural, then we have an 
+edge between node \( i \) and node \( j \). The edges are weighted by \textbf{similarity}:
+\[ s_{ij} = \exp\left(-\frac{dist(i,j)}{\sigma}\right)^2 \]
+
+where \( dist(i,j) \) is the distance between node \( i \) and node \( j \).
+
+We collect \( s_{ij} \) into a matrix \( S \) which is the adjacency matrix of the constructed graph.
+\begin{mdframed}
+    Note:
+    \begin{itemize}
+        \item This matrix \( S \) is symmetric.
+        \item If any \( S_{ij} = 0 \) then node \( i \) and node \( j \) are not connected.
+    \end{itemize}
+\end{mdframed}
+    
+% Degree matrix D
+We define the degree matrix \( D \) as a diagonal matrix such that the diagonal 
+entry \( D_{ii} \) is the sum of the weights of the edges attached to vertex \( i \),
+that is,
+$$ D_{ii} = \sum_{j=1}^{n} s_{ij}. $$
+
+\subsection{Laplacian Matrix}
+
+\begin{itemize}
+    \item The Laplacian matrix \( L := D - S \)
+    \item The normalized Laplacian is given by $L_{u} = D^{-1} L$
+    \item The normalized symmetric Laplacian $ L_s = D^{-1/2} S D^{-1/2}$
+\end{itemize}
+
+
+\subsection{Computing Eigenvectors}
+
+% Computing eigenvectors
+To compute the eigenvectors and eigenvalues of the Laplacian matrix. In particular,
+the number of eigenvalues equal to zero will tell us how many clusters we should create.
+Then, taking exactly the same number of eigenvectors, we have a more representative and
+different points. This means that in the new representation, the given data in \( X \)
+will be "separeted". We can apply a spectral clustering algorithm based on the new basis vectors.
+
+Please have a look at the code \texttt{SpectralClustExample.m} in the Matlab folder.

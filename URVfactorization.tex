@@ -1,0 +1,405 @@
+
+\documentclass[a4paper, 12pt]{article}
+% Packages
+\usepackage[utf8]{inputenc} % Input encoding
+\usepackage[T1]{fontenc}    % Font encoding
+\usepackage[margin=1in]{geometry} % Adjust margins
+\usepackage{titling}        % Custom title format
+\usepackage{fancyhdr}       % Custom headers and footers
+\usepackage{lipsum}         % For generating dummy text (remove in your document)
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage[english]{babel}
+\usepackage{mathtools}
+\usepackage{xcolor}
+\usepackage{mdframed}
+% Page Style
+\pagestyle{fancy}
+% Remove indentation at the beginning of a paragraph
+\setlength{\parindent}{0pt}
+\fancyhf{}
+\lhead{\thetitle}
+\rhead{\theauthor}
+\cfoot{\thepage}
+% Title
+\title{Notes for Numerical Methods}
+\author{Gianluca Calò}
+\date{\today}
+\begin{document}
+\maketitle
+
+\section{URV Factorization}
+\textbf{Theorem:} Given $A \in \mathbb{R}^{m \times n}$ a matrix with $\text{rank}(A)=r$, there exist two orthogonal matrices $U \in \mathbb{R}^{m \times m}$ and $V \in \mathbb{R}^{n \times n}$ and a nonsingular matrix $C \in \mathbb{R}^{r \times r}$ such that
+\[
+A =
+\underbrace{U}_{m \times m}
+\underbrace{
+    \begin{pmatrix}
+    C & 0 \\
+    0 & 0
+    \end{pmatrix}
+}_{m \times n}
+\underbrace{V^T}_{n \times n} = URV^T
+\quad
+\text{where}
+\quad
+R = \begin{pmatrix}
+C_{r \times r} & 0 \\
+0 & 0
+\end{pmatrix}
+\]
+This factorization is not unique.
+
+\section{Properties of URV}
+\begin{enumerate}
+\item The first $r$ columns of $U$ are an orthonormal basis for $\mathcal{R}(A)$.
+\item The first $r$ columns of $V$ are an orthonormal basis for $R(A^T)$
+\item The last $m-r$ columns of $U$ are an orthonormal basis for the $N(A^T)$
+\item The last $n-r$ columns of $V$ are an orthonormal basis for the $N(A)$
+\end{enumerate}
+
+Suppose that we know orthonormal basis for the four fundamental subspaces
+$R(A)$, $N(A)$ and $R(A^T)$, $N(A^T)$.
+We construct the matrix $U$ and $V$ as follows:
+$$U := \underbrace{\left(u_1, u_2, \cdots, u_r\right.}_{\text{basis for } R(A)} \underbrace{\left.u_{r+1}, \cdots, u_m\right)}_{\text{basis for } N(A^T)}$$
+$$V := \underbrace{\left(v_1, v_2, \cdots, v_r\right.}_{\text{basis for } R(A^T)} \underbrace{\left.v_{r+1}, \cdots, v_n\right)}_{\text{basis for } N(A)}$$
+
+\[
+U^T A V = U^T \left( U \begin{pmatrix}
+C & 0 \\
+0 & 0
+\end{pmatrix} V^T \right) V = \begin{pmatrix}
+C & 0 \\
+0 & 0
+\end{pmatrix} = R
+\]
+
+\[
+\begin{aligned}
+    R = U^T A V &= \begin{pmatrix}
+        u_1^T \\
+        \cdots \\
+        u_r^T \\
+        u_{r+1}^T \\
+        \cdots \\
+        u_m^T
+        \end{pmatrix} A \begin{pmatrix}
+        v_1 & \cdots & v_r & v_{r+1} & \cdots & v_n
+        \end{pmatrix} \\
+    &= \begin{pmatrix}
+            u_1^T \\
+            \cdots \\
+            u_r^T \\
+            u_{r+1}^T \\
+            \cdots \\
+            u_m^T
+        \end{pmatrix}
+        \begin{pmatrix}
+            Av_1 & \cdots & Av_r & Av_{r+1} & \cdots & Av_n
+        \end{pmatrix} \\
+    &= \begin{pmatrix}
+        u_1^T A v_1 & \cdots & u_1^T A v_r & u_1^T A v_{r+1} & \cdots & u_1^T A v_n \\
+        \vdots & \ddots & \vdots & \vdots & & \vdots \\
+        u_r^T A v_1 & \cdots & u_r^T A v_r & u_r^T A v_{r+1} & \cdots & u_r^T A v_n \\
+        u_{r+1}^T A v_1 & \cdots & u_{r+1}^T A v_r & u_{r+1}^T A v_{r+1} & \cdots & u_{r+1}^T A v_n \\
+        \vdots & & \vdots & \vdots & \ddots & \vdots \\
+        u_m^T A v_1 & \cdots & u_m^T A v_r & u_m^T A v_{r+1} & \cdots & u_m^T A v_n
+        \end{pmatrix}
+\end{aligned}
+\]
+
+We note that the vectors \( u_{r+1}, \ldots, u_m \) are in the null space of \( A^T \), which leads to:
+\[
+\begin{aligned}
+&u_{r+1}^T \in N(A^T) \implies A^T u_{r+1} = 0 \implies u_{r+1}^T A = 0 \implies &u_{r+1}^T A v_j = 0 \\
+\vdots \\
+&u_m^T \in N(A^T) \implies A^T u_m = 0 \implies u_m^T A = 0 \implies &u_m^T A v_j = 0 
+\end{aligned}
+\]
+$$ \Rightarrow u_i^TAv_j = 0 \quad \forall i = r+1, \dots, m \quad \forall j = 1, \dots, n $$
+
+and the vectors \( v_{r+1}, \ldots, v_n \) are in the null space of \( A \), which leads to:
+\[
+\begin{aligned}
+&v_{r+1}^T \in N(A) \implies Av_{r+1} = 0 \implies u_i^T A v_{r+1} = 0 \\
+\vdots \\
+&v_n^T \in N(A) \implies Av_n = 0 \implies u_i^T A v_n = 0
+\end{aligned}
+\]
+$$ \Rightarrow u_i^TAv_j = 0 \quad \forall i = 1, \dots, m \quad \forall j = r+1, \dots, n $$
+
+So the matrix $R$ is defined as:
+\[ R_{ij} = u_i^T A u_j \neq 0 \quad \text{for} \quad i \leq r, \quad j \leq r \]
+
+\[
+R = \begin{pmatrix}
+u_1^T A v_1 & \cdots & u_1^T A v_r & 0 & \cdots & 0 \\
+\vdots & \ddots & \vdots & \vdots & \ddots & \vdots \\
+u_r^T A v_1 & \cdots & u_r^T A v_r & 0 & \cdots & 0 \\
+0 & \cdots & 0 & 0 & \cdots & 0 \\
+\vdots & \ddots & \vdots & \vdots & \ddots & \vdots \\
+0 & \cdots & 0 & 0 & \cdots & 0
+\end{pmatrix}
+= \begin{pmatrix} C & 0 \\ 0 & 0 \end{pmatrix}
+\]
+
+
+\section{Computing the URV Factorization using the QR Factorization}
+Using the QR Factorization we have:
+\[ A P = Q \begin{pmatrix} T \\ 0 \end{pmatrix} \]
+% \[ A_{m \times n} P_{n \times n} = Q_{m \times m} \begin{pmatrix} T_{r \times n} \\ 0 \end{pmatrix}_{m \times n} \]
+where
+\begin{itemize}
+    \item $A$ is a matrix $m \times n$
+    \item $P$ is a permutation matrix $n \times n$
+    \item $Q$ is an orthogonal matrix $m \times m$
+    \item $T$ is an upper trapezoidal matrix $r \times n$
+    \item $\begin{pmatrix} T \\ 0 \end{pmatrix}$ is $m \times n$
+\end{itemize}
+
+$$ U = Q \implies AP = U \begin{pmatrix} T \\ 0 \end{pmatrix} $$
+The range of $T^T$ and the range of $A^T$ are equal. \newline
+Let \( r < \min(m, n) \).
+\[ T^T = Q \begin{pmatrix} B \\ 0 \end{pmatrix} \quad B \text{ is an upper triangular matrix } r \times r \]
+\[ T = \left(Q\begin{pmatrix} B \\ O \end{pmatrix}\right)^T = \begin{pmatrix} B^T & O \end{pmatrix} \cdot Q^T \]
+\[ A P = U \begin{pmatrix} \begin{pmatrix} B^T & O \end{pmatrix} Q^T \\ \begin{pmatrix} O & O \end{pmatrix} Q^T \end{pmatrix} = U \begin{pmatrix} B^T & O \\ O & O \end{pmatrix} Q^T \]
+\[ A = U \begin{pmatrix} C & O \\ O & O \end{pmatrix} Q^T P^T = U \begin{pmatrix} C & 0 \\ 0 & 0 \end{pmatrix}V^T \]
+\[ V^T = Q^T P^T, \quad C = R^T = \begin{pmatrix}
+\ast & 0 & \cdots & 0 \\
+\ast & \ast & \cdots & 0 \\
+\vdots & \vdots & \ddots & \vdots \\
+\ast & \ast & \cdots & \ast 
+\end{pmatrix}
+\]
+
+$r_{11}, r_{22}, \ldots, r_{rr}$ are sorted $|r_{11}| \geq |r_{22}| \geq \ldots \geq |r_{rr}|$.
+
+The most simple matrix $C$ is with with a diagonal structure
+\[
+C = D = \begin{pmatrix}
+    \ast & 0 & \cdots & 0 \\
+    0 & \ast & \cdots & 0 \\
+    \vdots & \vdots & \ddots & \vdots \\
+    0 & 0 & \cdots & \ast 
+    \end{pmatrix}
+\]
+
+\begin{tabular}{l l}
+BELTRAMI & 1873 \\
+JORDAN & 1875 \\
+SYLVESTER & 1893 \\
+ECKART-YOUNG & 1936 \\
+\end{tabular}
+
+\section{Singular Value Decomposition}
+Singular Value Decomposition (SVD) is a fundamental matrix factorization technique in linear algebra.
+The \textbf{SVD is a special case of the URV factorization}, where $C$ is a rectangular diagonal matrix that we denote with $\Sigma$ (Notation of Golub).
+For a given matrix $A$ with dimensions $m \times n$, the SVD is a decomposition such that
+\[
+A = U \Sigma V^T = 
+\begin{pmatrix}
+\vert & & \vert \\
+u_1 & \dots & u_m \\
+\vert & & \vert
+\end{pmatrix}
+\begin{pmatrix}
+\sigma_1 & & 0 \\
+& \ddots & \\
+0 & & \sigma_n
+\end{pmatrix}
+\begin{pmatrix}
+\text{---} & v_1^T & \text{---} \\
+& \vdots & \\
+\text{---} & v_n^T & \text{---}
+\end{pmatrix}
+\]
+where
+\begin{itemize}
+    \item $U$ is an $m \times m$ orthogonal matrix containing the left-hand singular vectors of $A$.
+    \item $V$ is an $n \times n$ orthogonal matrix containing the right-hand singular vectors of $A$.
+    \item $\Sigma$ is an $m \times n$ rectangular diagonal matrix with non-negative real numbers on the diagonal.
+\end{itemize}
+
+The diagonal entries $\sigma_i$ of $\Sigma$ are known as the singular values of $A$
+and are arranged such that $\sigma_1 \geq \sigma_2 \geq \dots \geq \sigma_r > 0$,
+where $r$ is the rank of $A$. \newline
+\textbf{The number of non-zero singular values is equal to the rank of $A$.}
+
+\subsection{Properties of SVD}
+\begin{itemize}
+    \item The columns of $U$ are the eigenvectors of $AA^T$.
+    \item The columns of $V$ are the eigenvectors of $A^TA$.
+    \item The non-zero singular values of $A$ (the $\sigma_i$'s) are the square roots of the non-zero eigenvalues of both $AA^T$ and $A^TA$.
+\end{itemize}
+
+\subsection{Applications of SVD}
+SVD is widely used in statistics and signal processing for tasks such as:
+\begin{itemize}
+    \item Data compression
+    \item Noise reduction
+    \item Pseudoinverse computation
+    \item Statistics (Hotelling transform)
+    \subitem Principal Component Analysis (PCA)
+    \item Image processing (Karhunen-Loève transform)
+\end{itemize}
+
+\subsection{Relation to the Eigenvalue Decomposition}
+SVD is a generalization of the eigenvalue decomposition for non-square matrices. In the case where $A$ is square and symmetric, the SVD is equivalent to the eigenvalue decomposition.
+
+If $m > n \quad m=3, n=2$, we have:
+\[
+\Sigma = \begin{pmatrix}
+\sigma_1 & 0 \\
+0 & \sigma_2 \\
+0 & 0
+\end{pmatrix}
+\]
+
+If $m < n \quad m=2, n=3$, we have:
+\[
+\Sigma = \begin{pmatrix}
+\sigma_1 & 0 & 0 \\
+0 & \sigma_2 & 0
+\end{pmatrix}
+\]
+
+If $\sigma_2 = 0$, then $\Sigma$ simplifies to:
+\[
+\Sigma = \begin{pmatrix}
+\sigma_1 & 0 & 0 \\
+0 & 0 & 0
+\end{pmatrix} = \begin{pmatrix}
+\sigma_1 & 0 \\
+0 & 0
+\end{pmatrix}
+\]
+
+\section*{Elden Notation}
+% TODO: check if useful
+In the book of \textit{Elden}, if $m > n$, the matrix $A$ can be decomposed as:
+\[
+A = U \begin{pmatrix}
+\Sigma \\
+0
+\end{pmatrix} V^T
+\]
+\[
+= U \begin{pmatrix}
+\sigma_1 & 0 \\
+0 & 0
+\end{pmatrix} V^T
+\]
+
+For $\Sigma$ given by:
+\[
+\Sigma = \begin{pmatrix}
+\sigma_1 & 0 \\
+0 & \sigma_2
+\end{pmatrix} \quad \text{if } \sigma_2 = 0, \quad \Sigma = \begin{pmatrix}
+\sigma_1 & 0 \\
+0 & 0
+\end{pmatrix}
+\]
+
+If $A = U \begin{pmatrix}
+\sigma_1 & 0 \\
+0 & 0
+\end{pmatrix} V^T$, then only the first $r$ columns of $U$ and the first $r$ columns of $V$ are useful to describe $A$ for $r \times r$.
+
+\subsection{SVD compact form}
+$$
+A = \underbrace{\left(u_1, u_2, \cdots, u_r\right.}_{U_A} \underbrace{\left.u_{r+1}, \cdots, u_m\right)}_{U_A^\perp}
+\begin{pmatrix}
+D & 0 \\
+0 & 0
+\end{pmatrix}
+    \begin{pmatrix}
+        v_1^T \\
+        v_2^T \\
+        \vdots \\
+        v_r^T \\
+        v_{r+1}^T \\
+        \vdots \\
+        v_n^T
+        \end{pmatrix}
+    \begin{aligned}
+        &\left.
+            \vphantom{\begin{matrix}
+                u_1 \\
+                u_2 \\
+                \vdots \\
+                u_r 
+                \end{matrix}}
+        \right\}U_A \\
+        &\left.
+            \vphantom{\begin{matrix}
+                u_1 \\
+                \vdots \\
+                u_r 
+                \end{matrix}}
+        \right\}U_A^\perp
+    \end{aligned}
+$$
+    
+This can be compactly written as:
+\[
+A = U_A D V_A^T
+\]
+which corresponds to the output obtained when setting the parameter "full matrices = false" on available SVD routines.
+
+\subsection{A as a sum of rank 1 matrices}
+If the matrix \( A \) has rank \( r = 1 \), then the SVD is given by:
+\[
+A = u_i \sigma_i v_i^T = \sigma_i \underbrace{u_i v_i^T}_{\text{outer}}
+\]
+and we have that $\| u_1 \| = 1$, $ \| v_1 \| = 1$, $\| A \|_2 = \sigma_1$.
+
+If the rank \( r > 1 \), then the matrix \( A \) can be represented as:
+$$
+\begin{aligned}
+A &= \begin{pmatrix}
+    u_1 & u_2 & \cdots & u_n
+    \end{pmatrix}
+\begin{pmatrix}
+\sigma_1 & 0 & \ldots & 0 \\
+0 & \sigma_2 & \ldots & 0 \\
+\vdots & \vdots & \ddots & \vdots \\
+0 & 0 & \ldots & \sigma_r
+\end{pmatrix} \begin{pmatrix}
+v_1^T \\
+v_2^T \\
+\vdots \\
+v_r^T
+\end{pmatrix} \\
+&=
+\begin{pmatrix}
+u_1 & u_2 & \cdots & u_n
+\end{pmatrix}
+\begin{pmatrix}
+\sigma_1 v_1^T \\
+\sigma_2 v_2^T \\
+\vdots \\
+\sigma_r v_r^T
+\end{pmatrix} \\
+&=
+\sigma_1 u_1 v_1^T + \sigma_2 u_2 v_2^T + \cdots + \sigma_r u_r v_r^T
+\end{aligned}
+$$
+
+The matrix \( A \) is the sum of rank 1 matrices
+
+\[
+A = \sum_{i=1}^{r} \sigma_i u_i v_i^T \quad r \text{ is the rank}
+\]
+
+Size \( 1000 \times 1000 \) \quad \( m = n = 1000 \)
+
+\[
+\begin{aligned}
+\sigma_1 &= 10^5 & \sigma_2 &= 10^4 & \sigma_3 &= 10^0 & \sigma_4 &= 10^0 \\
+\sigma_5 &= 10^{-10} & & & & & & \\
+& & \sigma_i &\leq 10^{-15} & & & \lambda_i &\leq 10^{100} \\
+& & & & & & & \\
+& & & & & & \left(10^{200}\right) & \\
+\end{aligned}
+\]
+\end{document}

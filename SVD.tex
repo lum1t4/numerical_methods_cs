@@ -1,0 +1,347 @@
+
+\documentclass[a4paper, 12pt]{article}
+% Packages
+\usepackage[utf8]{inputenc} % Input encoding
+\usepackage[T1]{fontenc}    % Font encoding
+\usepackage[margin=1in]{geometry} % Adjust margins
+\usepackage{titling}        % Custom title format
+\usepackage{fancyhdr}       % Custom headers and footers
+\usepackage{lipsum}         % For generating dummy text (remove in your document)
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage[english]{babel}
+\usepackage{mathtools}
+\usepackage{xcolor}
+\usepackage{mdframed}
+% Page Style
+\pagestyle{fancy}
+% Remove indentation at the beginning of a paragraph
+\setlength{\parindent}{0pt}
+\fancyhf{}
+\lhead{\thetitle}
+\rhead{\theauthor}
+\cfoot{\thepage}
+% Title
+\title{Notes for Numerical Methods}
+\author{Gianluca Calò}
+\date{\today}
+\begin{document}
+\maketitle
+
+\section{2-Norm of a Matrix with SVD}
+The 2-norm of the matrix $A$ is equal to $\sigma_1$, the greatest singular value.
+\[
+\|A\|_2 = \sigma_1
+\]
+\textbf{Proof}
+\[
+\begin{aligned}
+\|A\|_2 &= \|U\Sigma V^T\|_2 = \|\Sigma\|_2 = \sqrt{\sum_{i=1}^r \sigma_i^2} = \sqrt{\sigma_1^2} = \sigma_1
+\end{aligned}
+\]
+Notes:
+\begin{itemize}
+    \item The 2-norm of a matrix: $\|A\|_2 = \sqrt{\rho(A^TA)}$
+    \item Sigma has a special structure where the singular values are in the main diagonal and are sorted in descending order
+    \item $\Sigma^T\Sigma = \begin{pmatrix}
+        \sigma_1^2 & \ldots & 0 \\
+        \vdots & \ddots & \vdots \\
+        0 & \ldots & \sigma_r^2
+        \end{pmatrix}$.
+\end{itemize}
+
+The same is true for the \textbf{Frobenius Norm}
+\[
+\|A\|_F = \sqrt{\sum_{i=1}^r \sigma_i^2} = \sigma_1
+\]
+
+\section{Low-Rank Approximation problem and Eckart-Young Theorem}
+In mathematics, low-rank approximation is a minimization problem, in which the cost function measures
+the fit between a given matrix (the data) and an approximating matrix (the optimization variable),
+subject to a constraint that the approximating matrix has reduced rank. The problem is used for mathematical
+modeling and data compression. The rank constraint is related to a constraint on the complexity of a model that
+fits the data. In applications, often there are other constraints on the approximating matrix apart from the rank constraint.
+
+Let $A \in \mathbb{R}^{m \times n}$ with rank $r$ and for $k \leq r$, the matrix approximation problem:
+\[
+\min_{rank(Z)=k} \|A-Z\|_2
+\]
+has the solution $$Z_F = A_k = \sum_{i=1}^k \sigma_i u_i v_i^T$$ and the value of the minimum is
+\[
+    \|A-A_{k}\|_{2}=\left\|\sum _{i=1}^{n}\sigma _{i}u_{i}v_{i}^{\top }-\sum _{i=1}^{k}\sigma _{i}u_{i}v_{i}^{\top }\right\|_{2}=\left\|\sum _{i=k+1}^{n}\sigma _{i}u_{i}v_{i}^{\top }\right\|_{2}=\sigma _{k+1}
+\]
+
+Generally we have data that is noisy $\bar{A} = A + N$ where $N$ is the noise matrix and $A$ is the original data matrix.
+We observe that the noisy data have full rank $p$ (random matrices are likely to have full rank or a high rank)
+and we might know the size of the noise since it may depend from measures or
+channel used. We can use the singular value decomposition to find the original data matrix $A$ than has rank $r, r << p$.
+
+\[
+\begin{aligned}
+\bar{A} &= A + N \\
+\bar{A} &= \bar{U}\bar{\Sigma}\bar{V}^T \\
+A &\approx \sum_{i=1}^r \sigma_i u_i v_i^T = \bar{A_r} \\
+\end{aligned}
+\]
+
+where $\sigma_{r+1}, \ldots, \sigma_p$ are very small, representing the size of the noise.
+\section*{Principal Component Regression}
+Solution of least square problem when the matrix $A$ has rank $r << p$.
+
+To solve this problem, we use the singular value decomposition and since the solution is not unique,
+we choose the one of minimal norm.
+\[
+A = U \Sigma V^T =
+\begin{pmatrix} U_1 & U_2 \end{pmatrix}
+\begin{pmatrix}
+\Sigma_1 & 0 \\
+0 & 0 
+\end{pmatrix} \begin{pmatrix}
+V_1^T \\
+V_2^T
+\end{pmatrix}
+\]
+
+$\Sigma_1 = \text{diag}(\sigma_1, \ldots, \sigma_r)$ and $\Sigma$ is a square non-singular $r \times r$ matrix.
+
+We use this factorization to solve the least squares problem
+\[
+    \min_x \| Ax - b \|_2^2
+\]
+This can be written as
+\[
+\begin{aligned}
+    \min_x \| Ax - b \|_2^2 &=
+    \left\|
+        \begin{pmatrix} U_1 & U_2 \end{pmatrix}
+        \begin{pmatrix} \Sigma_1 & 0 \\ 0 & 0 \end{pmatrix}
+        \begin{pmatrix} V_1^T \\ V_2^T \end{pmatrix}
+        x - b
+    \right\|_2^2 \\
+    & = \left\|
+        U \begin{pmatrix}
+        \Sigma_1 & 0 \\
+        0 & 0 
+        \end{pmatrix}
+        \begin{pmatrix}
+            V_1^T \\
+            V_2^T
+        \end{pmatrix}
+        x - UU^T b
+    \right\|_2^2 \\
+    & = \left\|
+    \begin{pmatrix}
+        \Sigma_1 & 0 \\
+        0 & 0 
+        \end{pmatrix}
+        \begin{pmatrix}
+            V_1^T \\
+            V_2^T
+        \end{pmatrix}
+        x - 
+        \begin{pmatrix}
+            U_1^T \\
+            U_2^T
+        \end{pmatrix}b
+    \right\|_2^2 \\
+    & = \left\|
+        \begin{pmatrix}
+            \Sigma_1 V_1^T x - U_1^T b\\
+            - U_2^T b
+        \end{pmatrix}
+    \right\|_2^2 \\
+\end{aligned}
+\]
+
+Let $y = V^T x$:
+\[
+y = \begin{pmatrix}
+V_1^Tx \\
+V_2^Tx
+\end{pmatrix} = \begin{pmatrix}
+y_1 \\
+y_2
+\end{pmatrix}
+\]
+And we have since we can split the norm in two parts being the sum of squares
+\[
+\min_x \| Ax - b \|_2^2 = \| \Sigma_1 y_1 - U_1^T b \|_2^2 + \| U_2^T b \|_2^2
+\]
+
+The minimum is reached when 
+$$\| \Sigma_1 y_1 - U_1^T b \|_2^2 = 0 \implies \Sigma_1 y_1 = U_1^T b \implies y_1 = \Sigma_1^{-1} U_1^T b$$
+and it is
+\[
+\min_x \| Ax - b \|_2 = \| U_2^T b \|_2
+\]
+
+We need to choose $y_2$ to find $x$. We would to minimize the $\| x \|_2$ equal to $\| y \|_2 = \| y_1 \|_2 + \| y_2 \|_2$ so
+we choose $y_2 = 0$.
+$$
+\begin{aligned}
+    x &= Vy = V\begin{pmatrix} \Sigma_1^{-1} U_1^T b \\ 0 \end{pmatrix} = \begin{pmatrix} V_1 & V_2 \end{pmatrix} \begin{pmatrix} \Sigma_1^{-1} U_1^T b \\ 0 \end{pmatrix} = V_1 \Sigma_1^{-1} U_1^T b \\
+    x &= V \begin{pmatrix} \Sigma_1^{-1} & 0 \\ 0 & 0 \end{pmatrix} U^T b
+\end{aligned}
+$$
+
+The matrix $V \begin{pmatrix} \Sigma_1^{-1} & 0 \\ 0 & 0 \end{pmatrix} U^T$ is the \textbf{Moore-Penrose pseudoinverse} of $A$.
+\section{Principal Component Regression}
+% The Principal Component Regression (PCR) is a regression analysis technique that is based on the SVD of the data matrix $A$.
+% The PCR is used to overcome the problem of multicollinearity in regression analysis. Multicollinearity occurs when independent variables in a regression model are correlated. This correlation is a problem because independent variables should be independent. If the degree of correlation between variables is high enough, it can cause problems when you fit the model and interpret the results.
+In high-dimensional data analysis, it may occur that many of the dimensions of the data are highly correlated.
+In these cases, the matrix $A$ is rank-deficient, meaning that its rank is significantly less than the dimension $p$ of
+the space it maps to. To address the least squares problem under these conditions,
+we employ the singular value decomposition (SVD). The SVD allows us to express $A$ in terms of its singular values and corresponding singular vectors. However, because the solution to the least squares problem is not unique when $A$ is rank-deficient, we seek the solution with the smallest norm.
+% When we encounter a matrix $A$ of rank $r$ that is significantly less than the dimension $p$ of the space it maps to, we face a least squares problem. This situation is typical in high-dimensional data analysis where the number of variables (columns of $A$) exceeds the number of observations (rows of $A$).
+% To address the least squares problem under these conditions, we employ the singular value decomposition (SVD). The SVD allows us to express $A$ in terms of its singular values and corresponding singular vectors. However, because the solution to the least squares problem is not unique when $A$ is rank-deficient, we seek the solution with the smallest norm.
+
+The matrix $A$ can be decomposed as follows:
+\[
+A = U \Sigma V^T =
+\begin{pmatrix} U_1 & U_2 \end{pmatrix}
+\begin{pmatrix}
+\Sigma_1 & 0 \\
+0 & 0 
+\end{pmatrix} \begin{pmatrix}
+V_1^T \\
+V_2^T
+\end{pmatrix}
+\]
+where $\Sigma_1$ is a diagonal matrix of the non-zero singular values $\sigma_1, \ldots, \sigma_r$, and $\Sigma$ is a square, non-singular matrix of size $r \times r$.
+and $U$ and $V$ are the orthogonal matrices containing the left and right singular vectors corresponding to the non-zero singular values.
+
+Using the SVD of $A$, we reframe this problem as:
+\[
+\begin{aligned}
+    \min_x \| Ax - b \|_2^2 &=
+    \left\|
+        \begin{pmatrix} U_1 & U_2 \end{pmatrix}
+        \begin{pmatrix} \Sigma_1 & 0 \\ 0 & 0 \end{pmatrix}
+        \begin{pmatrix} V_1^T \\ V_2^T \end{pmatrix}
+        x - b
+    \right\|_2^2 \\
+    & = \left\|
+        U \begin{pmatrix}
+        \Sigma_1 & 0 \\
+        0 & 0 
+        \end{pmatrix}
+        \begin{pmatrix}
+            V_1^T \\
+            V_2^T
+        \end{pmatrix}
+        x - UU^T b
+    \right\|_2^2 \\
+    & = \left\|
+    \begin{pmatrix}
+        \Sigma_1 & 0 \\
+        0 & 0 
+        \end{pmatrix}
+        \begin{pmatrix}
+            V_1^T \\
+            V_2^T
+        \end{pmatrix}
+        x - 
+        \begin{pmatrix}
+            U_1^T \\
+            U_2^T
+        \end{pmatrix}b
+    \right\|_2^2 \\
+    & = \left\|
+        \begin{pmatrix}
+            \Sigma_1 V_1^T x - U_1^T b\\
+            - U_2^T b
+        \end{pmatrix}
+    \right\|_2^2 \\
+\end{aligned}
+\]
+
+\subsection*{Solution to the Least Squares Problem}
+To minimize the above expression, we set $y = V^T x$ and partition it as $y_1$ and $y_2$, corresponding to $V_1^T x$ and $V_2^T x$, respectively. The optimal solution is found by minimizing each part of the squared norm separately.
+
+The first part of the squared norm can be minimized to zero when:
+\[
+\Sigma_1 y_1 = U_1^T b \implies y_1 = \Sigma_1^{-1} U_1^T b
+\]
+The second part of the squared norm, $\| U_2^T b \|_2^2$, cannot be affected by our choice of $x$ since it depends only on $b$. 
+
+Therefore, to minimize the overall norm $\| x \|_2$, which is equal to $\| y \|_2$, we set $y_2 = 0$ and reconstruct $x$ from $y$:
+\[ x = Vy = V\begin{pmatrix} \Sigma_1^{-1} U_1^T b \\ 0 \end{pmatrix} = \begin{pmatrix} V_1 & V_2 \end{pmatrix} \begin{pmatrix} \Sigma_1^{-1} U_1^T b \\ 0 \end{pmatrix} = V_1 \Sigma_1^{-1} U_1^T b \]
+\[ x = V \begin{pmatrix} \Sigma_1^{-1} & 0 \\ 0 & 0 \end{pmatrix} U^T b \]
+
+This effectively discards the components of $x$ that would be multiplied by zero in the matrix $A$, as they do not contribute to the solution.
+
+\subsection*{Moore-Penrose Pseudoinverse}
+The expression for $x$ we have found is, in fact, the product of $b$ with the Moore-Penrose pseudoinverse of $A$:
+\[
+x = A^+ b = V \begin{pmatrix} \Sigma_1^{-1} & 0 \\ 0 & 0 \end{pmatrix} U^T b
+\]
+The pseudoinverse provides a best-fit solution to an overdetermined or underdetermined linear system and is widely used in regression analysis, among other areas.
+
+\section{Relation with Eigenvalues}
+
+Let $ A \in \mathbb{R}^{m \times n} $ with $ m \geq n $ and rank$(A) = r$. We can show the relation among the singular values of $A$ and the eigenvalues of $A^TA$ and $AA^T$.
+
+The singular value decomposition (SVD) of $A$ is given by
+\[ A = U \begin{pmatrix}
+\Sigma_r & 0 \\
+0 & 0 
+\end{pmatrix} V^T \]
+where $ U \in \mathbb{R}^{m \times m} $, $\Sigma_r$ is a diagonal matrix with the $r$ non-zero singular values, and $ V \in \mathbb{R}^{n \times n} $.
+
+Now, considering $A^TA$:
+\[ 
+    \begin{aligned}
+        A^TA &= V \begin{pmatrix} \Sigma_1 & 0 \\ 0 & 0 \end{pmatrix}^T U^T U\begin{pmatrix} \Sigma_1 & 0 \\ 0 & 0 \end{pmatrix} V^T = V \begin{pmatrix} \Sigma_1 & 0 \\ 0 & 0 \end{pmatrix} \begin{pmatrix} \Sigma_1 & 0 \\ 0 & 0 \end{pmatrix} V^T\\
+        &= V \begin{pmatrix} \Sigma_1^2 & 0 \\ 0 & 0 \end{pmatrix}V^T = V\Lambda V^T \quad \Lambda = diag(\sigma_1^2, \ldots, \sigma_r^2, 0, \ldots, 0)
+    \end{aligned}
+\]
+We get $A^TA$ is similar to $\Lambda$, $(A^TA = V\Lambda V^T = V \Lambda V^{-1})$ and
+thus has the same eigenvalues $\sigma_1^2, \sigma_2^2, \ldots, \sigma_r^2, 0, \ldots, 0$ and the eigenvectors are $v_1, v_2, \ldots, v_n$.
+
+$$A^TAV = V\Lambda$$
+$$
+A^TA \begin{pmatrix} v_1 & v_2 & \ldots & v_n \end{pmatrix}
+= \begin{pmatrix} v_1 & v_2 & \ldots & v_n \end{pmatrix}
+\begin{pmatrix}
+    \sigma_1^2 \\
+    & \ddots \\
+    & & \sigma_r^2 \\
+    & & & 0 \\
+    & & & & \ddots \\
+    & & & & & 0 \\
+\end{pmatrix}
+$$
+$$
+\begin{aligned}
+    A^TAv_i &= \sigma_i^2 v_i \quad i=1, \ldots, r \\
+    A^TAv_i &= 0 \quad i=r+1, \ldots, n
+\end{aligned}
+$$
+Similarly, for $AA^T$:
+\[ 
+    \begin{aligned}
+        AA^T &= U\begin{pmatrix} \Sigma_1 & 0 \\ 0 & 0 \end{pmatrix} V^T V \begin{pmatrix} \Sigma_1 & 0 \\ 0 & 0 \end{pmatrix}^T U^T = U \begin{pmatrix} \Sigma_1 & 0 \\ 0 & 0 \end{pmatrix} \begin{pmatrix} \Sigma_1 & 0 \\ 0 & 0 \end{pmatrix} U^T\\
+        &= U \begin{pmatrix} \Sigma_1^2 & 0 \\ 0 & 0 \end{pmatrix} U^T = U\Lambda U^T \quad \Lambda = diag(\sigma_1^2, \ldots, \sigma_r^2, 0, \ldots, 0)
+    \end{aligned}
+\]
+
+$$AA^TU = U\Lambda$$
+$$
+AA^T \begin{pmatrix} u_1 & u_2 & \ldots & u_m \end{pmatrix}
+= \begin{pmatrix} u_1 & u_2 & \ldots & u_m \end{pmatrix}
+\begin{pmatrix}
+    \sigma_1^2 \\
+    & \ddots \\
+    & & \sigma_r^2 \\
+    & & & 0 \\
+    & & & & \ddots \\
+    & & & & & 0 \\
+\end{pmatrix}
+$$
+$$
+\begin{aligned}
+    AA^Tu_i &= \sigma_i^2 u_i \quad i=1, \ldots, r \\
+    AA^Tu_i &= 0 \quad i=r+1, \ldots, m
+\end{aligned}
+$$
+
+\end{document}
