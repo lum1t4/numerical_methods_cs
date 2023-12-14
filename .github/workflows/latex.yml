@@ -23,4 +23,5 @@ jobs:
       uses: softprops/action-gh-release@v1
       with:
         files: main.pdf
-        tag_name: ${{ steps.version.outputs.version }}
+        tag_name: ${{ steps.version.outputs.current-version }}
+        token: ${{ secrets.GITHUB_TOKEN }}
