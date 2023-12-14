@@ -16,6 +16,7 @@ jobs:
       with:
         root_file: main.tex
     - name: Create Release
-      uses: softprops/action-gh-release@v1
+      uses: ncipollo/release-action@v1
       with:
-        files: main.pdf
+        artifacts: "main.pdf"
+        bodyFile: "README.md"
