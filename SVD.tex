@@ -1,32 +1,3 @@
-
-\documentclass[a4paper, 12pt]{article}
-% Packages
-\usepackage[utf8]{inputenc} % Input encoding
-\usepackage[T1]{fontenc}    % Font encoding
-\usepackage[margin=1in]{geometry} % Adjust margins
-\usepackage{titling}        % Custom title format
-\usepackage{fancyhdr}       % Custom headers and footers
-\usepackage{lipsum}         % For generating dummy text (remove in your document)
-\usepackage{amsmath,amsfonts,amssymb}
-\usepackage[english]{babel}
-\usepackage{mathtools}
-\usepackage{xcolor}
-\usepackage{mdframed}
-% Page Style
-\pagestyle{fancy}
-% Remove indentation at the beginning of a paragraph
-\setlength{\parindent}{0pt}
-\fancyhf{}
-\lhead{\thetitle}
-\rhead{\theauthor}
-\cfoot{\thepage}
-% Title
-\title{Notes for Numerical Methods}
-\author{Gianluca Calò}
-\date{\today}
-\begin{document}
-\maketitle
-
 \section{2-Norm of a Matrix with SVD}
 The 2-norm of the matrix $A$ is equal to $\sigma_1$, the greatest singular value.
 \[
@@ -343,5 +314,3 @@ $$
     AA^Tu_i &= 0 \quad i=r+1, \ldots, m
 \end{aligned}
 $$
-
-\end{document}

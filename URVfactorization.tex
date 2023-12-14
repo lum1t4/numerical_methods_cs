@@ -1,33 +1,4 @@
-
-\documentclass[a4paper, 12pt]{article}
-% Packages
-\usepackage[utf8]{inputenc} % Input encoding
-\usepackage[T1]{fontenc}    % Font encoding
-\usepackage[margin=1in]{geometry} % Adjust margins
-\usepackage{titling}        % Custom title format
-\usepackage{fancyhdr}       % Custom headers and footers
-\usepackage{lipsum}         % For generating dummy text (remove in your document)
-\usepackage{amsmath,amsfonts,amssymb}
-\usepackage[english]{babel}
-\usepackage{mathtools}
-\usepackage{xcolor}
-\usepackage{mdframed}
-% Page Style
-\pagestyle{fancy}
-% Remove indentation at the beginning of a paragraph
-\setlength{\parindent}{0pt}
-\fancyhf{}
-\lhead{\thetitle}
-\rhead{\theauthor}
-\cfoot{\thepage}
-% Title
-\title{Notes for Numerical Methods}
-\author{Gianluca Calò}
-\date{\today}
-\begin{document}
-\maketitle
-
-\section{URV Factorization}
+\chapter{URV Factorization}
 \textbf{Theorem:} Given $A \in \mathbb{R}^{m \times n}$ a matrix with $\text{rank}(A)=r$, there exist two orthogonal matrices $U \in \mathbb{R}^{m \times m}$ and $V \in \mathbb{R}^{n \times n}$ and a nonsingular matrix $C \in \mathbb{R}^{r \times r}$ such that
 \[
 A =
@@ -402,4 +373,3 @@ Size \( 1000 \times 1000 \) \quad \( m = n = 1000 \)
 & & & & & & \left(10^{200}\right) & \\
 \end{aligned}
 \]
-\end{document}
