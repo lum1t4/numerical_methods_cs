@@ -1,6 +1,8 @@
 name: Compile LaTeX document
 on: 
   push:
+    tags:
+      - 'v*'  # Trigger on any push tag starting with 'v'
     branches:
       - main  # or the name of your default branch
 jobs:
@@ -13,15 +15,7 @@ jobs:
       uses: xu-cheng/latex-action@v3
       with:
         root_file: main.tex
-    - name: Get next version
-      uses: reecetech/version-increment@2023.9.3
-      id: version
-      with:
-        scheme: semver
-        increment: patch
     - name: Create Release
       uses: softprops/action-gh-release@v1
       with:
         files: main.pdf
-        tag_name: ${{ steps.version.outputs.current-version }}
-        token: ${{ secrets.GITHUB_TOKEN }}
