@@ -1,0 +1,56 @@
+\chapter{Derivates}
+% From Gilbert Strang book chapter 13
+$$ f(x,y) x \in \mathbb{R}, y \in \mathbb{R} $$
+
+
+Example
+
+$$ \min_{x} \|Ax-b\|^2_2 = \min_x f(x) $$
+
+Up to now, we use linear Algebra to solve this problem.
+Now we want to use calculus.
+
+
+
+$$
+x = \begin{pmatrix}
+x_1 \\
+x_2
+\end{pmatrix}
+$$
+$$
+A = \begin{pmatrix}
+a_{11} & a_{12} \\
+a_{21} & a_{22}
+\end{pmatrix}
+$$
+$$
+b = \begin{pmatrix}
+b_1 \\
+b_2
+\end{pmatrix}
+$$
+
+$$
+\min_{x_1, x_2} f(x) = \min_{x_1, x_2} \left( (a_{11}x_1 + a_{12}x_2 - b_1)^2 + (a_{21}x_1 + a_{22}x_2 - b_2)^2 \right)
+$$
+
+
+\section{Partial Derivatives}
+
+Partial derivatives are a fundamental concept in calculus, particularly in the field of multivariable calculus. They represent the rate of change of a function with respect to one of its variables, while keeping the other variables constant.
+
+Let \( f: \mathbb{R}^n \rightarrow \mathbb{R} \) be a function of \( n \) variables, say \( f(x_1, x_2, \ldots, x_n) \). The partial derivative of \( f \) with respect to its \( i \)-th variable \( x_i \) is denoted as \( \frac{\partial f}{\partial x_i} \) and is defined as:
+
+\[
+\frac{\partial f}{\partial x_i}(x_1, x_2, \ldots, x_n) = \lim_{h \rightarrow 0} \frac{f(x_1, \ldots, x_i + h, \ldots, x_n) - f(x_1, \ldots, x_i, \ldots, x_n)}{h}
+\]
+
+if this limit exists. In other words, the partial derivative of \( f \) with respect to \( x_i \) at a point is the slope of the tangent line to the curve you get by fixing every variable except \( x_i \) and graphing \( f \) as a function of \( x_i \) alone.
+
+\subsection{Geometric Interpretation}
+In the context of a function of two variables, \( f(x, y) \), the partial derivatives \( \frac{\partial f}{\partial x} \) and \( \frac{\partial f}{\partial y} \) represent the slope of the tangent plane to the surface defined by \( f \) in the direction of the \( x \)-axis and \( y \)-axis respectively.
+
+\subsection{Higher Order Partial Derivatives}
+If the partial derivatives of a function are themselves differentiable, we can take their partial derivatives. These are known as higher-order partial derivatives. For instance, the second-order partial derivative of \( f \) with respect to \( x_i \) and then \( x_j \) is denoted as \( \frac{\partial^2 f}{\partial x_j \partial x_i} \).
+

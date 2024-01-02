@@ -1,0 +1,153 @@
+\chapter{Projector for orthogonal subspaces}
+% From Meyer book
+In general given two subspaces \( \mathcal{U} \) and \( \mathcal{V} \) of \( \mathbb{R}^n \), we can find a projector \( P \) onto \( \mathcal{U} \) along \( \mathcal{V} \) by the following procedure:
+
+
+Projector for orthogonal subspaces
+
+$M \subset V$, the orthogonal complementary subspace of $M^{\perp}$
+
+if $m_1, m_2, \ldots, m_r$ is a basis for $M$ and $N=M^{\perp}$, then $n_1, n_2, \ldots, n_s$ is a basis for $N$
+$$ m_j^Tn_i = 0 \quad \text{for } i=1,2,\ldots,s \text{ and } j=1,2,\ldots,r $$
+
+The projector $P_M$ onto $M$ along $N$ is called \textbf{orthogonal projector}.
+
+$$
+M = (m_1, m_2, \ldots, m_r) B = (M, N)
+N = (n_1, n_2, \ldots, n_s)
+$$
+
+$$
+M^T - N = 0 \quad \text{and} \quad N^T M = 0
+$$
+$$
+P_M = B\begin{pmatrix}
+I & 0 \\
+0 & 0
+\end{pmatrix}B^{-1} = (M, N)\begin{pmatrix}
+I & 0 \\
+0 & 0
+\end{pmatrix}\begin{pmatrix}
+M & N
+\end{pmatrix}^{-1}
+$$
+
+$$
+\begin{aligned}
+    A^T(A\hat{x} - b) = 0 \\
+    A^TA\hat{x} - A^Tb = 0 \\
+    A^TA\hat{x} = A^Tb \implies \hat{x} = (A^TA)^{-1}A^Tb    
+\end{aligned}
+$$
+we look now for the projection of b in the range of A
+
+
+$$
+\begin{aligned}
+Ax &= P_{R(A)}b \\
+Ax &= A(A^TA)^{-1}A^Tb \\
+Ax &= A(A^TA)^{-1}A^Tb = P_{R(A)}b
+\end{aligned}
+$$
+where $(A^TA)^{-1}A^T$ is the pseudo inverse of A
+
+Example
+
+$$
+x = \begin{pmatrix}
+    \frac{1}{\sqrt{3}} \\
+    \frac{1}{\sqrt{3}} \\
+    \frac{1}{\sqrt{3}}
+\end{pmatrix} \quad
+x^Tx = 1
+$$
+$$
+M = \begin{pmatrix}
+    \frac{1}{\sqrt{3}} \\
+    \frac{1}{\sqrt{3}} \\
+    \frac{1}{\sqrt{3}}
+\end{pmatrix} \quad M = span\{x\} \quad M \oplus M^T = 0
+$$
+
+
+\section{Computation of an orthogonal projector using the SVD}
+$$
+A = U\begin{pmatrix}
+    \Sigma_1 & 0 \\
+    0 & 0
+\end{pmatrix}V^T
+= (U_A U_{A^{\perp}})\begin{pmatrix}
+    \Sigma_1 & 0 \\
+    0 & 0
+\end{pmatrix}
+\begin{pmatrix}
+ V_A \\
+ V_{A^{\perp}}
+\end{pmatrix}
+$$
+
+The columsn of $U_A$ are the orthonormal basis of $R(A)$
+and the columns of $U_{A^{\perp}}$ are the orthonormal basis of $N(A^T)$
+
+$$
+R(A) \oplus N(A^T) = \mathbb{R}^m \quad R(A) \perp N(A^T)
+$$ $$
+P_{R(A)} = U_AU_A^T \quad P_{R(A^T)} = V_AV_A^T
+$$ $$
+P_{N(A^T)} = I - U_AU_A^T \quad P_{N(A)} = I - V_AV_A^T
+$$
+Consider a vector $v \in \mathbb{R}^m$ and its projection $P_{R(A)}v$ onto $R(A)$
+$$
+P_{R(A)}v = U_AU_A^Tv = U_A(U_A^Tv) = U_A \cdot z \quad z = U_A^Tv
+$$
+
+\section{Closest point theorem}
+Let $M$ be a subspace of a inner product space $V$ andl let $b \in V$.
+Then there exists a unique vector that is closest to b is $P_Mb$ and it is the orthogonal projection of $b$ onto $M$.
+
+$$ \min_{\substack{b \in V \\ m \in M}} ||b - m|| = ||b - P_Mb|| $$
+Suppose $q$ is our query
+$$ \|q - q_A \|_2 \leq \|q - x \|_2 \quad \forall x \in R(A) $$
+$$ q_A = Q_AQ_A^Tq = P_A q $$
+
+$$
+\begin{aligned}
+    \|q - x \|_2^2 &= \|(q - q_A) + (q_A - x) \|_2^2 \\
+    &= \|q - q_A \|_2^2 + \|q_A - x \|_2^2 + 2(q - q_A)^T(q_A - x) \quad q_{A^{\perp}} = q - q_A \\
+    &= \|q - q_A \|_2^2 + \|q_A - x \|_2^2 + 2(q_{A^{\perp}})^T(q_A - x) \quad q_{A^{\perp}}(q_A - x) = 0 \\
+    &= \|q - q_A \|_2^2 + \|q_A - x \|_2^2 \geq \|q - q_A \|_2^2
+\end{aligned}
+$$
+
+In the analaysis of text documents, we compute
+$$ cos(v_j) = \frac{a_j^Tq}{\|a_j\|_2 \|q\|_2} $$
+$$ A = (a_1, a_2, \ldots, a_n) \quad a_1, a_2, \ldots, a_n \text{ are documents} $$
+$$ cos(v_j) = \frac{a_j^T(q_A + q_{A^{\perp}})}{\|a_j\|_2 \|q\|_2} = 
+\frac{a_j^Tq_A + \overbrace{a_j^Tq_{A^{\perp}}}^{=0}}{\|a_j\|_2 \|q\|_2}
+$$
+
+If we use only $q_A$ we can compute
+$$ cos(\bar{\theta_j}) = \frac{a_j^Tq_A}{\|a_j\|_2 \|q_A\|_2} = \frac{a_j^Tq_A}{\|a_j\|_2}$$
+
+this allows to recover more relevant documents, but increase the number of irrelevant ones.
+
+\section{Latent Semantic Indexing}
+In the latent Semantic Indexing (LSI), the matrix A is approximated using only $k$ singular vectors and
+$k$ singular values.
+
+$$ A = \sum_{i=1}^r \sigma_i u_i v_i^T $$
+We choose $k < r$ and compute
+$$\sum_{i=1}^k \sigma_i u_i v_i^T = A_k = U_k\Sigma_kV_k^T$$
+$$U_k = (u_1, u_2, \ldots, u_k) \quad V_k = (v_1, v_2, \ldots, v_k) \quad \Sigma_k = diag(\sigma_1, \sigma_2, \ldots, \sigma_k)$$
+
+We can choose $k$ such that
+$$ \frac{\|A - A_k\|}{\|A\|} \leq \epsilon $$
+
+where $\epsilon$ is a small number, our tolerance.
+We compare our query vector with the columns of $A_k ~ A$ we compute the $cos(\bar{\theta_j})$ using the factors $U_k, V_k, \Sigma_k$.
+
+$$
+cos(\theta^k_j) = \frac{(A_k)_j^Tq_A}{\|(A_k)_j\|_2 \|q_A\|_2}
+= \frac{v_j^T\Sigma_k^Tu_k^Tq_A}{\|v_j\|_2 \|\Sigma_k^Tu_k^Tq_A\|_2}
+= \frac{v_j^T\Sigma_k^Tu_k^Tq_A}{\|v_j\|_2 \|\Sigma_k^Tu_k^Tq_A\|_2}
+= \frac{v_j^T\Sigma_k^Tu_k^Tq_A}{\|\Sigma_k^Tu_k^Tq_A\|_2}$$

@@ -1,0 +1,87 @@
+\chapter{Principal Component Analysis}
+% Elden Book
+\section{Introduction to Principal Component Analysis}
+
+Principal Component Analysis (PCA) is a statistical procedure that utilizes an orthogonal transformation to convert a set of observations of possibly correlated variables into a set of values of linearly uncorrelated variables. It's widely used in fields like data compression, image processing, and pattern recognition.
+
+\paragraph{Applications of PCA}
+PCA finds its application in various fields including:
+\begin{itemize}
+    \setlength\itemsep{0.1em}
+    \item Data compression techniques.
+    \item Image compression and enhancement.
+    \item Text Mining, particularly in Latent Semantic Indexing.
+    \item Facial recognition systems.
+    \item Forecasting in time series prediction.
+    \item Recognizing patterns in data.
+\end{itemize}
+
+\section{Hotelling's Transformation and PCA}
+
+Harold Hotelling, a renowned statistician, made significant contributions to PCA. This section describes his approach.
+
+\subsection{The Concept of Principal Axes}
+
+In a dataset of d-dimensional observations \( t_1, t_2, \ldots, t_n \), the goal is to find \( q \) principal axes, \( w_j \) for \( j = 1, \ldots, q \), which are orthonormal and maximize the variance under projection.
+
+\subsection{Centering the Data}
+
+PCA assumes zero-mean data. Therefore, we adjust our data as follows:
+
+\[
+x_j = t_j - \text{mean}(t_j) \quad \text{for } j=1,\ldots,N, \text{ ensuring } \text{mean}(x_j) = 0.
+\]
+
+\subsection{Constructing the Observation Matrix}
+
+The matrix \( X \), consisting of our centered observations, is given by:
+
+\[
+X = (x_1, x_2, \ldots, x_n) \in \mathbb{R}^{d \times N}.
+\]
+
+\subsection{Singular Value Decomposition}
+
+The singular value decomposition (SVD) of \( X \) is:
+
+\[
+X = U\begin{pmatrix}\Sigma_1 & 0 \\ 0 & 0\end{pmatrix} V^T,
+\]
+
+where \(\Sigma_1\) is a diagonal matrix of singular values.
+
+\section{Principal Components in PCA}
+
+\subsection{Principal Component Directions}
+
+The principal component directions, denoted by vectors \( v_i \), and the normalized principal components, denoted by \( u_i \), are critical in PCA.
+
+\subsection{Calculation of Principal Components}
+
+The principal components are derived as follows:
+
+\[
+z_1 = Xv_1 = \sigma_1 u_1, \quad \text{where } z_1 \text{ is the first principal component.}
+\]
+
+\subsection{Variance of Principal Components}
+
+The variance of a principal component \( z \) is calculated using:
+
+\[
+\text{var}(z) = \frac{\|z - u_z e\|_2^2}{m},
+\]
+
+with \( e \) being a vector of ones.
+
+\section{Eigenvalues and Maximizing Variance}
+
+The maximum variance problem in PCA is solved using the eigenvalues of the covariance matrix \( \mathbf{X}^T\mathbf{X} \):
+
+\[
+\max_{\mathbf{y}^T\mathbf{y}=1} \mathbf{y}^T\mathbf{X}^T\mathbf{X}\mathbf{y} = \sigma_1^2.
+\]
+
+\section{Determining the Number of Principal Components}
+
+Choosing the right number of principal components is crucial in PCA and is often based on the variance explained by each component or using methods like the scree plot.

@@ -9,7 +9,6 @@ a_{21} & a_{22} & \cdots & a_{2m} \\
 a_{m1} & a_{m2} & \cdots & a_{mm}
 \end{pmatrix}
 \]
-
 If every element in $A$ is a real number, we write $A \in \mathbb{R}^{m \times m}$ where $m$ is the number of rows and $n$ is the number of columns.
 
 If every element in $A$ is a complex number, we write $A \in \mathbb{C}^{m \times m}$.
@@ -46,7 +45,7 @@ Given two matrices of the same size $A$ and $B$:
 \end{itemize}
 
 \section{Matrix Properties}
-\section*{Note:}
+\section{Note:}
 \textbf{O} is the matrix with all 0 elements.
 
 \begin{enumerate}
@@ -77,7 +76,7 @@ Given two matrices of the same size $A$ and $B$:
 
 
 
-\section*{Matrix Properties and Transpose}
+\section{Matrix Properties and Transpose}
 
 \textbf{Distributive over scalar addition:}
 \[(\alpha + \beta) \mathbf{A} = \alpha \mathbf{A} + \beta \mathbf{A}\]
@@ -87,7 +86,7 @@ Given two matrices of the same size $A$ and $B$:
 
 \textit{Note:} $I$ is a matrix with elements equal to 1.
 
-\section*{Transpose Matrix}
+\section{Transpose Matrix}
 
 Given $\mathbf{A}$ "square", it means the number of rows is equal to the number of columns. For example, $\mathbf{A} \in \mathbb{R}^{m \times m}$, the \textbf{TRANSPOSE} is denoted by the symbol $\mathbf{A}^T$ and it is constructed by exchanging the rows and the columns of $\mathbf{A}$.
 
@@ -141,10 +140,10 @@ Therefore,
 
 If $A = -A^T$ then $A$ is said to be \textbf{skew-symmetric}.
 
-\section*{Special Matrices}
+\section{Special Matrices}
 
 
-\section*{Identity Matrix}
+\section{Identity Matrix}
 The identity matrix is usually denoted with $I$ and it has 1 on the main diagonal and 0 everywhere else.
 \[
 I = \begin{pmatrix}
@@ -159,7 +158,7 @@ The identity matrix is such that
 AI = IA = A
 \]
 
-\section*{Triangular Matrices}
+\section{Triangular Matrices}
 \subsection*{Upper Triangular}
 An upper triangular matrix $A$ is of the form:
 \[
@@ -176,7 +175,7 @@ Only the elements above the main diagonal and the diagonal elements are $\neq 0$
 
 
 
-\section*{Lower Triangular Matrices}
+\section{Lower Triangular Matrices}
 A lower triangular matrix $A$ is given by:
 \[
 A = \begin{pmatrix}
@@ -188,7 +187,7 @@ a_{m1} & a_{m2} & \cdots & a_{mm}
 \]
 Only the elements below the main diagonal and the diagonal elements are $\neq 0$.
 
-\section*{Diagonal Matrices}
+\section{Diagonal Matrices}
 A diagonal matrix $A$ is given by:
 \[
 A = \begin{pmatrix}
@@ -200,7 +199,7 @@ a_{11} & 0 & \cdots & 0 \\
 \]
 Only the elements on the main diagonal are $\neq 0$.
 
-\section*{Matrix Product}
+\section{Matrix Product}
 Given $A \in \mathbb{R}^{n \times p}$, $B \in \mathbb{R}^{p \times m}$, the product $AB$ is possible because the two matrices are said \textit{conformable}: the number of columns of the first matrix should be equal to the number of rows of the second matrix.
 
 
@@ -268,7 +267,7 @@ c_{12} = a_{11}b_{12} + a_{12}b_{22}
 
 
 
-\section*{Matrix Multiplication Properties}
+\section{Matrix Multiplication Properties}
 
 \begin{itemize}
     \item The matrix product is \textbf{not commutative}:
@@ -331,7 +330,7 @@ $\alpha f(x) = f(\alpha x)$
 
 
 
-\section*{Example}
+\section{Example}
 Consider the function $f(x) := 3x$ where $f: \mathbb{R} \to \mathbb{R}$.
 
 \textbf{Is $f$ linear?}
@@ -396,22 +395,22 @@ This type of function is called an \textbf{affine function}.
 The function \textit{Differentiation} is a linear function.
 
 \section{Differentiation and Integration Rules}
-\author{Math 101}
 
 
 
-\section*{Differentiation}
+
+\section{Differentiation}
 Given two functions of \( x \), \( f \) and \( g \):
 \[ f, g : \mathbb{R} \to \mathbb{R} \]
 \[ \frac{d}{dx} (f + g) = \frac{df}{dx} + \frac{dg}{dx} \]
 \[ \frac{d}{dx} (\alpha \cdot f) = \alpha \cdot \frac{df}{dx} \]
 
-\section*{Integration}
+\section{Integration}
 \[ f, g : \mathbb{R} \to \mathbb{R} \]
 \[ \int (f + g) = \int f + \int g \]
 \[ \int \alpha f = \alpha \int f \]
 
-\section*{Transpose}
+\section{Transpose}
 \[ \text{For matrices } A \text{ and } B \text{ in } \mathbb{R}^{m \times m} \]
 \[ (A + B)^T = A^T + B^T \]
 \[ (\alpha A)^T = \alpha A^T \]
@@ -473,7 +472,7 @@ f(v) + f(w) &= f\left( \begin{pmatrix} v_1 \\ v_2 \end{pmatrix} \right) + f\left
 \end{align*}
 
 Thus, $f$ is not linear as $f(v + w) \neq f(v) + f(w)$.
-\author{Transcription}
+
 
 
 
@@ -545,17 +544,12 @@ v_1v_2 + w_1w_2
 \]
 
 \section{Exercise Set}
-
-
-
-
-
 $f$ is not linear as $f(x+y) \neq f(x) + f(y)$.
 
-\section*{Exercises:}
+\section{Exercises:}
 Refer book, page 92, exercise 3.3.1
 
-\section*{Composition of 2 functions.}
+\section{Composition of 2 functions.}
 \[
 f\begin{pmatrix}
 x_1 \\
@@ -632,7 +626,7 @@ f_{11} g_{11} + f_{12} g_{21} & f_{11} g_{12} + f_{12} g_{22} \\
 f_{21} g_{11} + f_{22} g_{21} & f_{21} g_{12} + f_{22} g_{22}
 \end{pmatrix}
 \end{align*}\section{The Vector Space of Continuous Functions}
-\author{4 October 2023}
+
 
 
 
@@ -648,7 +642,7 @@ f(\alpha x + y) &= \alpha f(x) + f(y) \\
 \text{then } f &\text{ is said to be linear.}
 \end{align*}
 
-\section*{BLOCK MATRICES}
+\section{BLOCK MATRICES}
 
 \[
 A = \begin{pmatrix}
@@ -750,11 +744,11 @@ B_{3}
 3 \times 1 \text{ blocks}
 \end{matrix}
 \end{equation*}\section{Matrix Multiplication}
-\author{Student}
 
 
 
-\section*{Matrix Product $AB$}
+
+\section{Matrix Product $AB$}
 Given two matrices $A$ and $B$:
 \[ AB = \begin{pmatrix}
 A_{11} & A_{12} & A_{13} \\
@@ -775,7 +769,7 @@ The product is computed as:
 \end{aligned}
 \]
 
-\section*{Component-wise Multiplication}
+\section{Component-wise Multiplication}
 Now we perform the component-wise multiplication step by step.
 
 \[
@@ -843,13 +837,7 @@ A_{22} B_2 = \begin{pmatrix}
 \end{pmatrix}
 \]
 
-\section{Handwritten Notes}
-
-
-
-
-
-\section*{Matrix Operations}
+\section{Matrix Operations}
 \[
 A_{23} B_{3} = \begin{pmatrix}
 0 & 0 \\
@@ -898,7 +886,7 @@ A_{23} B_{3} = \begin{pmatrix}
 \end{pmatrix},
 \]
 
-\section*{Notes}
+\subsection{Notes}
 \begin{itemize}
 \item Check example 3.6.7 from Mayer book for block triangular matrices and simultaneous causality.
 \item Application to airline connectivity (see example 3.5.2 from Mayer book).
@@ -906,7 +894,7 @@ A_{23} B_{3} = \begin{pmatrix}
 \end{itemize}
 
 \section{Graph Theory: Adjacency Matrix}
-\author{Anonymous}
+
 
 
 
@@ -931,7 +919,7 @@ c_{ij} =
 \]
 
 \section{Flight Connectivity Matrix}
-\author{Anonymous}
+
 
 
 
@@ -986,7 +974,7 @@ The proof is shown by using the "induction principle".
 
 Number of $(m-1)$-flight routes between city $i$ and city $k$ $\rightarrow$ Total number $(m-1) + 1$ flights routes between city $i$ and city $j$ $\rightarrow$ $m$-flight routes.
 
-\section*{EXERCISE}
+\section{EXERCISE}
 
 \begin{enumerate}
     \item Write down the adjacency (connectivity) matrix.
@@ -994,7 +982,7 @@ Number of $(m-1)$-flight routes between city $i$ and city $k$ $\rightarrow$ Tota
     \item How many routes have at most $m$ flights?
 \end{enumerate}
 
-\section*{OTHER PROPERTIES OF THE PRODUCT}
+\section{OTHER PROPERTIES OF THE PRODUCT}
 
 \begin{enumerate}
     \setcounter{enumi}{3}
@@ -1003,12 +991,12 @@ Number of $(m-1)$-flight routes between city $i$ and city $k$ $\rightarrow$ Tota
 \end{enumerate}
 
 \section{Matrix Inversion}
-\author{6 October 2023}
 
 
 
 
-\section*{Symmetric Matrices}
+
+\section{Symmetric Matrices}
 2) The matrices $(A^T)A$ and $A(A^T)$ are symmetric matrices.
 
 \textbf{Note:} A matrix $X$ is symmetric if $X = X^T$.
@@ -1018,7 +1006,7 @@ Number of $(m-1)$-flight routes between city $i$ and city $k$ $\rightarrow$ Tota
 
 For further details, check proof at page 410 Rosen \& Meyer book.
 
-\section*{Matrix Inversion}
+\section{Matrix Inversion}
 Given a square matrix $A$ of size $m \times m$, the matrix $B$ of size $m \times m$ such that
 \begin{align*}
 AB = BA = I
@@ -1086,7 +1074,7 @@ X_1 &= X_1I \\
 
 \(\Rightarrow\) The inverse of a matrix is hence unique.
 
-\section*{MATRIX EQUATIONS}
+\section{MATRIX EQUATIONS}
 Given a square non-singular matrix, then the linear system \( AX = B \) with \( A \) \( m \times m \), \( X \) \( m \times p \) and \( B \) \( m \times p \) has a unique solution \( X \) that is expressed as
 \[ X := A^{-1}B \]
 
@@ -1155,18 +1143,14 @@ A = \begin{bmatrix}
 \end{bmatrix}
 \]
 
-\section{LaTeX Transcription of Handwritten Notes}
-\author{Transcription}
 
-
-
-\section*{1) Construct the augmented matrix \(\widetilde{A}\)}
+\section{1) Construct the augmented matrix \(\widetilde{A}\)}
 \[\widetilde{A} := \begin{bmatrix}
 a & b & 1 & 0 \\
 c & d & 0 & 1
 \end{bmatrix}\]
 
-\section*{2) We apply Gauss-Jordan to \(\widetilde{A}\)}
+\section{2) We apply Gauss-Jordan to \(\widetilde{A}\)}
 \[\begin{bmatrix}
 a & b & 1 & 0 \\
 c & d & 0 & 1
@@ -1258,13 +1242,8 @@ Let's simplify $\frac{s+t+b}{a^2} = \frac{a^2}{a^2} + \frac{bc}{a^2} + \frac{bc}
 1) What is the inverse of $A^{-1}$?
 
 We want to compute $X$: $A^{-1}X = I$
-\section{Handwritten Notes}
 
-
-
-
-
-\section*{Matrix Inversion Properties}
+\section{Matrix Inversion Properties}
 
 \begin{enumerate}
     \item By definition
@@ -1393,5 +1372,4 @@ $A_{21}$ will be a nonzero block.
 The code optimization for this exercise is in the file: \texttt{"EnergyDecay.m"} in the MATLAB folder.
 
 \textbf{EXERCISE:} Enhance an image by using the \textit{imsharpen} function given by exercise 3.6.2 page 413 of the book.
-
 \textbf{EXERCISE:} Do the exercise 3.6.2 page 413 of the book.

@@ -1,0 +1,144 @@
+\chapter[short]{Orthogonal Elementary Matrices}
+Let Q be an orthogonal matrix then
+$$Q \in \mathbb{R}^{m \times m} \quad Q^TQ = QQ^T = I \quad Q^-1 = Q^T $$
+
+\section{Isometries}
+Given a vector \( \mathbf{x} \in \mathbb{R}^n \), the transformation \( \mathbf{y} = Q\mathbf{x} \) preserves the norm, i.e.,
+
+\begin{align*}
+\| \mathbf{y} \|_2 &= \| \mathbf{x} \|_2, \\
+\| Q\mathbf{x} \|_2 &= \| \mathbf{x} \|_2.
+\end{align*}
+
+This means that the norm does not change
+% TODO Geometry interpretation of this
+
+the length is the same.
+
+\begin{align*}
+\| \mathbf{x} \|_2 &= \sqrt{\mathbf{x}^T \mathbf{x}}, \\
+\| Q\mathbf{x} \|_2 &= \sqrt{(Q\mathbf{x})^T (Q\mathbf{x})} \\
+&= \sqrt{\mathbf{x}^T Q^T Q \mathbf{x}} \\
+&= \sqrt{\mathbf{x}^T \mathbf{x}} \\
+&= \| \mathbf{x} \|_2.
+\end{align*}
+
+\section{Unitary Matrices}
+A matrix \( A \) is a unitary matrix if \( A \in \mathbb{C}^{n \times n} \) and satisfies \( A^*A = AA^* = I \), where \( A^* \) is the conjugate transpose of \( A \) and \( I \) is the identity matrix.
+
+\begin{align*}
+A^* &= (A^T)^*, \\
+A^* &= (A^*)^T = A^T.
+\end{align*}
+
+\section{Elementary Orthogonal Projectors}
+
+Given a vector \( \mathbf{u} \in \mathbb{R}^n \) with \( \| \mathbf{u} \|_2 = 1 \), the matrix \( Q = I - \mathbf{u}\mathbf{u}^T \) is an elementary orthogonal projector. The set of vectors that are orthogonal to \( \mathbf{u} \) is defined by
+\begin{align*}
+\mathbf{x} &\in \text{span}\{ \mathbf{u} \}, \\
+\mathbf{y} &\in \mathbf{u}^\perp \Rightarrow \mathbf{y}^T\mathbf{u} = 0 \Rightarrow \mathbf{y}^T\mathbf{x} = 0.
+\end{align*}
+
+\begin{align*}
+\mathbf{x} &= (I - \mathbf{u}\mathbf{u}^T)\mathbf{x} + \mathbf{u}\mathbf{u}^T\mathbf{x}, \\
+\mathbf{x} &= \mathbf{x}  - \mathbf{u}\mathbf{u}^T\mathbf{x} + \mathbf{u}\mathbf{u}^T\mathbf{x} \\
+\mathbf{x} &= (I - \mathbf{u}\mathbf{u}^T)\mathbf{x} + (\mathbf{u}^T\mathbf{x})\mathbf{u} \\
+\end{align*}
+The projection of \( \mathbf{x} \) onto the space orthogonal to \( \mathbf{u} \) is given by \( \mathbf{y} = (I - \mathbf{u}\mathbf{u}^T)\mathbf{x} = Q\mathbf{x} \in \mathbf{u}^\perp \)
+\begin{align*}
+\mathbf{y} \in \mathbf{u}^\perp \Rightarrow \mathbf{y}^T \mathbf{x} &= 0, \quad \| \mathbf{u} \|_2 = \mathbf{u}^T\mathbf{u} = 1 \\
+\mathbf{x}^T(I - \mathbf{u}\mathbf{u}^T)\mathbf{x} &= \underbrace{\mathbf{x}^T\mathbf{x}}_{\alpha^2} - \underbrace{(\mathbf{x}^T\mathbf{u})}_{\alpha}\underbrace{(\mathbf{u}^T\mathbf{x})}_{\alpha} = 0, \\
+\end{align*}
+
+For a general vector \( \mathbf{u} \) with \( \| \mathbf{u} \| \neq 1 \), the projector is scaled accordingly:
+\begin{equation*}
+Q = I - \frac{\mathbf{u}\mathbf{u}^T}{\| \mathbf{u} \|_2^2}.
+\end{equation*}
+
+\subsection*{Example}
+Compute the orthogonal projector of x into span\{u\} and of x into $u^\perp$
+
+$$ \mathbf{u} = \begin{pmatrix} 2 \\ -1 \\ 3 \end{pmatrix}, \quad \mathbf{x} = \begin{pmatrix} 2 \\ 0 \\ 1 \end{pmatrix} $$
+$$ \| \mathbf{u} \|_2 = \sqrt{2^2 + (-1)^2 + 3^2} = \sqrt{14} $$
+% $$ \mathbf{u}\mathbf{u}^T = \begin{pmatrix} 2 \\ -1 \\ 3 \end{pmatrix} \begin{pmatrix} 2 & -1 & 3 \end{pmatrix} = \begin{pmatrix} 4 & -2 & 6 \\ -2 & 1 & -3 \\ 6 & -3 & 9 \end{pmatrix} $$
+$$ span\{\mathbf{u}\} =  \frac{\mathbf{u}\mathbf{u}^T}{\| \mathbf{u} \|_2^2}\mathbf{x}$$
+$$ x = \underbrace{(I - \frac{\mathbf{u}\mathbf{u}^T}{\| \mathbf{u} \|_2^2})\mathbf{x}}_{u^\perp} + \underbrace{\frac{\mathbf{u}\mathbf{u}^T}{\| \mathbf{u} \|_2^2}\mathbf{x}}_{span\{\mathbf{u}\}} = x_1 + x_2 $$
+$$ span\{\mathbf{u}\} = \frac{\mathbf{u}\mathbf{u}^T}{\| \mathbf{u} \|_2^2}\mathbf{x} = \frac{\mathbf{u}}{\| \mathbf{u} \|_2^2} \begin{pmatrix} 2 & -1 & 3 \end{pmatrix} \begin{pmatrix} 2 \\ 0 \\ 1 \end{pmatrix} = \frac{7\mathbf{u}}{14} = \frac{1}{2}\mathbf{u} $$
+$$ \mathbf{x}_1 = (I - \frac{\mathbf{u}\mathbf{u}^T}{\| \mathbf{u} \|_2^2})\mathbf{x} = x - \frac{\mathbf{u}\mathbf{u}^T}{\| \mathbf{u} \|_2^2}\mathbf{x} = x - x_2 = x - \frac{1}{2}\mathbf{u} = \begin{pmatrix}
+    2 \\ 0 \\ 1
+\end{pmatrix} - \frac{1}{2} \begin{pmatrix}
+    2 \\ -1 \\ 3
+\end{pmatrix} = \begin{pmatrix}
+    1 \\ \frac{1}{2} \\ -\frac{1}{2}
+\end{pmatrix} $$
+\section{Elementary Reflectors}
+
+An elementary reflector, also known as a Householder reflector, is a matrix that
+performs a reflection about a plane or hyperplane. This transformation can be
+used, for example, to zero out all but the first element of a vector in numerical
+linear algebra. The reflector matrix \( R \) is defined as
+\begin{equation*}
+R = I - 2\frac{\mathbf{u}\mathbf{u}^T}{\mathbf{u}^T\mathbf{u}},
+\end{equation*}
+where \( \mathbf{u} \) is a vector that defines the reflection hyperplane, and \( I \) is the identity matrix of appropriate size.
+
+The matrix \( R \) is orthogonal and symmetric, and it holds that \( R^2 = I \), which implies that \( R \) is its own inverse.
+This property makes the reflector matrix particularly useful in QR decomposition and other orthogonalization procedures.
+\subsection{How to construct R}
+Given two vector $\mathbf{x}, \mathbf{y}$ of the same length (norm), we want to find a matrix $R$ (and so a vector $\mathbf{u}$) such that
+$$ R\mathbf{x} = \mathbf{y}, \quad R = I - 2\frac{\mathbf{u}\mathbf{u}^T}{\mathbf{u}^T\mathbf{u}} $$
+
+$$ R\mathbf{x} = x - 2\frac{\mathbf{u}\mathbf{u}^T}{\mathbf{u}^T\mathbf{u}}\mathbf{x} = \mathbf{y} $$
+$$ x- y = 2\frac{\mathbf{u}(\mathbf{u}^T\mathbf{x})}{\mathbf{u}^T\mathbf{u}} = \beta \mathbf{u}, \quad \beta = 2\left(\frac{\mathbf{u}^T\mathbf{x}}{\mathbf{u}^T\mathbf{u}}\right)$$
+
+We note that $\beta$ is a scalar and its choice does not affect the construction of $R$.
+$$ R = I - 2 \frac{\beta \mathbf{u}(\beta \mathbf{u})^T}{(\beta \mathbf{u})^T (\beta \mathbf{u})} = I - 2 \frac{\mathbf{u}\mathbf{u}^T}{\mathbf{u}^T\mathbf{u}} $$
+So we can arbitrarily choose $\beta = 1$ and then $\mathbf{u} = \mathbf{x} - \mathbf{y}$.
+$$ R\mathbf{x} = y \Rightarrow (I - 2 \frac{\mathbf{u}\mathbf{u}^T}{\mathbf{u}^T\mathbf{u}})\mathbf{x} = \mathbf{x} - \underbrace{2\left(\frac{\mathbf{u}^T\mathbf{x}}{\mathbf{u}^T\mathbf{u}}\right)}_{\beta}\mathbf{u} = \mathbf{x} - \beta \mathbf{u} = \mathbf{x} - \mathbf{u} = y $$
+\subsection*{Example of an Elementary Reflector}
+Let's consider a 2-dimensional example for simplicity. Suppose we have a vector
+\( \mathbf{v} \) and we want to reflect it about a line through the origin, making its second component zero.
+
+We choose \( \mathbf{u} \) such that \( \mathbf{u} \) is orthogonal to our desired line of reflection. Then, we can construct the reflector matrix \( R \):
+
+\begin{align*}
+\mathbf{v} &= \begin{bmatrix} v_1 \\ v_2 \end{bmatrix} \\
+\mathbf{u} &= \mathbf{v} - \begin{bmatrix} \| \mathbf{v} \|_2 \\ 0 \end{bmatrix}, \\
+R &= I - 2\frac{\mathbf{u}\mathbf{u}^T}{\mathbf{u}^T\mathbf{u}}.
+\end{align*}
+
+Applying \( R \) to \( \mathbf{v} \), we obtain a new vector \( \mathbf{v}' = R\mathbf{v} \)
+that lies on the x-axis, having the form
+$$ \mathbf{v}' = \begin{bmatrix} \pm \| \mathbf{v} \|_2 \\ 0 \end{bmatrix} $$
+The sign depends on the direction of the vector \( \mathbf{u} \) chosen.
+
+For a concrete numerical example, let
+\begin{equation*}
+\mathbf{v} = \begin{bmatrix} 3 \\ 4 \end{bmatrix}.
+\end{equation*}
+
+The norm \( \| \mathbf{v} \|_2 \) is 5, so
+
+\begin{equation*}
+\mathbf{u} = \begin{bmatrix} 3 \\ 4 \end{bmatrix} - \begin{bmatrix} 5 \\ 0 \end{bmatrix} = \begin{bmatrix} -2 \\ 4 \end{bmatrix}.
+\end{equation*}
+
+Now, \( \mathbf{u}^T\mathbf{u} = 4 + 16 = 20 \), and we can calculate \( R \):
+
+\begin{align*}
+R &= I - 2\frac{\mathbf{u}\mathbf{u}^T}{20} \\
+&= I - \frac{1}{10}\begin{bmatrix} -2 \\ 4 \end{bmatrix}\begin{bmatrix} -2 & 4 \end{bmatrix} \\
+&= I - \frac{1}{10}\begin{bmatrix} 4 & -8 \\ -8 & 16 \end{bmatrix} \\
+&= \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix} - \begin{bmatrix} 0.4 & -0.8 \\ -0.8 & 1.6 \end{bmatrix} \\
+&= \begin{bmatrix} 0.6 & 0.8 \\ 0.8 & -0.6 \end{bmatrix}.
+\end{align*}
+
+Finally, reflecting \( \mathbf{v} \) about our chosen hyperplane:
+
+\begin{align*}
+\mathbf{v}' &= R\mathbf{v} \\
+&= \begin{bmatrix} 0.6 & 0.8 \\ 0.8 & -0.6 \end{bmatrix}\begin{bmatrix} 3 \\ 4 \end{bmatrix} \\
+&= \begin{bmatrix} 5 \\ 0 \end{bmatrix}.
+\end{align*}
+
+Thus, the reflected vector \( \mathbf{v}' \) has been projected onto the x-axis, as desired.
