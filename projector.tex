@@ -1,11 +1,15 @@
 \chapter{Projector for orthogonal subspaces}
 % From Meyer book
-In general given two subspaces \( \mathcal{U} \) and \( \mathcal{V} \) of \( \mathbb{R}^n \), we can find a projector \( P \) onto \( \mathcal{U} \) along \( \mathcal{V} \) by the following procedure:
+In general given two subspaces \( \mathcal{U} \) and \( \mathcal{Y} \) of \( \mathbb{R}^n \),
+such that \( \mathcal{U} \oplus \mathcal{Y} = \mathcal{V} \) we have that
+$$ \forall v \in \mathcal{V} \quad \exists! u \in \mathcal{U} \quad \exists! y \in \mathcal{Y} \quad v = u + y $$
 
 
-Projector for orthogonal subspaces
+% we can find a projector \( P \) onto \( \mathcal{U} \) along \( \mathcal{V} \) by the following procedure:
 
-$M \subset V$, the orthogonal complementary subspace of $M^{\perp}$
+$M \subseteq V$ and its orthogonal complementary subspace of $M^{\perp}$, $M \oplus M^{\perp} = V$.
+The inner product between $x \in M, y \in M^{\perp}$ is zero
+$$x^Ty = 0 \quad \forall x \in M, y \in M^{\perp}$$
 
 if $m_1, m_2, \ldots, m_r$ is a basis for $M$ and $N=M^{\perp}$, then $n_1, n_2, \ldots, n_s$ is a basis for $N$
 $$ m_j^Tn_i = 0 \quad \text{for } i=1,2,\ldots,s \text{ and } j=1,2,\ldots,r $$
@@ -13,12 +17,11 @@ $$ m_j^Tn_i = 0 \quad \text{for } i=1,2,\ldots,s \text{ and } j=1,2,\ldots,r $$
 The projector $P_M$ onto $M$ along $N$ is called \textbf{orthogonal projector}.
 
 $$
-M = (m_1, m_2, \ldots, m_r) B = (M, N)
-N = (n_1, n_2, \ldots, n_s)
+M = (m_1, m_2, \ldots, m_r) \quad B = (M, N) \quad N = (n_1, n_2, \ldots, n_s)
 $$
 
 $$
-M^T - N = 0 \quad \text{and} \quad N^T M = 0
+M^T - N = 0 \quad N^T M = 0
 $$
 $$
 P_M = B\begin{pmatrix}
@@ -31,7 +34,54 @@ I & 0 \\
 M & N
 \end{pmatrix}^{-1}
 $$
+If we consider the situation where $m_1, m_2, \ldots, m_r$, $n_1, n_2, \ldots, n_s$ are orthonormal basis for $M$ and $N$ respectively, then
+$ M^TM = I$, ($MM^T \neq I$) and $N^TN = I$, ($NN^T \neq I$).
+$$
+\begin{pmatrix}
+    M & N
+\end{pmatrix}^{-1} = \begin{pmatrix}
+    (M^TM)^{-1}M^T \\
+    N^T
+\end{pmatrix} = \begin{pmatrix}
+    M^T \\
+    N^T
+\end{pmatrix}
+$$
+$$
+P_M = \begin{pmatrix}
+    M & N
+\end{pmatrix}\begin{pmatrix}
+    I & 0 \\
+    0 & 0
+\end{pmatrix}\begin{pmatrix}
+    M^T \\
+    N^T
+\end{pmatrix} = \begin{pmatrix}
+    M & N
+\end{pmatrix}\begin{pmatrix}
+    M^T \\
+    0
+\end{pmatrix} = MM^T
+$$
 
+Let $A \in \mathbb{R}^{m \times n}$ be a matrix of maximum rank $n$ then all the columns of $A$ are linearly independent.
+We want to compute $P_{R(A)}$ the orthogonal projector onto $R(A)$ along $N(A^T)$. We know that $R(A) \oplus N(A^T) = \mathbb{R}^m$ so $R(A)^{\perp} = N(A^T)$.
+$$ P_{R(A)} = (M, N)\begin{pmatrix}
+    I & 0 \\
+    0 & 0
+    \end{pmatrix}\begin{pmatrix}
+        (M^TM)^{-1}M^T \\
+        N^T
+    \end{pmatrix} = M(M^TM)^{-1}M^T $$
+
+Since a basis for $R(A)$ are the columns of $A$.
+$$ P_{R(A)} = M(M^TM)^{-1}M^T = A(A^TA)^{-1}A^T$$
+
+We found this expression $(A^TA)^{-1}A^T$ when introducion normal equation and solution of least square problem.
+We show the relation between the projector and the least square problem.
+
+For a solution of the linear system we would like to minimize the 2-norm of the residual $r = A\hat{x} - b$.
+We choose $\hat{x}$ such that $r \perp R(A)$, $r \in N(A^T)$.
 $$
 \begin{aligned}
     A^T(A\hat{x} - b) = 0 \\
@@ -101,20 +151,39 @@ $$
 P_{R(A)}v = U_AU_A^Tv = U_A(U_A^Tv) = U_A \cdot z \quad z = U_A^Tv
 $$
 
+An useful application of the projection is that we can compare vectors in the form $z = U_A^Tv$ instead of $v$ or $P_{R(A)}v$
+taking advantage of the reduced dimension of $z$.
+
+\section{Term document matrix}
+Let $A \in \mathbb{R}^{m \times n}$ be a matrix with $m >> n$ and its QR factorization with column pivoting:
+$$ AP = Q\begin{pmatrix}
+    R \\ O
+\end{pmatrix} = (Q_A, Q_{A^{\perp}})\begin{pmatrix}
+    R_1 & R_2 \\ O & 0
+\end{pmatrix}
+$$
+
+$$ P_{R(A)} = Q_AQ_A^T \quad P_{N(A^T)} = I - P_{R(A)}$$
+
+Let $q \in R^{m}$ be a query than $$q = P_{R(A)}q + (I-P_{R(A)})q = q_A + q_{A^\perp}$$
+
+$ q_A = Q_AQ_A^Tq $ is the orthogonal projection of $q$ onto $R(A)$ along $R(A)^{\perp}$
+% P_{R(A^T)} = Q_{A^{\perp}}Q_{A^{\perp}}^T
+
 \section{Closest point theorem}
-Let $M$ be a subspace of a inner product space $V$ andl let $b \in V$.
+Let $M$ be a subspace of a inner product space $V$ and let $b \in V$.
 Then there exists a unique vector that is closest to b is $P_Mb$ and it is the orthogonal projection of $b$ onto $M$.
 
 $$ \min_{\substack{b \in V \\ m \in M}} ||b - m|| = ||b - P_Mb|| $$
 Suppose $q$ is our query
-$$ \|q - q_A \|_2 \leq \|q - x \|_2 \quad \forall x \in R(A) $$
-$$ q_A = Q_AQ_A^Tq = P_A q $$
+$$ q_A = Q_AQ_A^Tq = P_A q  \quad \|q - q_A \|_2 \leq \|q - x \|_2 \quad \forall x \in R(A) $$
 
 $$
 \begin{aligned}
     \|q - x \|_2^2 &= \|(q - q_A) + (q_A - x) \|_2^2 \\
-    &= \|q - q_A \|_2^2 + \|q_A - x \|_2^2 + 2(q - q_A)^T(q_A - x) \quad q_{A^{\perp}} = q - q_A \\
-    &= \|q - q_A \|_2^2 + \|q_A - x \|_2^2 + 2(q_{A^{\perp}})^T(q_A - x) \quad q_{A^{\perp}}(q_A - x) = 0 \\
+    &= (q - q_A)^T(q - q_A) + (q_A - x)^T(q_A - x) + (q - q_A)^T(q_A - x) + (q_A - x)^T(q - q_A)\\
+    &= \|q - q_A \|_2^2 + \|q_A - x \|_2^2 + (q - q_A)^T(q_A - x) + (q_A - x)^T(q - q_A) \quad q_{A^{\perp}} = q - q_A \\
+    &= \|q - q_A \|_2^2 + \|q_A - x \|_2^2 + + \underbrace{q_{A^\perp}^T(q_A - x)}_{0} + \underbrace{(q_A - x)^Tq_{A^\perp}}_{0}\\
     &= \|q - q_A \|_2^2 + \|q_A - x \|_2^2 \geq \|q - q_A \|_2^2
 \end{aligned}
 $$
@@ -127,9 +196,9 @@ $$ cos(v_j) = \frac{a_j^T(q_A + q_{A^{\perp}})}{\|a_j\|_2 \|q\|_2} =
 $$
 
 If we use only $q_A$ we can compute
-$$ cos(\bar{\theta_j}) = \frac{a_j^Tq_A}{\|a_j\|_2 \|q_A\|_2} = \frac{a_j^Tq_A}{\|a_j\|_2}$$
+$$ cos(\bar{\theta_j}) = \frac{a_j^Tq_A}{\|a_j\|_2 \|q_A\|_2}$$
 
-this allows to recover more relevant documents, but increase the number of irrelevant ones.
+this allows to recover more relevant documents, but increase the number of irrelevant ones $ \|q_A\|_2 \leq \|q\|_2$.
 
 \section{Latent Semantic Indexing}
 In the latent Semantic Indexing (LSI), the matrix A is approximated using only $k$ singular vectors and
@@ -147,7 +216,7 @@ where $\epsilon$ is a small number, our tolerance.
 We compare our query vector with the columns of $A_k ~ A$ we compute the $cos(\bar{\theta_j})$ using the factors $U_k, V_k, \Sigma_k$.
 
 $$
-cos(\theta^k_j) = \frac{(A_k)_j^Tq_A}{\|(A_k)_j\|_2 \|q_A\|_2}
-= \frac{v_j^T\Sigma_k^Tu_k^Tq_A}{\|v_j\|_2 \|\Sigma_k^Tu_k^Tq_A\|_2}
-= \frac{v_j^T\Sigma_k^Tu_k^Tq_A}{\|v_j\|_2 \|\Sigma_k^Tu_k^Tq_A\|_2}
-= \frac{v_j^T\Sigma_k^Tu_k^Tq_A}{\|\Sigma_k^Tu_k^Tq_A\|_2}$$
+cos(\theta^k_j) = \frac{(A_ke_j)^Tq}{\|(A_ke_j)\|_2 \|q\|_2}
+= \frac{(U_k\Sigma_k V_k^T e_j)^Tq}{\|U_k\Sigma_k V_k^T e_j\|_2 \|q\|_2}
+= \frac{(U_k\Sigma_k V_k^T e_j)^Tq}{\|\Sigma_k V_k^T e_j\|_2 \|q\|_2}
+= \frac{v_j^T\Sigma_k^Tu_k^Tq}{\|\Sigma_k^Tu_k^Tq\|_2}$$

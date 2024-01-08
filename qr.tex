@@ -1,0 +1,304 @@
+\chapter{QR Factorization}
+Let $A \in \mathbb{R}^{m \times n}$. If we consider the case $m < n$.
+\[
+A = \left.
+\left( \begin{array}{c}
+\underbrace{\rule{3cm}{0pt}}_{n} \\
+\end{array} \right)
+\right\}m
+\longrightarrow Q_{m-1}\ldots Q_1A = \begin{pmatrix}
+    * & * & \cdots & *  & * & * \\
+    0 & * & \cdots & *  & * & * \\
+    \vdots & \ddots & \ddots & \vdots & \ddots & \vdots \\
+    0 & \cdots & 0 & * & \cdots & * 
+\end{pmatrix} = T
+\]
+
+T is an upper trapezoidal matrix $ T = \begin{pmatrix} R & * \end{pmatrix}$.
+
+We consider the case $m > n$.
+\[
+A = \left.
+\begin{pmatrix}
+    \underbrace{\rule{0pt}{3cm}}_{n} \\
+\end{pmatrix}
+\right\}m
+\longrightarrow Q_{n}\ldots Q_1A = \begin{pmatrix}
+    * & 0 & \cdots & 0 \\
+    * & * & \cdots & 0 \\
+    \vdots & \vdots & \ddots & \vdots \\
+    * & * & \cdots & *
+\end{pmatrix} = T = \begin{pmatrix}
+    R \\ O
+\end{pmatrix}
+\]
+
+$$
+Q = \begin{pmatrix} Q_n \cdot Q_{n-1} \cdot \ldots \cdot Q_1 \end{pmatrix}^T \quad
+\underbrace{A}_{m \times n} = \underbrace{U}_{m \times m} \underbrace{T}_{m \times n}
+= \begin{pmatrix}
+    \underbrace{U_1}_{n} & \underbrace{U_2}_{m-n}
+\end{pmatrix}
+\begin{pmatrix}
+    R \\ O
+\end{pmatrix}
+= Q_1R
+$$
+
+Not all the columns of $Q$ are important, $Q_1$ hase all information
+
+Let us suppose that the columns of $A$ are linearly independent and we wish to compute an orthogonal basis.
+For span $\{A_1, A_2, \ldots, A_n\}$ we use the GS algorithm we compute $u_1, u_2, \ldots, u_n$
+\[
+A = \begin{pmatrix}
+    u_1 & u_2 & \cdots & u_n
+\end{pmatrix}
+\begin{pmatrix}
+    r_{11} & r_{12} & \cdots & r_{1n} \\
+    & r_{22} & \cdots & r_{2n} \\
+    & & \ddots & \vdots \\
+    & & & r_{nn}
+\end{pmatrix}
+\]
+
+we called the thin QR factorization
+
+$U_1$ is not an orthogonal matrix since $U_1^T U_1 = I$ but $U_1 U_1^T \neq I$.
+
+
+\textbf{Theorem (Orthogonal Reduction)} For every matrix $A \in \mathbb{C}^{m \times n} (\mathbb{R}^{m \times n})$ there exists a unitary matrix $U$
+\[
+U^*U = UU^* = I_{n \times n} \quad U^* = U^T
+\]
+
+\begin{equation*}
+S = \begin{pmatrix}
+1 - i\sqrt{2} & 2+i\sqrt{2} \\
+2 - i3 & 3+i4
+\end{pmatrix}
+\end{equation*}
+\begin{equation*}
+S \in \mathbb{C}^{2 \times 2}
+\end{equation*}
+\begin{equation*}
+\bar{S} = \begin{pmatrix}
+1+i\sqrt{2} & 2-i\sqrt{2} \\
+2+i3 & 3-i4
+\end{pmatrix}
+\end{equation*}
+\begin{equation*}
+\bar{S}^T = S^* = \begin{pmatrix}
+1+i\sqrt{2} & 2+i3 \\
+2-i\sqrt{2} & 3-i4
+\end{pmatrix}
+\end{equation*}
+\textit{(orthogonal matrix)} and \textit{(upper triangular matrix)} such that
+\begin{equation*}
+A = U T
+\end{equation*}
+If $A$ is square, $T$ is upper triangular. This factorization is denoted as the QR factorization. We can compute the QR factorization using:
+\begin{enumerate}
+\item the Householder transformation
+\item GS algorithm (unstable)
+\end{enumerate}
+
+
+\section*{QR Decomposition Algorithms}
+\begin{enumerate}
+    \setcounter{enumi}{2}
+    \item MGS algorithm
+    \item The Givens Rotation (elementary orthogonal matrices)
+    
+    They are useful when \( A \) is sparse (has a lot of entries equal to zero).
+\end{enumerate}
+
+\textbf{The Pivoted QR Decomposition} (Rank revealing decomposition)
+
+\[
+A_{m \times n} P_{n \times n} = QR_{m \times n}
+\]
+
+\[
+\begin{array}{cccc}
+t_{11} & t_{12} & \cdots & t_{1p} \\
+ & t_{22} & \cdots & t_{2p} \\
+ &  & \ddots & \vdots \\
+\multicolumn{2}{c}{\raisebox{1.3ex}[0pt]{\huge0}} &  & t_{pp} \\
+\end{array}
+\quad p = \min(m, n)
+\]
+
+We choose the permutation matrix \( P \) in order to have in \( QR \):
+
+\[
+|t_{11}| \geq |t_{22}| \geq \cdots \geq |t_{pp}|
+\]
+
+The rank of the matrix:
+
+\[
+|t_{rr}| \geq tol \geq |t_{r+1,r+1}|
+\]
+
+
+
+\section*{Remark}
+\textbf{rank}$(A) \geq 0$
+
+\[
+\text{If } \text{tr}(A) \geq 0 \text{ means the rank is } r
+\]
+
+\[
+\text{If we use the Rank Revealing QR}
+\]
+
+\[
+A_{m \times n} P_{n \times n} = U_{m \times n} \begin{pmatrix}
+T_{11} & T_{12} \\
+0 & 0
+\end{pmatrix}_{n \times n} = U T
+\]
+
+\[
+\begin{aligned}
+&\text{where} \\
+&T_{11} \text{ of size } r \times r \\
+&T_{12} \text{ of size } r \times (n-r)
+\end{aligned}
+\]
+
+\[
+\begin{aligned}
+&T_{11} = \begin{pmatrix}
+\ast & \ast \\
+\ast & \ast
+\end{pmatrix} \\
+&T_{12} = \begin{pmatrix}
+\ast & \ast \\
+\ast & \ast
+\end{pmatrix} \text{ a full matrix}
+\end{aligned}
+\]
+
+\section{Numerical Stability of the QR Factorization}
+
+
+
+
+
+An algorithm is numerically stable if when performed using floating point arithmetic it gives a solution close to the solution computed with exact arithmetic.
+
+Let $A \in \mathbb{R}^{n \times m}$, we compute the QR factorization in exact and floating point arithmetic
+
+\begin{align*}
+A &= QR \quad \text{exact} \\
+\hat{A} &= (Q+E)(R+F) = QR + QF + ER + EF
+\end{align*}
+
+If the thresholds of Givens matrix $E$ and $F$ contains the floating point errors
+\begin{align*}
+\|E\| &= \kappa_u \\
+\|F\| &= \kappa_u \\
+\|EF\| &\approx \kappa_u^2 \quad u \ll \kappa_u
+\end{align*}
+
+we neglect $u^2$.
+
+\section*{Matrix Approximation}
+
+Given a matrix approximation:
+\[
+\hat{A} \approx QR + QF^T + \epsilon R
+\]
+We can also express it as:
+\[
+\hat{A} \times A + QF^T + \epsilon R
+\]
+
+\section*{Norms and Orthogonality}
+
+Considering the orthogonality of $Q$:
+\[
+\|\hat{A}Q\|_2 = \|AQ\|_2 \quad \text{because $Q$ is orthogonal}
+\]
+We have the following inequalities:
+\[
+\|EQ\|_2 \leq \|E\|_2\|Q\|_2
+\]
+And equivalences:
+\[
+\|AQ\|_2 = \|QRQ\|_2 = \|RQ\|_2
+\]
+Further inequalities:
+\[
+\|\hat{A}Q\|_2 \leq \|QR\|_2 + \|QF\|_2 + \|EQ\|_2\|RQ\|_2
+\]
+\[
+\|\hat{A}Q\|_2 \leq (1 + \|EQ\|_2)\|RQ\|_2 + \|QF\|_2
+\]
+And finally:
+\[
+\|\hat{A} - AQ\|_2 \leq \|QF\|_2 + \|EQ\|_2\|RQ\|_2
+\]
+
+\section*{Conclusion}
+
+The approximation $\hat{A}$ is very close to $A$. The factorization is stable. We do the same for the LU factorization.
+
+\section*{Mathematical Expressions}
+
+\begin{align*}
+A &= LU \\
+A &= (L + E)(U + F) \\
+A &= LU + LF + EU + EF \\
+A &\approx LU + LF + EU
+\end{align*}
+
+\begin{mdframed}[backgroundcolor=blue!20]
+\[\|LF\| \leq (\underbrace{\|L\|}_{\text{could be very big}}) (\|F\|)\]
+\end{mdframed}
+
+\begin{mdframed}[backgroundcolor=blue!20]
+\[\|EU\| \leq \|E\|(\underbrace{\|U\|}_{\text{could be very big}})\]
+\end{mdframed}
+
+\section*{Pivoting Strategy}
+
+If we use the pivoting $\|L\|$ is bounded and $\|LF\| \leq k\|F\|$ and $\|U\| \approx \|A\|$
+
+\section*{Computational Effort}
+
+\begin{itemize}
+\item LU with partial pivoting $\approx n^3/3$
+\item Householder $\approx 2n^3/3$
+\end{itemize}
+
+\section{Linear Regression}
+
+
+
+
+
+We have a set of variables $t_1, t_2, \ldots, t_n$ and we would like to express another variable $y$ as a linear combination of $t_1, t_2, \ldots, t_n$:
+\[
+y = \alpha_0 + \alpha_1 t_1 + \alpha_2 t_2 + \ldots + \alpha_n t_n + \varepsilon
+\]
+$\varepsilon$ is a random function with mean zero:
+\[
+\mathbb{E}(y) = \alpha_0 + \alpha_1 t_1 + \alpha_2 t_2 + \ldots + \alpha_n t_n
+\]
+(expected value).
+
+We know
+\[
+\begin{bmatrix}
+t_1^{(i)} & t_2^{(i)} & \ldots & t_n^{(i)}
+\end{bmatrix}
+\]
+and $y^{(i)}$ are i.i.d. $\sim \mathcal{N}$
+
+\begin{mdframed}[backgroundcolor=blue!20]
+Exercise 4.6.8 of the book
+Solve it with the QR factorization using \textsc{Python}
+\end{mdframed}

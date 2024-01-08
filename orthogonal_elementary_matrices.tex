@@ -4,16 +4,31 @@ $$Q \in \mathbb{R}^{m \times m} \quad Q^TQ = QQ^T = I \quad Q^-1 = Q^T $$
 
 \section{Isometries}
 Given a vector \( \mathbf{x} \in \mathbb{R}^n \), the transformation \( \mathbf{y} = Q\mathbf{x} \) preserves the norm, i.e.,
-
 \begin{align*}
 \| \mathbf{y} \|_2 &= \| \mathbf{x} \|_2, \\
 \| Q\mathbf{x} \|_2 &= \| \mathbf{x} \|_2.
 \end{align*}
 
-This means that the norm does not change
+This means that the norm does not change (the length is the same)
 % TODO Geometry interpretation of this
+\begin{center}
+    \begin{tikzpicture}[>=Stealth]
+    % Draw the axes
+    \draw[thin,->] (-2,0) -- (3,0) node[right] {$x$};
+    \draw[thin,->] (0,-2) -- (0,3) node[above] {$y$};
 
-the length is the same.
+    \coordinate (A) at (2,1);
+    \coordinate (B) at (-1,2);
+    \coordinate (C) at (2,-1);
+    % Draw the vectors
+    \draw[thick,->] (0,0) -- (A) node[above right] {};
+    \draw[thick,->] (0,0) -- (B) node[above left] {};
+    \draw[thick,->] (0,0) -- (C) node[below right] {};
+
+    % \draw[thick,dashed] (A) to[bend right] node[right] {} (B);
+    \draw[thick,dashed] (C) to[bend right] node[right] {} (A);
+    \end{tikzpicture}
+\end{center}
 
 \begin{align*}
 \| \mathbf{x} \|_2 &= \sqrt{\mathbf{x}^T \mathbf{x}}, \\
@@ -142,3 +157,58 @@ Finally, reflecting \( \mathbf{v} \) about our chosen hyperplane:
 \end{align*}
 
 Thus, the reflected vector \( \mathbf{v}' \) has been projected onto the x-axis, as desired.
+
+\chapter{QR factorization}
+QR factorization is a decomposition of a matrix into a product of an orthogonal matrix and an upper triangular matrix.
+It is commonly used in numerical algorithms, particularly for solving systems of linear equations and eigenvalue problems.
+
+\subsection{The QR Factorization Process}
+
+Given a matrix $A \in \mathbb{R}^{n \times n}$, the QR factorization is a decomposition of $A$ into:
+\begin{equation*}
+    A = QR
+\end{equation*}
+where $Q$ is an $m \times m$ orthogonal matrix ($Q^TQ = QQ^T = I$) and $R$ is an $m \times n$ upper triangular matrix.
+
+The factorization is often computed using the Gram-Schmidt process, Householder reflections, or Givens rotations.
+Householder reflections are more numerically stable and thus commonly used in practice.
+Givens rotations are also stable but generally require more operations so this method is computationaly costly
+and so are used primarily for sparse matrices where less operations are required to zero out the below-diagonal elements.
+% using the Golub–Reinsch algorithm.
+\subsection{The QR Factorization Process using Householder Reflections}
+To perform QR factorization, we aim to construct an orthogonal matrix $Q$ such that $Q^TA$ is upper triangular. We start by finding a Householder reflector that zeroes out the below-diagonal elements of the first column of $A$.
+
+Let $A_{*1}$ be the first column of $A$, and $e_1$ be the first unit vector of the same size. We choose a vector $u$ such that:
+\begin{equation*}
+    u = A_{*1} - k_1e_1 \quad k_1 = \pm \|A_{*1}\|_2
+\end{equation*}
+
+\begin{mdframed}
+How do we choose the sign of $k_1$ (or any $k_j$)? We want to minimize the roundoff errors and so
+\[
+k_1 = \begin{cases}
+    \|A_{*1}\|_2 & \text{if } A_{11} \geq 0 \\
+    -\|A_{*1}\|_2 & \text{if } A_{11} < 0
+\end{cases}
+\]
+\end{mdframed}
+
+Then the reflector $Q_1$ is:
+\begin{equation*}
+    Q_1 = I - 2\frac{uu^T}{u^Tu}
+\end{equation*}
+Applying $Q_1$ to $A$ gives us a matrix $A_1$ which has zeroes below the diagonal in the first column:
+\begin{equation*}
+    A_1 = Q_1A
+\end{equation*}
+This process is repeated for the subsequent columns of $A$, but we apply the Householder reflectors to the submatrix that excludes the rows and columns that have already been processed.
+
+After applying the necessary Householder reflectors, we obtain:
+\begin{equation*}
+    Q = Q_1Q_2...Q_n
+\end{equation*}
+\begin{equation*}
+    R = Q^TA
+\end{equation*}
+The matrices $Q$ and $R$ constitute the QR factorization of $A$.
+
