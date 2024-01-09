@@ -1,14 +1,225 @@
+\chapter{Singular Value Decomposition}
+Singular Value Decomposition (SVD) is a fundamental matrix factorization technique in linear algebra.
+The \textbf{SVD is a special case of the URV factorization}, where $C$ is a rectangular diagonal matrix that we denote with $\Sigma$ (Notation of Golub).
+For a given matrix $A$ with dimensions $m \times n$, the SVD is a decomposition such that
+\[
+A = U \Sigma V^T = 
+\begin{pmatrix}
+\vert & & \vert \\
+u_1 & \dots & u_m \\
+\vert & & \vert
+\end{pmatrix}
+\begin{pmatrix}
+\sigma_1 & & 0 \\
+& \ddots & \\
+0 & & \sigma_n
+\end{pmatrix}
+\begin{pmatrix}
+\text{---} & v_1^T & \text{---} \\
+& \vdots & \\
+\text{---} & v_n^T & \text{---}
+\end{pmatrix}
+\]
+where
+\begin{itemize}
+    \item $U$ is an $m \times m$ orthogonal matrix containing the left-hand singular vectors of $A$.
+    \item $V$ is an $n \times n$ orthogonal matrix containing the right-hand singular vectors of $A$.
+    \item $\Sigma$ is an $m \times n$ rectangular diagonal matrix with non-negative real numbers on the diagonal.
+\end{itemize}
+
+The diagonal entries $\sigma_i$ of $\Sigma$ are known as the singular values of $A$
+and are arranged such that $\sigma_1 \geq \sigma_2 \geq \dots \geq \sigma_r > 0$,
+where $r$ is the rank of $A$. \newline
+\textbf{The number of non-zero singular values is equal to the rank of $A$.}
+
+\section{Properties of SVD}
+\begin{itemize}
+    \item The columns of $U$ are the eigenvectors of $AA^T$.
+    \item The columns of $V$ are the eigenvectors of $A^TA$.
+    \item The non-zero singular values of $A$ (the $\sigma_i$'s) are the square roots of the non-zero eigenvalues of both $AA^T$ and $A^TA$.
+\end{itemize}
+
+\section{Applications of SVD}
+SVD is widely used in statistics and signal processing for tasks such as:
+\begin{itemize}
+    \item Data compression
+    \item Noise reduction
+    \item Pseudoinverse computation
+    \item Statistics (Hotelling transform)
+    \subitem Principal Component Analysis (PCA)
+    \item Image processing (Karhunen-Loève transform)
+\end{itemize}
+
+\section{Relation to the Eigenvalue Decomposition}
+SVD is a generalization of the eigenvalue decomposition for non-square matrices. In the case where $A$ is square and symmetric, the SVD is equivalent to the eigenvalue decomposition.
+
+If $m > n \quad m=3, n=2$, we have:
+\[
+\Sigma = \begin{pmatrix}
+\sigma_1 & 0 \\
+0 & \sigma_2 \\
+0 & 0
+\end{pmatrix}
+\]
+
+If $m < n \quad m=2, n=3$, we have:
+\[
+\Sigma = \begin{pmatrix}
+\sigma_1 & 0 & 0 \\
+0 & \sigma_2 & 0
+\end{pmatrix}
+\]
+
+If $\sigma_2 = 0$, then $\Sigma$ simplifies to:
+\[
+\Sigma = \begin{pmatrix}
+\sigma_1 & 0 & 0 \\
+0 & 0 & 0
+\end{pmatrix} = \begin{pmatrix}
+\sigma_1 & 0 \\
+0 & 0
+\end{pmatrix}
+\]
+
+\subsection{Elden Notation}
+% TODO: check if useful
+In the book of \textit{Elden}, if $m > n$, the matrix $A$ can be decomposed as:
+\[
+A = U \begin{pmatrix}
+\Sigma \\
+0
+\end{pmatrix} V^T
+\]
+\[
+= U \begin{pmatrix}
+\sigma_1 & 0 \\
+0 & 0
+\end{pmatrix} V^T
+\]
+
+For $\Sigma$ given by:
+\[
+\Sigma = \begin{pmatrix}
+\sigma_1 & 0 \\
+0 & \sigma_2
+\end{pmatrix} \quad \text{if } \sigma_2 = 0, \quad \Sigma = \begin{pmatrix}
+\sigma_1 & 0 \\
+0 & 0
+\end{pmatrix}
+\]
+
+If $A = U \begin{pmatrix}
+\sigma_1 & 0 \\
+0 & 0
+\end{pmatrix} V^T$, then only the first $r$ columns of $U$ and the first $r$ columns of $V$ are useful to describe $A$ for $r \times r$.
+
+\section{SVD compact form}
+$$
+A = \underbrace{\left(u_1, u_2, \cdots, u_r\right.}_{U_A} \underbrace{\left.u_{r+1}, \cdots, u_m\right)}_{U_A^\perp}
+\begin{pmatrix}
+D & 0 \\
+0 & 0
+\end{pmatrix}
+    \begin{pmatrix}
+        v_1^T \\
+        v_2^T \\
+        \vdots \\
+        v_r^T \\
+        v_{r+1}^T \\
+        \vdots \\
+        v_n^T
+        \end{pmatrix}
+    \begin{aligned}
+        &\left.
+            \vphantom{\begin{matrix}
+                u_1 \\
+                u_2 \\
+                \vdots \\
+                u_r 
+                \end{matrix}}
+        \right\}U_A \\
+        &\left.
+            \vphantom{\begin{matrix}
+                u_1 \\
+                \vdots \\
+                u_r 
+                \end{matrix}}
+        \right\}U_A^\perp
+    \end{aligned}
+$$
+    
+This can be compactly written as:
+\[
+A = U_A D V_A^T
+\]
+which corresponds to the output obtained when setting the parameter "full matrices = false" on available SVD routines.
+
+\section{A as a sum of rank 1 matrices}
+If the matrix \( A \) has rank \( r = 1 \), then the SVD is given by:
+\[
+A = u_i \sigma_i v_i^T = \sigma_i \underbrace{u_i v_i^T}_{\text{outer}}
+\]
+and we have that $\| u_1 \| = 1$, $ \| v_1 \| = 1$, $\| A \|_2 = \sigma_1$.
+
+If the rank \( r > 1 \), then the matrix \( A \) can be represented as:
+$$
+\begin{aligned}
+A &= \begin{pmatrix}
+    u_1 & u_2 & \cdots & u_n
+    \end{pmatrix}
+\begin{pmatrix}
+\sigma_1 & 0 & \ldots & 0 \\
+0 & \sigma_2 & \ldots & 0 \\
+\vdots & \vdots & \ddots & \vdots \\
+0 & 0 & \ldots & \sigma_r
+\end{pmatrix} \begin{pmatrix}
+v_1^T \\
+v_2^T \\
+\vdots \\
+v_r^T
+\end{pmatrix} \\
+&=
+\begin{pmatrix}
+u_1 & u_2 & \cdots & u_n
+\end{pmatrix}
+\begin{pmatrix}
+\sigma_1 v_1^T \\
+\sigma_2 v_2^T \\
+\vdots \\
+\sigma_r v_r^T
+\end{pmatrix} \\
+&=
+\sigma_1 u_1 v_1^T + \sigma_2 u_2 v_2^T + \cdots + \sigma_r u_r v_r^T
+\end{aligned}
+$$
+
+The matrix \( A \) is the sum of rank 1 matrices
+
+\[
+A = \sum_{i=1}^{r} \sigma_i u_i v_i^T \quad r \text{ is the rank}
+\]
+
+Size \( 1000 \times 1000 \) \quad \( m = n = 1000 \)
+
+\[
+\begin{aligned}
+\sigma_1 &= 10^5 & \sigma_2 &= 10^4 & \sigma_3 &= 10^0 & \sigma_4 &= 10^0 \\
+\sigma_5 &= 10^{-10} & & & & & & \\
+& & \sigma_i &\leq 10^{-15} & & & \lambda_i &\leq 10^{100} \\
+& & & & & & & \\
+& & & & & & \left(10^{200}\right) & \\
+\end{aligned}
+\]
+
 \section{2-Norm of a Matrix with SVD}
 The 2-norm of the matrix $A$ is equal to $\sigma_1$, the greatest singular value.
 \[
 \|A\|_2 = \sigma_1
 \]
 \textbf{Proof}
-\[
-\begin{aligned}
-\|A\|_2 &= \|U\Sigma V^T\|_2 = \|\Sigma\|_2 = \sqrt{\sum_{i=1}^r \sigma_i^2} = \sqrt{\sigma_1^2} = \sigma_1
-\end{aligned}
-\]
+$$
+\|A\|_2 = \|U\Sigma V^T\|_2 = \|\Sigma\|_2 = \sqrt{\rho(\Sigma^T\Sigma)} = \sqrt{\sigma_1^2} = \sigma_1
+$$
 Notes:
 \begin{itemize}
     \item The 2-norm of a matrix: $\|A\|_2 = \sqrt{\rho(A^TA)}$
@@ -20,11 +231,16 @@ Notes:
         \end{pmatrix}$.
 \end{itemize}
 
-The same is true for the \textbf{Frobenius Norm}
+\section{Frobenius Norm}
 \[
-\|A\|_F = \sqrt{\sum_{i=1}^r \sigma_i^2} = \sigma_1
+\|A\|_F = \sqrt{\sum_{i=1}^r \sigma_i^2}
 \]
-
+$$
+\begin{aligned}
+\|A\|_F &= \sqrt{trace(A^TA)} = \sqrt{trace(V\Sigma^T U^T U \Sigma V^T)} = \sqrt{trace(V\Sigma^T \Sigma V^T)} \\
+&= \sqrt{trace(\Sigma^T \Sigma V^T V)} = \sqrt{trace(\Sigma^T \Sigma)} = \sqrt{\sum_{i=1}^r \sigma_i^2}        
+\end{aligned}
+$$
 \section{Low-Rank Approximation problem and Eckart-Young Theorem}
 In mathematics, low-rank approximation is a minimization problem, in which the cost function measures
 the fit between a given matrix (the data) and an approximating matrix (the optimization variable),
@@ -55,106 +271,7 @@ A &\approx \sum_{i=1}^r \sigma_i u_i v_i^T = \bar{A_r} \\
 \]
 
 where $\sigma_{r+1}, \ldots, \sigma_p$ are very small, representing the size of the noise.
-\section*{Principal Component Regression}
-Solution of least square problem when the matrix $A$ has rank $r << p$.
 
-To solve this problem, we use the singular value decomposition and since the solution is not unique,
-we choose the one of minimal norm.
-\[
-A = U \Sigma V^T =
-\begin{pmatrix} U_1 & U_2 \end{pmatrix}
-\begin{pmatrix}
-\Sigma_1 & 0 \\
-0 & 0 
-\end{pmatrix} \begin{pmatrix}
-V_1^T \\
-V_2^T
-\end{pmatrix}
-\]
-
-$\Sigma_1 = \text{diag}(\sigma_1, \ldots, \sigma_r)$ and $\Sigma$ is a square non-singular $r \times r$ matrix.
-
-We use this factorization to solve the least squares problem
-\[
-    \min_x \| Ax - b \|_2^2
-\]
-This can be written as
-\[
-\begin{aligned}
-    \min_x \| Ax - b \|_2^2 &=
-    \left\|
-        \begin{pmatrix} U_1 & U_2 \end{pmatrix}
-        \begin{pmatrix} \Sigma_1 & 0 \\ 0 & 0 \end{pmatrix}
-        \begin{pmatrix} V_1^T \\ V_2^T \end{pmatrix}
-        x - b
-    \right\|_2^2 \\
-    & = \left\|
-        U \begin{pmatrix}
-        \Sigma_1 & 0 \\
-        0 & 0 
-        \end{pmatrix}
-        \begin{pmatrix}
-            V_1^T \\
-            V_2^T
-        \end{pmatrix}
-        x - UU^T b
-    \right\|_2^2 \\
-    & = \left\|
-    \begin{pmatrix}
-        \Sigma_1 & 0 \\
-        0 & 0 
-        \end{pmatrix}
-        \begin{pmatrix}
-            V_1^T \\
-            V_2^T
-        \end{pmatrix}
-        x - 
-        \begin{pmatrix}
-            U_1^T \\
-            U_2^T
-        \end{pmatrix}b
-    \right\|_2^2 \\
-    & = \left\|
-        \begin{pmatrix}
-            \Sigma_1 V_1^T x - U_1^T b\\
-            - U_2^T b
-        \end{pmatrix}
-    \right\|_2^2 \\
-\end{aligned}
-\]
-
-Let $y = V^T x$:
-\[
-y = \begin{pmatrix}
-V_1^Tx \\
-V_2^Tx
-\end{pmatrix} = \begin{pmatrix}
-y_1 \\
-y_2
-\end{pmatrix}
-\]
-And we have since we can split the norm in two parts being the sum of squares
-\[
-\min_x \| Ax - b \|_2^2 = \| \Sigma_1 y_1 - U_1^T b \|_2^2 + \| U_2^T b \|_2^2
-\]
-
-The minimum is reached when 
-$$\| \Sigma_1 y_1 - U_1^T b \|_2^2 = 0 \implies \Sigma_1 y_1 = U_1^T b \implies y_1 = \Sigma_1^{-1} U_1^T b$$
-and it is
-\[
-\min_x \| Ax - b \|_2 = \| U_2^T b \|_2
-\]
-
-We need to choose $y_2$ to find $x$. We would to minimize the $\| x \|_2$ equal to $\| y \|_2 = \| y_1 \|_2 + \| y_2 \|_2$ so
-we choose $y_2 = 0$.
-$$
-\begin{aligned}
-    x &= Vy = V\begin{pmatrix} \Sigma_1^{-1} U_1^T b \\ 0 \end{pmatrix} = \begin{pmatrix} V_1 & V_2 \end{pmatrix} \begin{pmatrix} \Sigma_1^{-1} U_1^T b \\ 0 \end{pmatrix} = V_1 \Sigma_1^{-1} U_1^T b \\
-    x &= V \begin{pmatrix} \Sigma_1^{-1} & 0 \\ 0 & 0 \end{pmatrix} U^T b
-\end{aligned}
-$$
-
-The matrix $V \begin{pmatrix} \Sigma_1^{-1} & 0 \\ 0 & 0 \end{pmatrix} U^T$ is the \textbf{Moore-Penrose pseudoinverse} of $A$.
 \section{Principal Component Regression}
 % The Principal Component Regression (PCR) is a regression analysis technique that is based on the SVD of the data matrix $A$.
 % The PCR is used to overcome the problem of multicollinearity in regression analysis. Multicollinearity occurs when independent variables in a regression model are correlated. This correlation is a problem because independent variables should be independent. If the degree of correlation between variables is high enough, it can cause problems when you fit the model and interpret the results.
@@ -227,7 +344,9 @@ Using the SVD of $A$, we reframe this problem as:
 
 \subsection*{Solution to the Least Squares Problem}
 To minimize the above expression, we set $y = V^T x$ and partition it as $y_1$ and $y_2$, corresponding to $V_1^T x$ and $V_2^T x$, respectively. The optimal solution is found by minimizing each part of the squared norm separately.
-
+\[
+\min_x \| Ax - b \|_2^2 = \| \Sigma_1 y_1 - U_1^T b \|_2^2 + \| U_2^T b \|_2^2
+\]
 The first part of the squared norm can be minimized to zero when:
 \[
 \Sigma_1 y_1 = U_1^T b \implies y_1 = \Sigma_1^{-1} U_1^T b

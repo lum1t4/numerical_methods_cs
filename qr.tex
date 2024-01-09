@@ -1,4 +1,70 @@
-\chapter{QR Factorization}
+\chapter{QR factorization}
+QR factorization is a decomposition of a matrix into a product of an orthogonal matrix and an upper triangular matrix.
+It is commonly used in numerical algorithms, particularly for solving systems of linear equations and eigenvalue problems.
+
+Given a square matrix $A \in \mathbb{R}^{n \times n}$, the QR factorization is a decomposition of $A$ into:
+\begin{equation*}
+    A = QR
+\end{equation*}
+where $Q$ is an $m \times m$ orthogonal matrix ($Q^TQ = QQ^T = I$) and $R$ is an $m \times n$ upper triangular matrix.
+
+The factorization is can be computed using the Gram-Schmidt process, Householder reflections, or Givens rotations.
+Householder reflections are more numerically stable and thus commonly used in practice.
+Givens rotations are also stable but generally require more operations so this method is computationaly costly
+and so are used primarily for sparse matrices where less operations are required to zero out the below-diagonal elements.
+% using the Golub–Reinsch algorithm.
+
+To perform QR factorization, we aim to construct an orthogonal matrix $Q$ such that $Q^TA$ is upper triangular. We start by finding a Householder reflector that zeroes out the below-diagonal elements of the first column of $A$.
+
+Let $A_{*1}$ be the first column of $A$, and $e_1$ be the first unit vector of the same size. We choose a vector $u$ such that:
+\begin{equation*}
+    u = A_{*1} - k_1e_1 \quad k_1 = \pm \|A_{*1}\|_2
+\end{equation*}
+
+\begin{mdframed}
+How do we choose the sign of $k_1$ (similarly $k_j$)?
+We want to minimize the roundoff errors by avoiding subtraction
+(catastrophic cancellation) so
+\[
+k_1 = \begin{cases}
+    -\|A_{*1}\|_2 & \text{if } A_{11} \geq 0 \\
+    \|A_{*1}\|_2 & \text{if } A_{11} < 0
+\end{cases}
+\]
+\end{mdframed}
+
+Then the reflector $Q_1$ is:
+\begin{equation*}
+    Q_1 = I - 2\frac{uu^T}{u^Tu}
+\end{equation*}
+Applying $Q_1$ to $A$ gives us a matrix which has zeroes below the diagonal in the first column:
+\begin{equation*}
+    A_1 = Q_1A
+\end{equation*}
+This process is repeated for the subsequent columns of $A$,
+but we apply the Householder reflectors to the supmatrix $A_i$ that
+excludes the rows and columns that have already been processed.
+This can be achived "padding" the computed reflector with an identity matrix:
+$$ Q_i = \begin{pmatrix}
+    I_{i-1} & 0 \\
+    0 & R_i
+\end{pmatrix} \quad  R_iA_i = \begin{pmatrix}
+    k_i & * & \cdots & * \\
+    0 & * & \cdots & * \\
+    \vdots & \vdots & \ddots & \vdots \\
+    0 & * & \cdots & *
+\end{pmatrix}
+$$
+After applying the necessary Householder reflectors, we obtain:
+\begin{equation*}
+    Q = Q_1Q_2...Q_n
+\end{equation*}
+\begin{equation*}
+    R = Q^TA
+\end{equation*}
+The matrices $Q$ and $R$ constitute the QR factorization of $A$.
+
+\section{QR Factorization for rectangular matrices}
 Let $A \in \mathbb{R}^{m \times n}$. If we consider the case $m < n$.
 \[
 A = \left.
@@ -66,10 +132,10 @@ we called the thin QR factorization
 $U_1$ is not an orthogonal matrix since $U_1^T U_1 = I$ but $U_1 U_1^T \neq I$.
 
 
-\textbf{Theorem (Orthogonal Reduction)} For every matrix $A \in \mathbb{C}^{m \times n} (\mathbb{R}^{m \times n})$ there exists a unitary matrix $U$
-\[
-U^*U = UU^* = I_{n \times n} \quad U^* = U^T
-\]
+\subsection{Orthogonal Reduction}
+For every matrix $A \in \mathbb{C}^{m \times n} (\mathbb{R}^{m \times n})$ there exists a unitary matrix $U$
+(orthogonal in $\mathbb{R}$) and an upper trapezoidal matrix $T$ such that
+$$A = UT$$
 
 \begin{equation*}
 S = \begin{pmatrix}
@@ -92,40 +158,25 @@ S \in \mathbb{C}^{2 \times 2}
 2-i\sqrt{2} & 3-i4
 \end{pmatrix}
 \end{equation*}
-\textit{(orthogonal matrix)} and \textit{(upper triangular matrix)} such that
-\begin{equation*}
-A = U T
-\end{equation*}
+
 If $A$ is square, $T$ is upper triangular. This factorization is denoted as the QR factorization. We can compute the QR factorization using:
 \begin{enumerate}
 \item the Householder transformation
-\item GS algorithm (unstable)
-\end{enumerate}
-
-
-\section*{QR Decomposition Algorithms}
-\begin{enumerate}
-    \setcounter{enumi}{2}
-    \item MGS algorithm
-    \item The Givens Rotation (elementary orthogonal matrices)
-    
+\item Gram-Schmidt algorithm (not numerically stable)
+\item Modified Gram-Schmidt algorithm (numerically stable)
+\item The Givens Rotation (elementary orthogonal matrices)
     They are useful when \( A \) is sparse (has a lot of entries equal to zero).
 \end{enumerate}
 
-\textbf{The Pivoted QR Decomposition} (Rank revealing decomposition)
+\section{Pivoted QR Decomposition}
+(Rank revealing decomposition)
 
 \[
-A_{m \times n} P_{n \times n} = QR_{m \times n}
+A_{m \times n} P_{n \times n} = _{m \times n}
 \]
 
 \[
-\begin{array}{cccc}
-t_{11} & t_{12} & \cdots & t_{1p} \\
- & t_{22} & \cdots & t_{2p} \\
- &  & \ddots & \vdots \\
-\multicolumn{2}{c}{\raisebox{1.3ex}[0pt]{\huge0}} &  & t_{pp} \\
-\end{array}
-\quad p = \min(m, n)
+t_{11}, t_{22}, \ldots, t_{pp} \quad p = \min(m, n)
 \]
 
 We choose the permutation matrix \( P \) in order to have in \( QR \):
@@ -137,47 +188,33 @@ We choose the permutation matrix \( P \) in order to have in \( QR \):
 The rank of the matrix:
 
 \[
-|t_{rr}| \geq tol \geq |t_{r+1,r+1}|
+|t_{rr}| \geq tol = \kappa\varepsilon
 \]
 
-
-
-\section*{Remark}
-\textbf{rank}$(A) \geq 0$
 
 \[
 \text{If } \text{tr}(A) \geq 0 \text{ means the rank is } r
 \]
 
-\[
-\text{If we use the Rank Revealing QR}
-\]
+If we use the Rank Revealing QR
 
 \[
-A_{m \times n} P_{n \times n} = U_{m \times n} \begin{pmatrix}
+A_{m \times n} P_{n \times n} = U_{m \times m} \begin{pmatrix}
 T_{11} & T_{12} \\
 0 & 0
-\end{pmatrix}_{n \times n} = U T
-\]
-
-\[
-\begin{aligned}
-&\text{where} \\
-&T_{11} \text{ of size } r \times r \\
-&T_{12} \text{ of size } r \times (n-r)
-\end{aligned}
+\end{pmatrix}_{m \times n} = U T
 \]
 
 \[
 \begin{aligned}
 &T_{11} = \begin{pmatrix}
 \ast & \ast \\
-\ast & \ast
-\end{pmatrix} \\
+0 & \ast
+\end{pmatrix} \text{ of size } r \times r \\
 &T_{12} = \begin{pmatrix}
 \ast & \ast \\
 \ast & \ast
-\end{pmatrix} \text{ a full matrix}
+\end{pmatrix} \text{ a full matrix} \text{ of size } r \times (n-r)
 \end{aligned}
 \]
 
@@ -192,11 +229,11 @@ An algorithm is numerically stable if when performed using floating point arithm
 Let $A \in \mathbb{R}^{n \times m}$, we compute the QR factorization in exact and floating point arithmetic
 
 \begin{align*}
-A &= QR \quad \text{exact} \\
+A &= QR \quad \\
 \hat{A} &= (Q+E)(R+F) = QR + QF + ER + EF
 \end{align*}
 
-If the thresholds of Givens matrix $E$ and $F$ contains the floating point errors
+If the Householder or Givens matrix $E$ and $F$ contains the floating point errors
 \begin{align*}
 \|E\| &= \kappa_u \\
 \|F\| &= \kappa_u \\
@@ -292,9 +329,9 @@ $\varepsilon$ is a random function with mean zero:
 
 We know
 \[
-\begin{bmatrix}
+\begin{pmatrix}
 t_1^{(i)} & t_2^{(i)} & \ldots & t_n^{(i)}
-\end{bmatrix}
+\end{pmatrix}
 \]
 and $y^{(i)}$ are i.i.d. $\sim \mathcal{N}$
 

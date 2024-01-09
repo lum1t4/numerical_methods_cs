@@ -94,18 +94,18 @@ Given $\mathbf{A}$ "square", it means the number of rows is equal to the number 
 
 \[
 \mathbf{A} = 
-\begin{bmatrix}
+\begin{pmatrix}
 1 & 2 \\
 3 & 4
-\end{bmatrix}
+\end{pmatrix}
 \]
 
 \[
 \mathbf{A}^T = 
-\begin{bmatrix}
+\begin{pmatrix}
 1 & 3 \\
 2 & 4
-\end{bmatrix}
+\end{pmatrix}
 \]
 
 \section{Special Matrices}
@@ -1114,9 +1114,9 @@ We apply the Gauss-Jordan algorithm to the input matrix $A$ to get the row reduc
 
 We think of $X$ in terms of its columns:
 \[
-X = \begin{bmatrix}
+X = \begin{pmatrix}
     X_{\cdot 1} & X_{\cdot 2} & \cdots & X_{\cdot m}
-\end{bmatrix}
+\end{pmatrix}
 \]
 \[
 A X_{\cdot j} = I_{\cdot j}
@@ -1137,65 +1137,65 @@ A X_{\cdot j} = I_{\cdot j}
 
 Example
 \[
-A = \begin{bmatrix}
+A = \begin{pmatrix}
     a & b \\
     c & d
-\end{bmatrix}
+\end{pmatrix}
 \]
 
 
 \section{1) Construct the augmented matrix \(\widetilde{A}\)}
-\[\widetilde{A} := \begin{bmatrix}
+\[\widetilde{A} := \begin{pmatrix}
 a & b & 1 & 0 \\
 c & d & 0 & 1
-\end{bmatrix}\]
+\end{pmatrix}\]
 
 \section{2) We apply Gauss-Jordan to \(\widetilde{A}\)}
-\[\begin{bmatrix}
+\[\begin{pmatrix}
 a & b & 1 & 0 \\
 c & d & 0 & 1
-\end{bmatrix} \xrightarrow{\substack{R_2 \leftarrow R_2 - \frac{c}{a}R_1}}
-\begin{bmatrix}
+\end{pmatrix} \xrightarrow{\substack{R_2 \leftarrow R_2 - \frac{c}{a}R_1}}
+\begin{pmatrix}
 a & b & 1 & 0 \\
 0 & d-\frac{bc}{a} & -\frac{c}{a} & 1
-\end{bmatrix}\]
+\end{pmatrix}\]
 
 Let's introduce \(S := ad - bc\)
 
-\[\begin{bmatrix}
+\[\begin{pmatrix}
 a & b & 1 & 0 \\
 0 & ad-bc & -\frac{c}{a} & 1
-\end{bmatrix} = \begin{bmatrix}
+\end{pmatrix} = \begin{pmatrix}
 a & b & 1 & 0 \\
 0 & S & -\frac{c}{a} & 1
-\end{bmatrix}\]
+\end{pmatrix}\]
 
-\[\begin{bmatrix}
+\[\begin{pmatrix}
 a & b & 1 & 0 \\
 0 & S & -\frac{c}{a} & 1
-\end{bmatrix} \xrightarrow{R_1 \leftarrow \frac{1}{a}R_1}
-\begin{bmatrix}
+\end{pmatrix} \xrightarrow{R_1 \leftarrow \frac{1}{a}R_1}
+\begin{pmatrix}
 1 & \frac{b}{a} & \frac{1}{a} & 0 \\
 0 & S & -\frac{c}{a} & 1
-\end{bmatrix}\]
+\end{pmatrix}\]
 
-\[\begin{bmatrix}
+\[\begin{pmatrix}
 1 & \frac{b}{a} & \frac{1}{a} & 0 \\
 0 & S & -\frac{c}{a} & 1
-\end{bmatrix} \xrightarrow{R_2 \leftarrow \frac{1}{S}R_2}
-\begin{bmatrix}
+\end{pmatrix} \xrightarrow{R_2 \leftarrow \frac{1}{S}R_2}
+\begin{pmatrix}
 1 & \frac{b}{a} & \frac{1}{a} & 0 \\
 0 & 1 & -\frac{c}{S} & \frac{1}{S}
-\end{bmatrix}\]
+\end{pmatrix}\]
 
-\[\begin{bmatrix}
+\[\begin{pmatrix}
 1 & \frac{b}{a} & \frac{1}{a} & 0 \\
 0 & 1 & -\frac{c}{S} & \frac{1}{S}
-\end{bmatrix} \xrightarrow{R_1 \leftarrow R_1 - \frac{b}{a}R_2}
-\begin{bmatrix}
+\end{pmatrix} \xrightarrow{R_1 \leftarrow R_1 - \frac{b}{a}R_2}
+\begin{pmatrix}
 1 & 0 & \frac{1}{a} - \frac{b}{a}\left(-\frac{c}{S}\right) & -\frac{b}{a}\frac{1}{S} \\
 0 & 1 & -\frac{c}{S} & \frac{1}{S}
-\end{bmatrix}\]
+\end{pmatrix}\]
 
 \begin{equation*}
 \begin{pmatrix}

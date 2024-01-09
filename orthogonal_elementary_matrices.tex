@@ -86,6 +86,10 @@ $$ \mathbf{x}_1 = (I - \frac{\mathbf{u}\mathbf{u}^T}{\| \mathbf{u} \|_2^2})\math
 \end{pmatrix} = \begin{pmatrix}
     1 \\ \frac{1}{2} \\ -\frac{1}{2}
 \end{pmatrix} $$
+
+Orthogonal projector do not preserves the norm since they are not orthogonal matrices
+but project a vector into a subspace and so the norm is reduced.
+
 \section{Elementary Reflectors}
 
 An elementary reflector, also known as a Householder reflector, is a matrix that
@@ -96,10 +100,10 @@ linear algebra. The reflector matrix \( R \) is defined as
 R = I - 2\frac{\mathbf{u}\mathbf{u}^T}{\mathbf{u}^T\mathbf{u}},
 \end{equation*}
 where \( \mathbf{u} \) is a vector that defines the reflection hyperplane, and \( I \) is the identity matrix of appropriate size.
-
-The matrix \( R \) is orthogonal and symmetric, and it holds that \( R^2 = I \), which implies that \( R \) is its own inverse.
+The matrix \( R \) is orthogonal and symmetric, and it holds that
+$$R^2 = I$$ which implies that \( R \) is its own inverse.
 This property makes the reflector matrix particularly useful in QR decomposition and other orthogonalization procedures.
-\subsection{How to construct R}
+
 Given two vector $\mathbf{x}, \mathbf{y}$ of the same length (norm), we want to find a matrix $R$ (and so a vector $\mathbf{u}$) such that
 $$ R\mathbf{x} = \mathbf{y}, \quad R = I - 2\frac{\mathbf{u}\mathbf{u}^T}{\mathbf{u}^T\mathbf{u}} $$
 
@@ -117,98 +121,44 @@ Let's consider a 2-dimensional example for simplicity. Suppose we have a vector
 We choose \( \mathbf{u} \) such that \( \mathbf{u} \) is orthogonal to our desired line of reflection. Then, we can construct the reflector matrix \( R \):
 
 \begin{align*}
-\mathbf{v} &= \begin{bmatrix} v_1 \\ v_2 \end{bmatrix} \\
-\mathbf{u} &= \mathbf{v} - \begin{bmatrix} \| \mathbf{v} \|_2 \\ 0 \end{bmatrix}, \\
+\mathbf{v} &= \begin{pmatrix} v_1 \\ v_2 \end{pmatrix} \\
+\mathbf{u} &= \mathbf{v} - \begin{pmatrix} \| \mathbf{v} \|_2 \\ 0 \end{pmatrix}, \\
 R &= I - 2\frac{\mathbf{u}\mathbf{u}^T}{\mathbf{u}^T\mathbf{u}}.
 \end{align*}
 
 Applying \( R \) to \( \mathbf{v} \), we obtain a new vector \( \mathbf{v}' = R\mathbf{v} \)
 that lies on the x-axis, having the form
-$$ \mathbf{v}' = \begin{bmatrix} \pm \| \mathbf{v} \|_2 \\ 0 \end{bmatrix} $$
+$$ \mathbf{v}' = \begin{pmatrix} \pm \| \mathbf{v} \|_2 \\ 0 \end{pmatrix} $$
 The sign depends on the direction of the vector \( \mathbf{u} \) chosen.
 
 For a concrete numerical example, let
 \begin{equation*}
-\mathbf{v} = \begin{bmatrix} 3 \\ 4 \end{bmatrix}.
+\mathbf{v} = \begin{pmatrix} 3 \\ 4 \end{pmatrix}.
 \end{equation*}
 
 The norm \( \| \mathbf{v} \|_2 \) is 5, so
 
 \begin{equation*}
-\mathbf{u} = \begin{bmatrix} 3 \\ 4 \end{bmatrix} - \begin{bmatrix} 5 \\ 0 \end{bmatrix} = \begin{bmatrix} -2 \\ 4 \end{bmatrix}.
+\mathbf{u} = \begin{pmatrix} 3 \\ 4 \end{pmatrix} - \begin{pmatrix} 5 \\ 0 \end{pmatrix} = \begin{pmatrix} -2 \\ 4 \end{pmatrix}.
 \end{equation*}
 
 Now, \( \mathbf{u}^T\mathbf{u} = 4 + 16 = 20 \), and we can calculate \( R \):
 
 \begin{align*}
 R &= I - 2\frac{\mathbf{u}\mathbf{u}^T}{20} \\
-&= I - \frac{1}{10}\begin{bmatrix} -2 \\ 4 \end{bmatrix}\begin{bmatrix} -2 & 4 \end{bmatrix} \\
-&= I - \frac{1}{10}\begin{bmatrix} 4 & -8 \\ -8 & 16 \end{bmatrix} \\
-&= \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix} - \begin{bmatrix} 0.4 & -0.8 \\ -0.8 & 1.6 \end{bmatrix} \\
-&= \begin{bmatrix} 0.6 & 0.8 \\ 0.8 & -0.6 \end{bmatrix}.
+&= I - \frac{1}{10}\begin{pmatrix} -2 \\ 4 \end{pmatrix}\begin{pmatrix} -2 & 4 \end{pmatrix} \\
+&= I - \frac{1}{10}\begin{pmatrix} 4 & -8 \\ -8 & 16 \end{pmatrix} \\
+&= \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix} - \begin{pmatrix} 0.4 & -0.8 \\ -0.8 & 1.6 \end{pmatrix} \\
+&= \begin{pmatrix} 0.6 & 0.8 \\ 0.8 & -0.6 \end{pmatrix}.
 \end{align*}
 
 Finally, reflecting \( \mathbf{v} \) about our chosen hyperplane:
 
 \begin{align*}
 \mathbf{v}' &= R\mathbf{v} \\
-&= \begin{bmatrix} 0.6 & 0.8 \\ 0.8 & -0.6 \end{bmatrix}\begin{bmatrix} 3 \\ 4 \end{bmatrix} \\
-&= \begin{bmatrix} 5 \\ 0 \end{bmatrix}.
+&= \begin{pmatrix} 0.6 & 0.8 \\ 0.8 & -0.6 \end{pmatrix}\begin{pmatrix} 3 \\ 4 \end{pmatrix} \\
+&= \begin{pmatrix} 5 \\ 0 \end{pmatrix}.
 \end{align*}
 
 Thus, the reflected vector \( \mathbf{v}' \) has been projected onto the x-axis, as desired.
-
-\chapter{QR factorization}
-QR factorization is a decomposition of a matrix into a product of an orthogonal matrix and an upper triangular matrix.
-It is commonly used in numerical algorithms, particularly for solving systems of linear equations and eigenvalue problems.
-
-\subsection{The QR Factorization Process}
-
-Given a matrix $A \in \mathbb{R}^{n \times n}$, the QR factorization is a decomposition of $A$ into:
-\begin{equation*}
-    A = QR
-\end{equation*}
-where $Q$ is an $m \times m$ orthogonal matrix ($Q^TQ = QQ^T = I$) and $R$ is an $m \times n$ upper triangular matrix.
-
-The factorization is often computed using the Gram-Schmidt process, Householder reflections, or Givens rotations.
-Householder reflections are more numerically stable and thus commonly used in practice.
-Givens rotations are also stable but generally require more operations so this method is computationaly costly
-and so are used primarily for sparse matrices where less operations are required to zero out the below-diagonal elements.
-% using the Golub–Reinsch algorithm.
-\subsection{The QR Factorization Process using Householder Reflections}
-To perform QR factorization, we aim to construct an orthogonal matrix $Q$ such that $Q^TA$ is upper triangular. We start by finding a Householder reflector that zeroes out the below-diagonal elements of the first column of $A$.
-
-Let $A_{*1}$ be the first column of $A$, and $e_1$ be the first unit vector of the same size. We choose a vector $u$ such that:
-\begin{equation*}
-    u = A_{*1} - k_1e_1 \quad k_1 = \pm \|A_{*1}\|_2
-\end{equation*}
-
-\begin{mdframed}
-How do we choose the sign of $k_1$ (or any $k_j$)? We want to minimize the roundoff errors and so
-\[
-k_1 = \begin{cases}
-    \|A_{*1}\|_2 & \text{if } A_{11} \geq 0 \\
-    -\|A_{*1}\|_2 & \text{if } A_{11} < 0
-\end{cases}
-\]
-\end{mdframed}
-
-Then the reflector $Q_1$ is:
-\begin{equation*}
-    Q_1 = I - 2\frac{uu^T}{u^Tu}
-\end{equation*}
-Applying $Q_1$ to $A$ gives us a matrix $A_1$ which has zeroes below the diagonal in the first column:
-\begin{equation*}
-    A_1 = Q_1A
-\end{equation*}
-This process is repeated for the subsequent columns of $A$, but we apply the Householder reflectors to the submatrix that excludes the rows and columns that have already been processed.
-
-After applying the necessary Householder reflectors, we obtain:
-\begin{equation*}
-    Q = Q_1Q_2...Q_n
-\end{equation*}
-\begin{equation*}
-    R = Q^TA
-\end{equation*}
-The matrices $Q$ and $R$ constitute the QR factorization of $A$.
 
