@@ -16,23 +16,14 @@ PCA finds its application in various fields including:
     \item Recognizing patterns in data.
 \end{itemize}
 
-\section{Hotelling's Transformation and PCA}
-
-Harold Hotelling, a renowned statistician, made significant contributions to PCA. This section describes his approach.
-
-\subsection{The Concept of Principal Axes}
+Harold Hotelling, a renowned statistician, made significant contributions to PCA, a method that makes use of SVD.
 
 In a dataset of d-dimensional observations \( t_1, t_2, \ldots, t_n \), the goal is to find \( q \) principal axes, \( w_j \) for \( j = 1, \ldots, q \), which are orthonormal and maximize the variance under projection.
-
-\subsection{Centering the Data}
-
-PCA assumes zero-mean data. Therefore, we adjust our data as follows:
+Since PCA assumes zero-mean data, we compute new data by sustracting the mean from each observation:
 
 \[
-x_j = t_j - \text{mean}(t_j) \quad \text{for } j=1,\ldots,N, \text{ ensuring } \text{mean}(x_j) = 0.
+x_j = t_j - \text{mean}(t_j) \quad j=1,\ldots,N, \Rightarrow \text{mean}(x_j) = 0.
 \]
-
-\subsection{Constructing the Observation Matrix}
 
 The matrix \( X \), consisting of our centered observations, is given by:
 
@@ -40,48 +31,91 @@ The matrix \( X \), consisting of our centered observations, is given by:
 X = (x_1, x_2, \ldots, x_n) \in \mathbb{R}^{d \times N}.
 \]
 
-\subsection{Singular Value Decomposition}
-
-The singular value decomposition (SVD) of \( X \) is:
-
+We compute the singular value decomposition (SVD) of \( X \):
 \[
 X = U\begin{pmatrix}\Sigma_1 & 0 \\ 0 & 0\end{pmatrix} V^T,
 \]
 
 where \(\Sigma_1\) is a diagonal matrix of singular values.
 
-\section{Principal Components in PCA}
+The vectors \( v_i \) are a caller \textbf{principal component directions}
+and the \( u_i \) are called \textbf{normalized principal components}.
 
-\subsection{Principal Component Directions}
 
-The principal component directions, denoted by vectors \( v_i \), and the normalized principal components, denoted by \( u_i \), are critical in PCA.
-
-\subsection{Calculation of Principal Components}
-
-The principal components are derived as follows:
-
+The vector $z_1$ is the vector with the largest sample variance among all the possible linear combinations
+of the columns of $X$.
 \[
-z_1 = Xv_1 = \sigma_1 u_1, \quad \text{where } z_1 \text{ is the first principal component.}
+z_1 = Xv_1 = U\begin{pmatrix}
+\Sigma_1 & 0 \\ 0 & 0
+\end{pmatrix}V^T v_i = (\sum_{i=1}^{r}\sigma_i u_i v_i^T)v_i = \sigma_1 u_1 v_i^T v_i = \sigma_1 u_1 \in R(X)
 \]
 
-\subsection{Variance of Principal Components}
-
-The variance of a principal component \( z \) is calculated using:
-
+The sample variance of $z$ is
 \[
-\text{var}(z) = \frac{\|z - u_z e\|_2^2}{m},
+var(z) = \frac{\|z - \mu_z e\|_2^2}{m} \quad e = \begin{pmatrix} 1 \\ 1 \\ \vdots \\ 1 \end{pmatrix}
 \]
 
-with \( e \) being a vector of ones.
+we can simplify the expression of the variance of $z$ because $mean(x_i) = 0$ and so $\mu_z = 0$.
 
-\section{Eigenvalues and Maximizing Variance}
+\begin{align}
+    var(z) &= \frac{\|z\|_2^2}{m} = \frac{z^T z}{m} \\
+    \max_{z} var(z) &= \max_{y^T y = 1} \frac{\|Xy\|_2^2}{m} = \max_{y^T y = 1} \frac{y^T X^T X y}{m}
+\end{align}
+
+The expression
+$$\frac{y^T X^T X y}{y^T y = 1}$$ is the Rayleigh quotient and it's maximized when $y$ is the eigenvector of $X^T X$ corresponding to the largest eigenvalue.
+\begin{align}
+    X^TXy = \lambda y \\
+    y^TX^TXy = \lambda y^T y \\
+    \frac{y^T X^T X y}{y^T y} = \lambda
+\end{align}
 
 The maximum variance problem in PCA is solved using the eigenvalues of the covariance matrix \( \mathbf{X}^T\mathbf{X} \):
-
+and associated eigenvectors \( y = \mathbf{v}_i \).
 \[
 \max_{\mathbf{y}^T\mathbf{y}=1} \mathbf{y}^T\mathbf{X}^T\mathbf{X}\mathbf{y} = \sigma_1^2.
 \]
 
+After this step we need to look for the second vector of the largest smaple variance, orthogonal to the first one.
+
+$$
+X - \sigma_1 u_1 v_1^T = \sum_{i=2}^{r} \sigma_i u_i v_i^T
+$$
+
+The second vector will be $z_2 = Xv_2 = \sigma_2 u_2 v_2^T v_2 = \sigma_2 u_2$.
+
+In the statistical book, the PCA is described using the covariance matrix or the correlation matrix.
+\begin{itemize}
+    \item The covariance matrix $X = (x_1, x_2, \ldots, x_n)$, $X^TX$
+    \item The correlation matrix $X = (x_1, x_2, \ldots, x_n)$ unbiased $\frac{X^TX}{m-1}$ or biased $\frac{X^TX}{m}$
+        where $m$ is the number of observations and $x_j = \frac{t_j - \mu_{t_j}}{std(t_j)}$.
+        The entries of the correlation matrix are between -1 and 1 and diagonal elements are 1.
+\end{itemize}
+
 \section{Determining the Number of Principal Components}
 
-Choosing the right number of principal components is crucial in PCA and is often based on the variance explained by each component or using methods like the scree plot.
+Choosing the right number of principal components is crucial in PCA and is often based
+on the variance explained by each component or using methods like the scree plot.
+Here we will report three methods to determine the number of principal components.
+It is necessary to choose a cut-off $s^*$, usually between 0.7 and 0.9, and retain $k$ directions
+with $s_k \geq s^*$ with $k$ as small as possible.
+
+\subsection{Kaiser's Rule}
+Compute the mean variance
+$$
+\hat{\sigma} = \frac{1}{r} \sum_{i=1}^{r} \sigma_i^2
+$$
+and retain the principal components with variance greater than $\hat{\sigma}$, i.e. $\sigma_k^2 \geq \hat{\sigma}$.
+
+\subsection{Entropy}
+Compute the entropy of the singular values
+$$f_k = \frac{\sigma_k^2}{\sum_{i=1}^{r} \sigma_i^2}$$
+The entropy is defined as
+$$ E = \frac{-\sum_{i=1}^{r} f_i \log f_i}{\log r} $$
+the entropy measure the amount of disorder in a set of objects and range from 0 to 1.
+The entropy is maximum when all the singular values are equal and minimum when only one singular value is different from zero (the most important to retain).
+
+\subsection{Best approximation (Eckart-Young Theorem)}
+The relative error in the approximation of smaller rank matrix related to Eckart-Young Theorem:
+
+$$ \frac{\|A - A_k\|_2}{\|A\|_2} \leq tol \quad \frac{\sigma_{k + 1}}{\sigma_k} < tol $$
