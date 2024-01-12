@@ -218,12 +218,12 @@ $$\tanh(x) = \frac{e^x - e^{-x}}{e^x + e^{-x}}, \quad \tanh'(x) = 1 - \tanh^2(x)
 The directional derivative of a multivariate differentiable function along a given vector \( \vec{v} \) at a given point \( \vec{x} \) intuitively represents the instantaneous rate of change of the function, moving through \( \vec{x} \), in the direction of \( \vec{v} \). It therefore generalizes the notion of a partial derivative, in which the rate of change is taken along the direction of one of the coordinate axes, all other coordinates being constant.
 
 The directional derivative of a function \( f: \mathbb{R}^n \rightarrow \mathbb{R} \) at a point \( \vec{x} \) in the direction \( \vec{v} \) is defined as:
-$$ D_{\vec{v}} f(\vec{x}) = \lim_{h \rightarrow 0} \frac{f(\vec{x} + h\vec{v}) - f(\vec{x})}{h} $$
+$$
+D_{\vec{v}} f(\vec{x}) = \lim_{h \rightarrow 0} \frac{f(\vec{x} + h\vec{v}) - f(\vec{x})}{h}
+$$
 if this limit exists. In other words, the directional derivative of \( f \) at \( \vec{x} \) in the direction \( \vec{v} \) is the slope of the tangent line to the curve you get by fixing every variable except \( \vec{v} \) and graphing \( f \) as a function of \( \vec{v} \) alone.
 
 \section{Positive definite matrix}
 In linear algebra, a symmetric \( n \times n \) real matrix \( M \) is said to be positive definite if the scalar \( z^TMz \) is strictly positive for every non-zero column vector \( z \) of \( n \) real numbers. Here \( z^T \) denotes the transpose of \( z \).
 
 Let be \( A \in \mathbb{R}^{n \times n} \) a symmetric matrix. \( A \) is positive definite if and only if all its eigenvalues are positive.
-
-

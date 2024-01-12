@@ -1,12 +1,81 @@
 \chapter{Projector for orthogonal subspaces}
+
+\section{Direct sum}
 % From Meyer book
 In general given two subspaces \( \mathcal{U} \) and \( \mathcal{Y} \) of \( \mathbb{R}^n \),
 such that \( \mathcal{U} \oplus \mathcal{Y} = \mathcal{V} \) we have that
 $$ \forall v \in \mathcal{V} \quad \exists! u \in \mathcal{U} \quad \exists! y \in \mathcal{Y} \quad v = u + y $$
 
+$u$ is the projection of $v$ onto $\mathcal{U}$ along $\mathcal{Y}$ and $y$ is the projection of $v$ onto $\mathcal{Y}$ along $\mathcal{U}$.
 
 % we can find a projector \( P \) onto \( \mathcal{U} \) along \( \mathcal{V} \) by the following procedure:
+\section{Projector}
+Given two subspaces $\mathcal{X}, \mathcal{Y}$ such that $\mathcal{X} \oplus \mathcal{Y} =V$.
+$ \forall v \in \mathcal{V} \quad v = x + y \quad x \in \mathcal{X}, y \in \mathcal{Y}$.
+We know $v$ and we would like to compute $x$. We can construct a projection matrix $P$ called projector such that
+$$ Pv = x $$
 
+We know the basis for $X$ and $Y$.
+$$ \mathcal{X} = span\{x_1, x_2, \ldots, x_r\} \quad \mathcal{Y} = span\{y_1, y_2, \ldots, y_{m - r}\} $$
+
+we can construct a matrix $B$ such that:
+$$ B = (x_1, x_2, \ldots, x_r, y_1, y_2, \ldots, y_{m - r}), \quad V = R(B) $$
+
+$B$ is non singular (full rank) and we can compute its inverse $B^{-1}$.
+\[
+\begin{aligned}
+    B &= (X, Y) \quad Pv = x
+    \Rightarrow P(x + y) &= Px + Py = x \\
+    PB &= P(X, Y) = (PX, PY) = (X, 0) \\
+    P &= PBB^{-1} = (X, 0)B^{-1} \\
+    (X, 0) &= B\begin{pmatrix}
+        I & 0 \\
+        0 & 0
+    \end{pmatrix} = (X, Y)\begin{pmatrix}
+        I & 0 \\
+        0 & 0
+    \end{pmatrix} \\
+    P &= B\begin{pmatrix}
+        I & 0 \\
+        0 & 0
+    \end{pmatrix}B^{-1}
+\end{aligned}
+\]
+
+To compute the projector onto $\mathcal{Y}$ along $\mathcal{X}$ if we know $P$
+\[
+Pv = x \Rightarrow v = Iv = (P + (I - P))v = Pv + (I - P)v = x + (I - P)v = x + y
+\]
+
+$I - P$ is the projector onto $\mathcal{Y}$ along $\mathcal{X}$.
+
+\[
+\begin{aligned}
+    I - P &= BB^{-1} - B\begin{pmatrix}
+        I & 0 \\
+        0 & 0
+    \end{pmatrix}B^{-1} = B(I - \begin{pmatrix}
+        I & 0 \\
+        0 & 0
+    \end{pmatrix})B^{-1} \\
+    I - P &= B\begin{pmatrix}
+        0 & 0 \\
+        0 & I
+    \end{pmatrix}B^{-1}
+\end{aligned}
+\]
+\section{Properties of the projector}
+\begin{enumerate}
+    \item The projector is unique
+    \item The projector is idempotent
+    \item $I - P$ is the complementary projector
+    \item The range of $P$ is equal to the range of $X$ which is equal to the subspace $\mathcal{X}$
+        \[ R(P) = \{ x | Pv = x \} = \mathcal{X} \]
+    \item The range of $P$ is equal to the null space of $I - P$.
+\[N(I - P) = \mathcal{X} \quad (I - P)y = y \quad (I - P)x = 0 \]
+\end{enumerate}
+
+\section{Orthogonal projector}
 $M \subseteq V$ and its orthogonal complementary subspace of $M^{\perp}$, $M \oplus M^{\perp} = V$.
 The inner product between $x \in M, y \in M^{\perp}$ is zero
 $$x^Ty = 0 \quad \forall x \in M, y \in M^{\perp}$$
