@@ -1,7 +1,5 @@
 # Numerical Methods Notes
-This notes may not be complete or accurate and are not intended to be used as a reference or at
-least yet.
-
+This notes may not be complete or accurate and are not intended to be used as a reference.
 Any suggestions or corrections are welcome.
 
 When a push is made to the master branch, the notes are automatically compiled and uploaded to
